@@ -1,0 +1,5 @@
+# Companies not to suggest (one name per line, matched case-insensitively against the company name)
+# Tabby — rejected 2026-10-27, paused until further notice
+Tabby
+# Kraken — hires only inside the EU, no relocation; rejected her on location (12.10)
+Kraken

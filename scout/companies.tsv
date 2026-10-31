@@ -1,0 +1,131 @@
+# slug	name	region	ats	type (P=payments-native: any PM role counts; PA=same, any location allowed; O=other: needs payments keyword)
+adyen	Adyen	EU	gh	P
+airwallex	Airwallex	Global	ab	P
+billie	Billie	EU	ab	P
+bitpanda	Bitpanda	EU	gh	O
+careem	Careem	UAE	gh	O
+deliveryhero	Delivery Hero	EU	sr	O
+dlocal	dLocal	Global	lv	P
+ebanx	EBANX	Global	gh	P
+emerchantpay	emerchantpay	EU	wk	P
+endava	Endava	Serbia	sr	O
+fondy	Fondy	EU	sr	P
+gocardless	GoCardless	EU	gh	P
+mercury	Mercury	Global	gh	O
+miro	Miro	EU	ab	O
+modulrfinance	Modulr	EU	gh	P
+mollie	Mollie	EU	ab	P
+monzo	Monzo	EU	gh	O
+moss	Moss	EU	ab	O
+n26	N26	EU	gh	O
+nuvei	Nuvei	EU	wk	P
+paddle	Paddle	EU	ab	P
+payoneer	Payoneer	EU	gh	P
+pleo	Pleo	EU	ab	O
+ppro	PPRO	EU	ab	P
+primer	Primer	EU	ab	P
+qonto	Qonto	EU	ab	O
+ramp	Ramp	Global	ab	O
+recurly	Recurly	Global	wk	P
+satispay	Satispay	EU	ab	P
+solidgate	Solidgate	EU	ab	P
+spreedly	Spreedly	Global	lv	P
+stripe	Stripe	EU	gh	P
+sumup	SumUp	EU	gh	P
+swan	Swan	EU	ab	P
+tamara	Tamara	UAE	gh	P
+truelayer	TrueLayer	EU	ab	P
+trustly	Trustly	EU	ab	P
+upvest	Upvest	EU	ab	O
+wise	Wise	EU	sr	P
+wolt	Wolt	EU	gh	O
+yapily	Yapily	EU	wk	P
+yuno	Yuno	Global	lv	P
+ziina	Ziina	UAE	ab	P
+platacard	Plata	Mexico	gh	PA
+salmon-group	Salmon	Philippines	ab	PA
+nebius	Nebius	EU	gh	O
+leantech	Lean Technologies	UAE	ab	P
+thndr	Thndr	UAE	ab	O
+picsart	Picsart	Armenia	gh	O
+servicetitan	ServiceTitan	Armenia	sr	O
+superannotate	SuperAnnotate	Armenia	lv	O
+disqo	Disqo	Armenia	lv	O
+alpaca	Alpaca	auto	gh	O
+shawbrook	Shawbrook	auto	sr	O
+bendingspoons	Bending Spoons	auto	pp	O
+timedoctor	Time Doctor	auto	rc	O
+reachdesk	Reachdesk	auto	gh	O
+jetbrains	JetBrains	auto	gh	O
+paymentology	Paymentology	auto	ab	O
+emnify	emnify	auto	gh	O
+fxpro	FxPro	auto	gh	O
+wheely	Wheely	auto	gh	O
+jobgether	Jobgether	auto	lv	O
+tabby	Tabby	auto	pp	O
+yellowcard	Yellow Card	auto	bh	O
+vivid	Vivid	auto	ps	O
+bunq	Bunq	auto	rc	O
+melio	Melio	auto	gh	O
+riskified	Riskified	auto	gh	O
+forter	Forter	auto	gh	O
+pagaya	Pagaya	auto	gh	O
+lemonade	Lemonade	auto	ab	O
+hibob	HiBob	auto	sr	O
+fireblocks	Fireblocks	auto	gh	O
+unit	Unit	auto	ab	O
+obligo	Obligo	auto	gh	O
+bluecode	Bluecode	auto	ps	O
+gostudent	GoStudent	auto	gh	O
+storyblok	Storyblok	auto	gh	O
+refurbed	Refurbed	auto	gh	O
+wallester	Wallester	auto	bh	O
+bnberry	BnBerry	auto	wk	O
+sokin	Sokin	EU	tt	P
+indrive	inDrive	EU	pp	P
+thunes	Thunes	auto	gh	P
+nium	Nium	auto	lv	P
+ebury	Ebury	auto	gh	P
+unlimit	Unlimit	auto	lv	P
+ecommpay	Ecommpay	auto	tt	P
+xsolla	Xsolla	auto	lv	P
+lago	Lago	auto	ab	P
+orb	Orb	auto	ab	P
+stigg	Stigg	auto	ab	P
+zuora	Zuora	auto	gh	P
+payrails	Payrails	auto	ab	P
+finix	Finix	auto	lv	P
+thought-machine	Thought Machine	auto	ab	P
+10xbanking	10x Banking	auto	wk	P
+form3	Form3	auto	gh	P
+clearbank	ClearBank	auto	ab	P
+nomupay	Nomupay	auto	ps	P
+vitesse	Vitesse	auto	ab	P
+freenow	Free Now	auto	gh	O
+getyourguide	GetYourGuide	auto	gh	O
+hopper	Hopper	auto	ab	O
+moonactive	Moon Active	auto	ab	O
+docplanner	Docplanner	auto	ab	O
+airalo	Airalo	auto	lv	O
+hostaway	Hostaway	auto	rc	O
+moderntreasury	Modern Treasury	auto	ab	P
+formance	Formance	auto	ab	P
+sumsub	Sumsub	auto	tt	O
+veriff	Veriff	auto	gh	O
+bvnk	BVNK	auto	gh	P
+mercuryo	Mercuryo	auto	bh	P
+moonpay	MoonPay	auto	lv	P
+fastspring	FastSpring	auto	gh	P
+tide	Tide	auto	gh	P
+agoda	Agoda	auto	gh	O
+okx	OKX	auto	gh	O
+bybit	Bybit	auto	gh	O
+abound	Abound	auto	ab	O
+doit	Doit	auto	sr	O
+ema	Ema	auto	ab	O
+gitlab	GitLab	auto	gh	O
+inspectorio	Inspectorio	auto	sr	O
+seez	Seez	auto	ps	O
+synechron	Synechron	auto	sr	O
+tickettailor	Ticket Tailor	auto	tt	O
+trumia	Trumia	auto	gh	O

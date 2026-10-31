@@ -1,0 +1,245 @@
+<title>Job Scout</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one narrow column of vacancy cards, a summary strip on top, status filters as tabs. Phone first. */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --ink: #142233;
+  --muted: #5b6b7d;
+  --line: #dde3ea;
+  --accent: #1f5f99;
+  --accent-soft: #e3edf7;
+  --good: #1d7a4f;
+  --good-soft: #e1f3ea;
+  --warn: #9a6200;
+  --warn-soft: #fbf0d9;
+  --bad: #a33a3a;
+  --bad-soft: #f8e4e4;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f151c; --surface: #17202a; --ink: #e6edf4; --muted: #93a3b4; --line: #2a3644;
+    --accent: #7fb3e6; --accent-soft: #1d3046; --good: #6fcf9d; --good-soft: #173528;
+    --warn: #e7b65a; --warn-soft: #3a2e14; --bad: #ef8f8f; --bad-soft: #3d1f22; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f151c; --surface: #17202a; --ink: #e6edf4; --muted: #93a3b4; --line: #2a3644;
+  --accent: #7fb3e6; --accent-soft: #1d3046; --good: #6fcf9d; --good-soft: #173528;
+  --warn: #e7b65a; --warn-soft: #3a2e14; --bad: #ef8f8f; --bad-soft: #3d1f22; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+}
+.wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+h1 { font-size: 1.6rem; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--muted); font-size: 0.85rem; }
+.stats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+.stat b { display: block; font-family: var(--font-data); font-size: 1.35rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+@media (max-width: 520px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 0.85rem; cursor: pointer; }
+.tab[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.tab .n { font-family: var(--font-data); font-size: 0.78rem; opacity: 0.8; margin-left: 4px; }
+.tab:focus-visible, button:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.list { display: flex; flex-direction: column; gap: 10px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.top { display: flex; gap: 12px; align-items: flex-start; }
+.score { flex: none; width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; font-family: var(--font-data); font-weight: 500; font-size: 1rem; background: var(--accent-soft); color: var(--accent); }
+.score.hi { background: var(--good-soft); color: var(--good); }
+.score.lo { background: var(--line); color: var(--muted); }
+.head { min-width: 0; flex: 1; }
+.company { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.title { font-weight: 600; font-size: 1.02rem; overflow-wrap: anywhere; }
+.title a { color: var(--ink); text-decoration: none; }
+.title a:hover { text-decoration: underline; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.78rem; }
+.chip { border-radius: 6px; padding: 2px 8px; background: var(--bg); color: var(--muted); border: 1px solid var(--line); overflow-wrap: anywhere; }
+.chip.fresh { background: var(--warn-soft); color: var(--warn); border-color: transparent; font-weight: 600; }
+.chip.loc-ok { background: var(--good-soft); color: var(--good); border-color: transparent; }
+.chip.loc-risk { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.why { color: var(--muted); font-size: 0.88rem; margin: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 0.85rem; cursor: pointer; text-decoration: none; display: inline-flex; gap: 6px; align-items: center; }
+.btn.primary { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+select { font: inherit; font-size: 0.85rem; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.status-new { border-left: 4px solid var(--accent); }
+.status-applied { border-left: 4px solid var(--warn); }
+.status-replied, .status-interview, .status-offer { border-left: 4px solid var(--good); }
+.status-rejected, .status-skipped { opacity: 0.72; }
+.cover { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; white-space: pre-wrap; font-size: 0.88rem; max-height: 320px; overflow: auto; }
+.followup { color: var(--warn); font-size: 0.82rem; font-weight: 600; }
+textarea { width: 100%; font: inherit; font-size: 0.88rem; border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: var(--surface); color: var(--ink); resize: vertical; min-height: 38px; }
+.empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 28px 20px; text-align: center; color: var(--muted); }
+.empty strong { color: var(--ink); display: block; margin-bottom: 6px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; }
+@media (prefers-reduced-motion: no-preference) { .card { transition: border-color .15s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Job Scout</h1>
+    <span class="sub" id="updated">Вакансии появляются здесь каждое утро</span>
+  </header>
+
+  <section class="stats" aria-label="Статистика">
+    <div class="stat"><b id="s-new">–</b><span>Откликнуться</span></div>
+    <div class="stat"><b id="s-applied">–</b><span>Отклики</span></div>
+    <div class="stat"><b id="s-replied">–</b><span>Ответили</span></div>
+    <div class="stat"><b id="s-interview">–</b><span>Интервью</span></div>
+    <div class="stat"><b id="s-rate">–</b><span>Конверсия</span></div>
+  </section>
+
+  <nav class="tabs" id="tabs" aria-label="Фильтр по статусу"></nav>
+
+  <section class="list" id="list">
+    <div class="empty"><strong>Загружаю вакансии…</strong>Каждое утро сюда попадают новые вакансии с оценкой, версией CV и сопроводительным.</div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const STATUSES = [
+  ["new", "Новая"], ["applied", "Откликнулась"], ["replied", "Ответили"], ["interview", "Интервью"],
+  ["offer", "Оффер"], ["rejected", "Отказ"], ["skipped", "Пропустить"]
+];
+const TABS = [
+  ["todo", "Откликнуться", j => j.status === "new"],
+  ["applied", "Ждём ответа", j => j.status === "applied"],
+  ["active", "В процессе", j => ["replied", "interview", "offer"].includes(j.status)],
+  ["closed", "Закрытые", j => ["rejected", "skipped"].includes(j.status)],
+  ["all", "Все", () => true]
+];
+let jobs = [], tab = "todo", db = null, canWrite = true, openCovers = new Set();
+try { tab = localStorage.getItem("js-tab") || "todo"; } catch (e) {}
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const days = iso => iso ? Math.floor((Date.now() - new Date(iso)) / 864e5) : null;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => t.hidden = true, 1800); }
+
+function renderStats() {
+  const c = s => jobs.filter(j => j.status === s).length;
+  const applied = jobs.filter(j => ["applied", "replied", "interview", "offer", "rejected"].includes(j.status) && j.applied_at).length;
+  const replied = jobs.filter(j => ["replied", "interview", "offer"].includes(j.status) || (j.status === "rejected" && j.replied)).length;
+  $("s-new").textContent = c("new");
+  $("s-applied").textContent = applied;
+  $("s-replied").textContent = replied;
+  $("s-interview").textContent = c("interview") + c("offer");
+  $("s-rate").textContent = applied ? Math.round(replied / applied * 100) + "%" : "–";
+}
+
+function renderTabs() {
+  $("tabs").innerHTML = TABS.map(([id, label, f]) =>
+    `<button class="tab" data-tab="${id}" aria-pressed="${id === tab}">${label}<span class="n">${jobs.filter(f).length}</span></button>`).join("");
+}
+
+function card(j) {
+  const sc = Number(j.score) || 0;
+  const scoreCls = sc >= 8 ? "hi" : sc && sc < 6 ? "lo" : "";
+  const age = days(j.posted);
+  const followDue = j.status === "applied" && days(j.applied_at) >= 7;
+  const locCls = j.location_ok === true ? "loc-ok" : j.location_ok === false ? "loc-risk" : "";
+  const cv = j.cv_url ? `<a class="btn" href="${esc(j.cv_url)}" target="_blank" rel="noopener">CV: ${esc(j.cv_name || "PDF")}</a>`
+                      : j.cv_name ? `<span class="chip">CV: ${esc(j.cv_name)}</span>` : "";
+  const coverOpen = openCovers.has(j.id);
+  return `<article class="card status-${esc(j.status)}" data-id="${esc(j.id)}">
+    <div class="top">
+      <div class="score ${scoreCls}" title="Насколько подходит, из 10">${sc || "–"}</div>
+      <div class="head">
+        <div class="company">${esc(j.company)}</div>
+        <div class="title"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></div>
+      </div>
+    </div>
+    <div class="meta">
+      ${age !== null && age <= 2 ? `<span class="chip fresh">свежая</span>` : ""}
+      ${j.location ? `<span class="chip ${locCls}">${esc(j.location)}</span>` : ""}
+      ${j.track ? `<span class="chip">${esc(j.track)}</span>` : ""}
+      ${j.salary ? `<span class="chip">${esc(j.salary)}</span>` : j.salary_estimate ? `<span class="chip" title="Оценка, в вакансии не указано">≈ ${esc(j.salary_estimate)}</span>` : ""}
+      ${j.source ? `<span class="chip">${esc(j.source)}</span>` : ""}
+      ${j.added ? `<span class="chip">добавлена ${esc(j.added)}</span>` : ""}
+    </div>
+    ${j.why ? `<p class="why">${esc(j.why)}</p>` : ""}
+    ${j.salary_ask ? `<p class="why"><b>Что указать в анкете:</b> ${esc(j.salary_ask)}</p>` : ""}
+    ${followDue ? `<div class="followup">Прошла неделя без ответа: пора написать фоллоу-ап</div>` : ""}
+    <div class="row">
+      <a class="btn primary" href="${esc(j.url)}" target="_blank" rel="noopener">Открыть вакансию</a>
+      ${cv}
+      ${j.cover ? `<button class="btn" data-act="cover">${coverOpen ? "Скрыть письмо" : "Сопроводительное"}</button>` : ""}
+      <label class="sr" for="st-${esc(j.id)}" hidden>Статус</label>
+      <select id="st-${esc(j.id)}" data-act="status" ${canWrite ? "" : "disabled"}>
+        ${STATUSES.map(([v, l]) => `<option value="${v}" ${v === j.status ? "selected" : ""}>${l}</option>`).join("")}
+      </select>
+    </div>
+    ${j.cover && coverOpen ? `<div class="cover" id="cv-${esc(j.id)}">${esc(j.cover)}</div><div class="row"><button class="btn" data-act="copy">Скопировать письмо</button></div>` : ""}
+    <textarea id="nt-${esc(j.id)}" data-act="notes" placeholder="Заметки: с кем говорила, что спросили…" ${canWrite ? "" : "disabled"}>${esc(j.notes)}</textarea>
+  </article>`;
+}
+
+function render() {
+  renderStats(); renderTabs();
+  const f = (TABS.find(t => t[0] === tab) || TABS[0])[2];
+  const list = jobs.filter(f).sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0) || String(b.added || "").localeCompare(String(a.added || "")));
+  $("list").innerHTML = list.length ? list.map(card).join("")
+    : `<div class="empty"><strong>${jobs.length ? "Здесь пока пусто" : "Вакансий пока нет"}</strong>${jobs.length ? "Загляни в другие вкладки." : "Каждое утро сюда попадают новые вакансии с оценкой, версией CV и сопроводительным."}</div>`;
+}
+
+$("tabs").addEventListener("click", e => {
+  const b = e.target.closest("[data-tab]"); if (!b) return;
+  tab = b.dataset.tab; try { localStorage.setItem("js-tab", tab); } catch (err) {}
+  render();
+});
+
+$("list").addEventListener("click", async e => {
+  const el = e.target.closest("[data-act]"); if (!el) return;
+  const id = el.closest(".card").dataset.id;
+  if (el.dataset.act === "cover") { openCovers.has(id) ? openCovers.delete(id) : openCovers.add(id); render(); }
+  if (el.dataset.act === "copy") {
+    const j = jobs.find(x => x.id === id);
+    try { await navigator.clipboard.writeText(j.cover); toast("Письмо скопировано"); }
+    catch (err) { const r = document.createRange(); r.selectNodeContents($("cv-" + id)); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Выделила текст: скопируй вручную"); }
+  }
+});
+
+$("list").addEventListener("change", async e => {
+  const el = e.target; const id = el.closest(".card")?.dataset.id; if (!id || !db) return;
+  const now = new Date().toISOString();
+  const patch = { updated_at: now };
+  if (el.dataset.act === "status") {
+    patch.status = el.value;
+    const j = jobs.find(x => x.id === id);
+    if (el.value === "applied" && !j.applied_at) patch.applied_at = now;
+    if (["replied", "interview", "offer"].includes(el.value)) patch.replied = true;
+  } else if (el.dataset.act === "notes") {
+    patch.notes = el.value;
+  } else return;
+  try { await db.collection("jobs").doc(id).update(patch); toast(patch.status ? "Статус сохранён" : "Заметка сохранена"); }
+  catch (err) { canWrite = false; toast("Не получилось сохранить: у тебя нет прав на изменение"); render(); }
+});
+
+(async () => {
+  const claude = window.claude;
+  db = claude ? await claude.use("db") : null;
+  if (!db) { $("list").innerHTML = `<div class="empty"><strong>Трекер недоступен в этом окне</strong>Открой ссылку в claude.ai, войдя в свой аккаунт.</div>`; return; }
+  const user = await claude.use("user");
+  if (user && typeof user.can === "function") { const w = await user.can("data.write"); if (w === false) canWrite = false; }
+  db.collection("jobs").onSnapshot(snap => {
+    jobs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    const last = jobs.map(j => j.added || "").sort().pop();
+    $("updated").textContent = last ? `Обновлено ${last}` : "Вакансии появляются здесь каждое утро";
+    if (document.activeElement && document.activeElement.tagName === "TEXTAREA") { renderStats(); renderTabs(); return; }
+    render();
+  }, err => { $("list").innerHTML = `<div class="empty"><strong>Связь с трекером потеряна</strong>Обнови страницу.</div>`; });
+})();
+</script>

@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ekaterina Deys: payments, money movement and partner integrations case studies with architecture and sequence diagrams.">
+<title>Ekaterina Deys Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  :root {
+    --bg: #fbfaf7; --surface: #ffffff; --fg: #15171a; --fg-2: #4a4f57; --fg-3: #858b94;
+    --line: #e4e1da; --accent: #1f5fbf; --money: #1d7a4f; --money-soft: #e3f2ea; --data: #1f5fbf; --data-soft: #e6eefb;
+    --ext: #f3efe6; --box: #ffffff; --pill: #f1efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121417; --surface: #191c20; --fg: #eceef1; --fg-2: #b4bac3; --fg-3: #7d848e;
+      --line: #2c3138; --accent: #7fb0ff; --money: #5fcf98; --money-soft: #16301f; --data: #7fb0ff; --data-soft: #18263d;
+      --ext: #23211c; --box: #1c2025; --pill: #23272d; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121417; --surface: #191c20; --fg: #eceef1; --fg-2: #b4bac3; --fg-3: #7d848e;
+    --line: #2c3138; --accent: #7fb0ff; --money: #5fcf98; --money-soft: #16301f; --data: #7fb0ff; --data-soft: #18263d;
+    --ext: #23211c; --box: #1c2025; --pill: #23272d; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding-block: 56px 80px;
+          padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  header h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.1; margin: 0; letter-spacing: -0.5px; text-wrap: balance; }
+  header .role { font-size: 19px; color: var(--accent); font-weight: 600; margin-top: 8px; }
+  header .meta { color: var(--fg-2); margin-top: 6px; font-size: 15px; }
+  .intro { max-width: 68ch; margin-top: 22px; color: var(--fg-2); }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .toc span { background: var(--pill); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 14px; color: var(--fg-2); }
+  .toc span.on { color: var(--fg); border-color: var(--accent); }
+  section.case { margin-top: 56px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 32px clamp(18px, 4vw, 40px); }
+  .eyebrow { font: 500 13px/1 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fg-3); }
+  h2 { font-size: clamp(24px, 3.5vw, 30px); line-height: 1.2; margin: 10px 0 0; text-wrap: balance; }
+  h3 { font-size: 17px; margin: 30px 0 8px; }
+  p, li { max-width: 70ch; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-top: 22px; }
+  .fact { border-top: 2px solid var(--fg); padding-top: 8px; min-width: 0; }
+  .fact b { display: block; font-size: 15px; }
+  .fact span { font-size: 14px; color: var(--fg-2); }
+  .diagram { margin-top: 26px; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+  .diagram svg { display: block; min-width: 860px; width: 100%; height: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 10px; font-size: 14px; color: var(--fg-2); }
+  .legend i { display: inline-block; width: 26px; height: 0; vertical-align: middle; margin-right: 6px; border-top: 3px solid var(--money); }
+  .legend i.d { border-top: 2px dashed var(--data); }
+  .legend i.x { border: 1px dashed var(--fg-3); width: 18px; height: 12px; background: var(--ext); }
+  ol.steps { padding-left: 22px; }
+  ol.steps li { margin: 6px 0; }
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 8px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; background: var(--box); min-width: 0; }
+  .card h4 { margin: 0 0 6px; font-size: 15px; }
+  .card p { margin: 0; font-size: 15px; color: var(--fg-2); }
+  .note { font-size: 13px; color: var(--fg-3); margin-top: 28px; }
+  svg text { font-family: "IBM Plex Sans", system-ui, sans-serif; }
+  .b { fill: var(--box); stroke: var(--line); stroke-width: 1.5; }
+  .bx { fill: var(--ext); stroke: var(--fg-3); stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .bm { fill: var(--money-soft); stroke: var(--money); stroke-width: 1.5; }
+  .t { fill: var(--fg); font-size: 14px; font-weight: 600; }
+  .s { fill: var(--fg-2); font-size: 12px; }
+  .zone { fill: none; stroke: var(--line); stroke-width: 1.2; }
+  .zl { fill: var(--fg-3); font-size: 12px; font-family: "IBM Plex Mono", monospace; letter-spacing: 1px; }
+  .m { stroke: var(--money); stroke-width: 3; fill: none; }
+  .d { stroke: var(--data); stroke-width: 1.8; fill: none; stroke-dasharray: 6 5; }
+  .seq .t { font-size: 17px; } .seq .s { font-size: 14px; }
+  .seq .lbl { font-size: 15.5px; } .seq .lbl2 { font-size: 14px; }
+  .tblwrap { overflow-x: auto; margin-top: 8px; }
+  .tbl { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 15px; }
+  .tbl th { text-align: left; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--fg-3); font-weight: 600; padding: 8px 12px 8px 0; border-bottom: 2px solid var(--fg); }
+  .tbl td { vertical-align: top; padding: 12px 12px 12px 0; border-bottom: 1px solid var(--line); color: var(--fg-2); }
+  .tbl td:last-child { color: var(--fg); font-weight: 500; }
+  .contact { display: flex; flex-wrap: wrap; gap: 6px 10px; margin-top: 10px; font-size: 15px; color: var(--fg-2); }
+  .contact a { color: var(--accent); text-decoration: none; }
+  .contact b { color: var(--fg); font-weight: 600; }
+  .contact span { color: var(--fg-3); }
+  footer.foot { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--fg-2); display: grid; gap: 4px; }
+  footer.foot a { color: var(--accent); text-decoration: none; }
+  html { scroll-behavior: smooth; }
+  section.case { scroll-margin-top: 72px; }
+  .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .topin { max-width: 980px; margin: 0 auto; display: flex; gap: 6px; align-items: center; overflow-x: auto; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); scrollbar-width: none; }
+  .topin a { white-space: nowrap; text-decoration: none; color: var(--fg-2); font-size: 14px; padding: 5px 12px; border-radius: 999px; border: 1px solid transparent; }
+  .topin a.brand { color: var(--fg); font-weight: 600; padding-left: 0; margin-right: auto; }
+  .topin a.tl:hover { border-color: var(--line); color: var(--fg); }
+  .topin a.tl.on { background: var(--surface); border-color: var(--accent); color: var(--fg); }
+  .contents { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 26px; }
+  .ccard { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; min-width: 0; transition: border-color .15s; }
+  .ccard:hover { border-color: var(--accent); }
+  .ccard .cn { font: 500 12px/1 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--fg-3); }
+  .ccard b { font-size: 17px; line-height: 1.3; }
+  .ccard span:not(.cn) { font-size: 14px; color: var(--fg-2); line-height: 1.45; }
+  .ccard em { font-style: normal; font-size: 14px; font-weight: 600; color: var(--accent); margin-top: auto; padding-top: 6px; }
+  .backtop { display: inline-block; margin-top: 18px; font-size: 14px; color: var(--accent); text-decoration: none; }
+  .sq { fill: none; stroke-width: 1.6; }
+  .sq.m { stroke: var(--money); stroke-width: 2.4; }
+  .sq.c { stroke: var(--fg-2); }
+  .sq.r { stroke: var(--fg-2); stroke-dasharray: 6 4; }
+  .ll path { stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 3 4; fill: none; }
+  .lbl { fill: var(--fg); font-size: 13px; font-weight: 500; }
+  .lbl2 { fill: var(--fg-2); font-size: 12px; }
+  .note { fill: var(--pill); stroke: var(--line); }
+  .frame { fill: none; stroke: var(--fg-3); stroke-width: 1; }
+  .frametag { fill: var(--pill); stroke: var(--fg-3); stroke-width: 1; }
+  .legend i.hm { border: 1.5px solid var(--money); background: var(--money-soft); width: 18px; height: 12px; }
+  .legend i.d2 { border-top: 2px solid var(--fg-2); }
+  .legend i.r2 { border-top: 2px dashed var(--fg-2); }
+  .n circle { fill: var(--fg); } .n text { fill: var(--bg); font-size: 12px; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a></div></div>
+<div class="wrap">
+  <header>
+    <h1>Ekaterina Deys</h1>
+    <div class="role">Lead Technical PM · Payments, money movement &amp; partner integrations</div>
+    <div class="contact"><a href="mailto:katedeys@gmail.com">katedeys@gmail.com</a><span>·</span><a href="https://linkedin.com/in/kate-deys">linkedin.com/in/kate-deys</a><span>·</span><b>Open to roles from November 2026</b><span>·</span>remote or relocation</div>
+    <div class="meta">Case studies redrawn from scratch and generalised: no partner names, internal systems or figures beyond my CV.</div>
+  </header>
+  <p class="intro">I design how money, data and systems move between a product, its partners and its users. These cases show the problem, the architecture I drew, the decisions behind it, and what I would do differently.</p>
+  <nav class="contents" id="top" aria-label="Case studies">
+    <a class="ccard" href="#remittances"><span class="cn">Case 1</span><b>Remittances → cross-border repayments</b><span>Gulf → Southeast Asia: from a remittance MVP to relatives repaying a credit line from abroad</span><em>0 → MVP → pivot</em></a>
+    <a class="ccard" href="#viban"><span class="cn">Case 2</span><b>Virtual IBANs in loan origination</b><span>One account per loan, so bank-transfer repayments match themselves</span><em>100% auto-reconciled</em></a>
+    <a class="ccard" href="#orchestration"><span class="cn">Case 3</span><b>Own payment orchestration, 40+ countries</b><span>From two external orchestrators to routing, failover and a card vault of our own</span><em>~$100K/month saved · 96.4% SLA</em></a>
+  </nav>
+
+  <section class="case" id="remittances">
+    <div class="eyebrow">Case 1 · Lending fintech · Gulf → Southeast Asia</div>
+    <h2>From a remittance MVP to relatives repaying a credit line from abroad</h2>
+
+    <div class="facts">
+      <div class="fact"><b>Idea</b><span>Capture migrant remittances that already flow to the families we lend to</span></div>
+      <div class="fact"><b>Corridor</b><span>UAE / KSA → Southeast Asia, AED/SAR → USD → local currency</span></div>
+      <div class="fact"><b>My role</b><span>0 → MVP → pivot: partners, flows, commercial model, launch path</span></div>
+      <div class="fact"><b>Model</b><span>Our margin plus interbank FX, negotiated with the partner until volume tiers</span></div>
+    </div>
+
+    <h3>The market</h3>
+    <p>The Gulf is the largest source of remittances in the world: GCC countries sent out about $161B in 2025, with the UAE and Saudi Arabia at roughly $62B and $58B. For scale, one corridor of the kind we worked on, UAE and Saudi Arabia to the Philippines, officially carries around $4B a year (4.6% and 6.6% of the Philippines' $35.6B in 2025 cash remittances), and the real figure is higher, because transfers are recorded where the remitting institution sits. Even a 1% share of that one corridor is about $40M a year flowing to families who are, or could become, our borrowers.</p>
+    <p class="note" style="margin-top:6px">Sources: GCC-Stat 2025 outward worker remittances; Bangko Sentral ng Pilipinas 2025 cash remittances by source country. The share scenario is illustrative.</p>
+
+    <h3>The problem</h3>
+    <p>Many of our borrowers' families depend on relatives working in the Gulf. That money already crossed borders every month, but through other apps, so we saw neither the revenue nor the income it proved. The goal was to bring that flow into our product fast, without building a cross-border stack first.</p>
+
+    <div class="diagram" role="img" aria-label="Architecture: the sender pays an external remittance provider in the Gulf; the provider converts AED or SAR to local currency and calls our payment service; the ledger books funds and our margin, then credits the recipient wallet (MVP) or the relative's credit line via the credit engine (pivot). The provider's KYC ID is stored with the kinship document; transfer history feeds scoring.">
+      <svg viewBox="0 0 680 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--data)"/></marker>
+        </defs>
+        <rect class="zone" x="30" y="24" width="620" height="108" rx="12" stroke-dasharray="5 4"/><text class="zl" x="632" y="44" text-anchor="end">GULF · SENDER SIDE</text>
+        <rect class="zone" x="30" y="150" width="620" height="316" rx="12"/><text class="zl" x="632" y="170" text-anchor="end">OUR PLATFORM · LENDING MARKET</text>
+        <g text-anchor="middle">
+          <rect class="bx" x="50" y="58" width="170" height="56" rx="8"/><text class="t" x="135" y="82">Sender</text><text class="s" x="135" y="101">card · wallet · cash</text>
+          <rect class="bx" x="270" y="58" width="190" height="56" rx="8"/><text class="t" x="365" y="82">Remittance provider</text><text class="s" x="365" y="101">KYC · AED/SAR → local</text>
+          <rect class="b" x="50" y="184" width="170" height="56" rx="8"/><text class="t" x="135" y="208">KYC + PII vault</text><text class="s" x="135" y="227">KYC ID · kinship doc</text>
+          <rect class="b" x="255" y="184" width="170" height="56" rx="8"/><text class="t" x="340" y="208">Payment service</text><text class="s" x="340" y="227">idempotent payout API</text>
+          <rect class="bm" x="450" y="184" width="170" height="56" rx="8"/><text class="t" x="535" y="208">Ledger + billing</text><text class="s" x="535" y="227">postings · our margin</text>
+          <rect class="b" x="50" y="290" width="170" height="56" rx="8"/><text class="t" x="135" y="314">App + BFF</text><text class="s" x="135" y="333">relative at home</text>
+          <rect class="bm" x="255" y="290" width="170" height="56" rx="8"/><text class="t" x="340" y="314">Recipient wallet</text><text class="s" x="340" y="333">MVP destination</text>
+          <rect class="bm" x="450" y="290" width="170" height="56" rx="8"/><text class="t" x="535" y="314">Credit engine</text><text class="s" x="535" y="333">pivot: repay credit line</text>
+          <rect class="b" x="450" y="396" width="170" height="56" rx="8"/><text class="t" x="535" y="420">Scoring</text><text class="s" x="535" y="439">history as income</text>
+        </g>
+        <path class="m" d="M220,86 L264,86" marker-end="url(#am)"/>
+        <path class="m" d="M365,114 L365,178" marker-end="url(#am)"/>
+        <path class="m" d="M425,212 L444,212" marker-end="url(#am)"/>
+        <path class="m" d="M535,240 L535,284" marker-end="url(#am)"/>
+        <path class="m" d="M470,240 L470,265 L340,265 L340,284" marker-end="url(#am)"/>
+        <path class="d" d="M300,114 L300,140 L135,140 L135,178" marker-end="url(#ad)"/>
+        <path class="d" d="M255,212 L226,212" marker-end="url(#ad)"/>
+        <path class="d" d="M255,318 L226,318" marker-end="url(#ad)"/>
+        <path class="d" d="M620,212 L638,212 L638,424 L626,424" marker-end="url(#ad)"/>
+        <path class="d" d="M535,396 L535,352" marker-end="url(#ad)"/>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money</span><span><i class="d"></i>data / status</span><span><i class="x"></i>external</span><span><i class="hm"></i>holds money</span></div>
+
+    <h3>How a transfer works</h3>
+    <ol class="steps">
+      <li><b>Pay-in.</b> The sender pays the remittance provider in AED or SAR by card, wallet or cash. The provider runs sender KYC.</li>
+      <li><b>Identity reuse.</b> The provider shares a KYC ID; we store it and call the provider with it on every next transfer, so the sender is verified once. On our side the relative's kinship is confirmed with a document, kept in the PII vault.</li>
+      <li><b>FX and payout.</b> The provider converts AED/SAR → USD → local currency at interbank rate and calls our payment service with an idempotent transfer request.</li>
+      <li><b>Booking.</b> The ledger posts the incoming funds; billing books our margin.</li>
+      <li><b>Destination.</b> In the MVP the money lands in the recipient's wallet. After the pivot, the credit engine applies it as a repayment to the relative's credit line.</li>
+      <li><b>Status back.</b> Final status goes back to the provider; the relative sees it in the app.</li>
+      <li><b>Data for lending.</b> Transfer history feeds scoring as an income signal for the recipient's credit decisions (piloted).</li>
+    </ol>
+
+    <h3>One repeat transfer, step by step (after the pivot)</h3>
+    <div class="diagram" role="img" aria-label="Sequence diagram of a repeat cross-border repayment: sender pays the provider; the provider reuses the stored KYC ID and calls our payment service with an idempotency key; we check the KYC ID and kinship, post funds and margin to the ledger, apply the repayment in the credit engine, confirm back to the provider and notify the relative. If kinship is not verified or the credit line is closed, we reject and the provider refunds the sender. A retry with the same idempotency key returns the same result.">
+      <svg class="seq" viewBox="0 0 1000 740" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="sm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="sd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--fg-2)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="bx" x="6" y="16" width="128" height="50" rx="8"/><text class="t" x="70" y="38">Sender</text><text class="s" x="70" y="56">Gulf</text>
+          <rect class="bx" x="146" y="16" width="128" height="50" rx="8"/><text class="t" x="210" y="38">Provider</text><text class="s" x="210" y="56">external</text>
+          <rect class="b" x="296" y="16" width="128" height="50" rx="8"/><text class="t" x="360" y="38">Payment</text><text class="s" x="360" y="56">service</text>
+          <rect class="b" x="446" y="16" width="128" height="50" rx="8"/><text class="t" x="510" y="38">KYC + PII</text><text class="s" x="510" y="56">vault</text>
+          <rect class="bm" x="586" y="16" width="128" height="50" rx="8"/><text class="t" x="650" y="38">Ledger</text><text class="s" x="650" y="56">+ billing</text>
+          <rect class="bm" x="726" y="16" width="128" height="50" rx="8"/><text class="t" x="790" y="38">Credit</text><text class="s" x="790" y="56">engine</text>
+          <rect class="b" x="866" y="16" width="128" height="50" rx="8"/><text class="t" x="930" y="38">App + BFF</text><text class="s" x="930" y="56">relative</text>
+        </g>
+        <g class="ll"><path d="M70,66 V720"/><path d="M210,66 V720"/><path d="M360,66 V720"/><path d="M510,66 V720"/><path d="M650,66 V720"/><path d="M790,66 V720"/><path d="M930,66 V720"/></g>
+
+        <path class="sq m" d="M70,110 H204" marker-end="url(#sm)"/><text class="lbl" x="80" y="102">1 Pay AED/SAR</text>
+        <path class="sq r" d="M210,138 H246 V164 H216" marker-end="url(#sd)"/><text class="lbl" x="254" y="150">2 Reuse KYC ID</text>
+        <path class="sq m" d="M210,204 H354" marker-end="url(#sm)"/><text class="lbl" x="220" y="196">3 POST /transfers</text>
+        <text class="lbl2" x="220" y="222">Idempotency-Key · local amount</text>
+        <path class="sq c" d="M360,258 H504" marker-end="url(#sd)"/><text class="lbl" x="370" y="250">4 KYC ID + kinship?</text>
+        <path class="sq r" d="M510,292 H366" marker-end="url(#sd)"/><text class="lbl" x="500" y="284" text-anchor="end">5 Verified</text>
+        <path class="sq m" d="M360,332 H644" marker-end="url(#sm)"/><text class="lbl" x="640" y="324" text-anchor="end">6 Post funds + margin</text>
+        <path class="sq m" d="M360,372 H784" marker-end="url(#sm)"/><text class="lbl" x="780" y="364" text-anchor="end">7 Apply repayment</text>
+        <path class="sq r" d="M790,408 H366" marker-end="url(#sd)"/><text class="lbl" x="780" y="400" text-anchor="end">8 New balance</text>
+        <path class="sq r" d="M360,446 H216" marker-end="url(#sd)"/><text class="lbl" x="350" y="438" text-anchor="end">9 Completed</text>
+        <path class="sq r" d="M210,482 H76" marker-end="url(#sd)"/><text class="lbl" x="200" y="474" text-anchor="end">10 Delivered</text>
+        <path class="sq c" d="M790,518 H924" marker-end="url(#sd)"/><text class="lbl" x="800" y="510">11 Push: line topped up</text>
+        <rect class="note" x="596" y="436" width="108" height="34" rx="6"/><text class="lbl2" x="650" y="457" text-anchor="middle">async → scoring</text>
+
+        <rect class="frame" x="40" y="548" width="490" height="110" rx="6"/>
+        <rect class="frametag" x="40" y="548" width="44" height="22" rx="6"/><text class="lbl" x="62" y="564" text-anchor="middle">alt</text>
+        <text class="lbl2" x="94" y="564">kinship not verified · credit line closed</text>
+        <path class="sq r" d="M360,600 H216" marker-end="url(#sd)"/><text class="lbl" x="350" y="592" text-anchor="end">Rejected + reason</text>
+        <path class="sq r" d="M210,636 H76" marker-end="url(#sd)"/><text class="lbl" x="200" y="628" text-anchor="end">Refund</text>
+
+        <rect class="note" x="560" y="560" width="400" height="88" rx="8"/>
+        <text class="lbl" x="576" y="586">Retry with the same Idempotency-Key</text>
+        <text class="lbl2" x="576" y="608">returns the stored result: no second posting,</text>
+        <text class="lbl2" x="576" y="628">no double repayment, even if callback 9 is lost.</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money movement</span><span><i class="d2"></i>call</span><span><i class="r2"></i>response / callback</span></div>
+
+    <h3>Key decisions</h3>
+    <div class="two">
+      <div class="card"><h4>Buy first, build later</h4><p>A remittance-as-a-service provider gave us licensed pay-in, KYC and FX in the Gulf from day one. An in-house build only makes sense once volume justifies the licences and the margin.</p></div>
+      <div class="card"><h4>Interbank FX until volume tiers</h4><p>I negotiated interbank FX with the partner until we reached agreed volumes, so our margin was the only spread the sender paid, and the price stayed competitive with existing apps.</p></div>
+      <div class="card"><h4>Verify the sender once</h4><p>Reusing the partner's KYC ID removed repeat verification for every transfer; our own check covered only what we owned: the family link to the borrower.</p></div>
+      <div class="card"><h4>Pivot to repayments</h4><p>Paying straight into a relative's credit line tied the flow to our core product: the money now reduces credit risk instead of only sitting in a wallet.</p></div>
+    </div>
+
+    <h3>What happened, and what I'd do differently</h3>
+    <p>The scoring pilot launched, then stalled on two constraints: team funding, and the licence question of receiving funds at volume. Next time I would put the licensing path and its volume thresholds into the business case at the discovery stage, and size the team for the in-house phase before the MVP goes live, not after.</p>
+
+    <p class="note">Generalised from my work at a lending fintech. Diagram redrawn from scratch; component names are generic.</p>
+    <a class="backtop" href="#top">↑ Back to contents</a>
+  </section>
+
+  <section class="case" id="viban">
+    <div class="eyebrow">Case 2 · Lending fintech · Malaysia</div>
+    <h2>Virtual IBANs inside loan origination: bank-transfer repayments that reconcile themselves</h2>
+
+    <div class="facts">
+      <div class="fact"><b>Problem</b><span>Bank-transfer repayments had to be matched to loans by hand</span></div>
+      <div class="fact"><b>Scope</b><span>VIBAN issuance in origination, async bank API, matching, repayment events</span></div>
+      <div class="fact"><b>Context</b><span>Repayments with 2 partners, 3 methods each: cards, bank transfer, cash</span></div>
+      <div class="fact"><b>Result</b><span>100% of bank-transfer repayments reconcile automatically</span></div>
+    </div>
+
+    <h3>The problem</h3>
+    <p>When customers repay by bank transfer to one shared account, every payment has to be matched to a loan by name or reference, and people get references wrong. The fix is to give each loan its own virtual account number: whatever arrives on it already says whose repayment it is.</p>
+
+    <div class="diagram" role="img" aria-label="Architecture: loan origination asks the payment service to issue a virtual IBAN at the partner bank; the mapping between VIBAN and loan is stored and shown in the app. When the customer transfers money to the VIBAN, the partner bank notifies the payment service, which finds the loan by VIBAN, posts the repayment to the ledger and the credit engine applies it.">
+      <svg viewBox="0 0 680 420" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="vm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="vd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--data)"/></marker>
+        </defs>
+        <rect class="zone" x="30" y="24" width="620" height="108" rx="12" stroke-dasharray="5 4"/><text class="zl" x="632" y="44" text-anchor="end">BANKS · EXTERNAL</text>
+        <rect class="zone" x="30" y="150" width="620" height="252" rx="12"/><text class="zl" x="632" y="390" text-anchor="end">OUR PLATFORM</text>
+        <g text-anchor="middle">
+          <rect class="bx" x="50" y="58" width="170" height="56" rx="8"/><text class="t" x="135" y="82">Customer's bank</text><text class="s" x="135" y="101">transfer to VIBAN</text>
+          <rect class="bx" x="270" y="58" width="190" height="56" rx="8"/><text class="t" x="365" y="82">Partner bank</text><text class="s" x="365" y="101">VIBAN API · collections</text>
+          <rect class="b" x="50" y="184" width="170" height="56" rx="8"/><text class="t" x="135" y="208">Loan origination</text><text class="s" x="135" y="227">asks for a VIBAN</text>
+          <rect class="b" x="255" y="184" width="170" height="56" rx="8"/><text class="t" x="340" y="208">Payment service</text><text class="s" x="340" y="227">issue · match · retry</text>
+          <rect class="bm" x="450" y="184" width="170" height="56" rx="8"/><text class="t" x="535" y="208">Ledger</text><text class="s" x="535" y="227">repayment posting</text>
+          <rect class="b" x="50" y="290" width="170" height="56" rx="8"/><text class="t" x="135" y="314">App + BFF</text><text class="s" x="135" y="333">shows VIBAN to pay</text>
+          <rect class="b" x="255" y="290" width="170" height="56" rx="8"/><text class="t" x="340" y="314">VIBAN ↔ loan map</text><text class="s" x="340" y="333">one VIBAN per loan</text>
+          <rect class="bm" x="450" y="290" width="170" height="56" rx="8"/><text class="t" x="535" y="314">Credit engine</text><text class="s" x="535" y="333">applies repayment</text>
+        </g>
+        <path class="m" d="M220,86 L264,86" marker-end="url(#vm)"/>
+        <path class="d" d="M220,212 L249,212" marker-end="url(#vd)"/>
+        <path class="d" d="M315,184 L315,120" marker-end="url(#vd)"/>
+        <path class="d" d="M395,114 L395,178" marker-end="url(#vd)"/>
+        <path class="d" d="M340,240 L340,284" marker-end="url(#vd)"/>
+        <path class="d" d="M255,318 L226,318" marker-end="url(#vd)"/>
+        <path class="m" d="M425,212 L444,212" marker-end="url(#vm)"/>
+        <path class="m" d="M535,240 L535,284" marker-end="url(#vm)"/>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money</span><span><i class="d"></i>data / status</span><span><i class="x"></i>external</span><span><i class="hm"></i>holds money</span></div>
+
+    <h3>Issuance and the first repayment, step by step</h3>
+    <div class="diagram" role="img" aria-label="Sequence: origination asks the payment service for a VIBAN for a loan; the payment service calls the bank with a request ID; on timeout it checks status by request ID and retries with the same ID, closing any duplicate account; the bank calls back with the VIBAN, which is stored against the loan and shown in the app. Later the bank notifies an incoming transfer; the payment service looks up the loan by VIBAN, posts the repayment and the credit engine applies it.">
+      <svg class="seq" viewBox="0 0 1000 950" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="qm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="qd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--fg-2)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="b" x="16" y="16" width="140" height="50" rx="8"/><text class="t" x="86" y="38">Origination</text><text class="s" x="86" y="56">loan</text>
+          <rect class="b" x="186" y="16" width="140" height="50" rx="8"/><text class="t" x="256" y="38">Payment</text><text class="s" x="256" y="56">service</text>
+          <rect class="bx" x="356" y="16" width="140" height="50" rx="8"/><text class="t" x="426" y="38">Partner bank</text><text class="s" x="426" y="56">external</text>
+          <rect class="b" x="526" y="16" width="140" height="50" rx="8"/><text class="t" x="596" y="38">VIBAN map</text><text class="s" x="596" y="56">loan key</text>
+          <rect class="bm" x="696" y="16" width="140" height="50" rx="8"/><text class="t" x="766" y="38">Ledger +</text><text class="s" x="766" y="56">credit engine</text>
+          <rect class="b" x="846" y="16" width="140" height="50" rx="8"/><text class="t" x="916" y="38">App + BFF</text><text class="s" x="916" y="56">customer</text>
+        </g>
+        <g class="ll"><path d="M86,66 V936"/><path d="M256,66 V936"/><path d="M426,66 V936"/><path d="M596,66 V936"/><path d="M766,66 V936"/><path d="M916,66 V936"/></g>
+
+        <rect class="frametag" x="10" y="80" width="96" height="22" rx="6"/><text class="lbl" x="58" y="96" text-anchor="middle">issuance</text>
+        <path class="sq c" d="M86,128 H250" marker-end="url(#qd)"/><text class="lbl" x="96" y="120">1 Issue VIBAN</text><text class="lbl2" x="96" y="146">loan_id</text>
+        <path class="sq c" d="M256,170 H420" marker-end="url(#qd)"/><text class="lbl" x="266" y="162">2 Create account</text><text class="lbl2" x="266" y="188">request_id</text>
+        <path class="sq r" d="M426,210 H262" marker-end="url(#qd)"/><text class="lbl" x="416" y="202" text-anchor="end">3 Pending</text>
+
+        <rect class="frame" x="200" y="228" width="300" height="150" rx="6"/>
+        <rect class="frametag" x="200" y="228" width="44" height="22" rx="6"/><text class="lbl" x="222" y="244" text-anchor="middle">alt</text>
+        <text class="lbl2" x="254" y="244">no callback before timeout</text>
+        <path class="sq c" d="M256,282 H420" marker-end="url(#qd)"/><text class="lbl" x="266" y="274">Status by request_id</text>
+        <path class="sq c" d="M256,322 H420" marker-end="url(#qd)"/><text class="lbl" x="266" y="314">Retry, same request_id</text>
+        <path class="sq c" d="M256,362 H420" marker-end="url(#qd)"/><text class="lbl" x="266" y="354">Close earlier duplicate</text>
+
+        <path class="sq r" d="M426,410 H262" marker-end="url(#qd)"/><text class="lbl" x="416" y="402" text-anchor="end">4 Callback: VIBAN</text>
+        <path class="sq c" d="M256,448 H590" marker-end="url(#qd)"/><text class="lbl" x="586" y="440" text-anchor="end">5 Store VIBAN ↔ loan</text>
+        <path class="sq r" d="M256,486 H92" marker-end="url(#qd)"/><text class="lbl" x="246" y="478" text-anchor="end">6 VIBAN ready</text>
+        <path class="sq c" d="M86,522 H910" marker-end="url(#qd)"/><text class="lbl" x="906" y="514" text-anchor="end">7 Show repayment details</text>
+
+        <rect class="frametag" x="10" y="548" width="106" height="22" rx="6"/><text class="lbl" x="63" y="564" text-anchor="middle">repayment</text>
+        <path class="sq m" d="M426,598 H262" marker-end="url(#qm)"/><text class="lbl" x="416" y="590" text-anchor="end">8 Incoming transfer</text><text class="lbl2" x="416" y="616" text-anchor="end">VIBAN · amount</text>
+        <path class="sq c" d="M256,640 H590" marker-end="url(#qd)"/><text class="lbl" x="586" y="632" text-anchor="end">9 Find loan by VIBAN</text>
+        <path class="sq m" d="M256,680 H760" marker-end="url(#qm)"/><text class="lbl" x="756" y="672" text-anchor="end">10 Post + apply repayment</text>
+        <path class="sq c" d="M766,716 H910" marker-end="url(#qd)"/><text class="lbl" x="776" y="708">11 Paid</text>
+
+        <rect class="frame" x="540" y="746" width="450" height="160" rx="6"/>
+        <rect class="frametag" x="540" y="746" width="44" height="22" rx="6"/><text class="lbl" x="562" y="762" text-anchor="middle">alt</text>
+        <text class="lbl2" x="594" y="762">amount ≠ amount due</text>
+        <text class="lbl" x="556" y="796">Over: held on technical account</text>
+        <text class="lbl2" x="556" y="818">lowers the next payment, or partial early</text>
+        <text class="lbl2" x="556" y="838">repayment if the customer asks</text>
+        <text class="lbl" x="556" y="870">Under: held, shortfall shown</text>
+        <path class="sq c" d="M766,890 H910" marker-end="url(#qd)"/><text class="lbl" x="906" y="882" text-anchor="end">Push: top up</text>
+
+        <rect class="frame" x="10" y="746" width="500" height="110" rx="6"/>
+        <rect class="frametag" x="10" y="746" width="76" height="22" rx="6"/><text class="lbl" x="48" y="762" text-anchor="middle">closure</text>
+        <path class="sq c" d="M86,796 H250" marker-end="url(#qd)"/><text class="lbl" x="96" y="788">Loan closed</text>
+        <path class="sq c" d="M256,830 H420" marker-end="url(#qd)"/><text class="lbl" x="266" y="822">Close VIBAN</text>
+        <rect class="note" x="10" y="874" width="500" height="58" rx="8"/>
+        <text class="lbl" x="26" y="898">A late transfer to a closed loan</text>
+        <text class="lbl2" x="26" y="919">has no account to land on, so the bank returns it to the sender.</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money movement</span><span><i class="d2"></i>call</span><span><i class="r2"></i>response / callback</span></div>
+
+    <h3>Key decisions</h3>
+    <div class="two">
+      <div class="card"><h4>Issue the VIBAN inside origination</h4><p>The account number exists before the first repayment is due, so the customer gets payment details together with the loan and no repayment ever arrives without a key.</p></div>
+      <div class="card"><h4>The account number is the matching key</h4><p>Matching stops depending on what the customer typed in the reference: the destination itself identifies the loan, which is what makes 100% automatic reconciliation possible.</p></div>
+      <div class="card"><h4>Design for a slow, asynchronous bank API</h4><p>Creation is async with callbacks; timeouts trigger a status check by request ID and a retry with the same ID, never a blind second request.</p></div>
+      <div class="card"><h4>Clean up duplicates explicitly</h4><p>If a bank glitch ever produced two accounts for one loan, we closed the earlier one and kept the last created, so a loan never has two live repayment addresses.</p></div>
+      <div class="card"><h4>One account per loan, same lifecycle</h4><p>The VIBAN is opened with the loan and closed with it. A late transfer to a closed loan bounces back to the sender instead of landing in a suspense account.</p></div>
+      <div class="card"><h4>Amounts that don't match the schedule</h4><p>Overpayments wait on a technical account and lower the next payment, or go to partial early repayment if the customer asks. Underpayments wait too, and the app shows how much is missing for the minimum payment and nudges a top-up.</p></div>
+    </div>
+
+    <h3>Result</h3>
+    <p>All bank-transfer repayments now reconcile automatically, and the same payment event model feeds the credit engine for cards and cash, so every repayment method lands in one place.</p>
+
+    <p class="note">Generalised from my work at a lending fintech. Diagrams redrawn from scratch; component names are generic.</p>
+    <a class="backtop" href="#top">↑ Back to contents</a>
+  </section>
+
+  <section class="case" id="orchestration">
+    <div class="eyebrow">Case 3 · Ride-hailing super-app · 40+ countries</div>
+    <h2>From two external orchestrators to our own payment orchestration</h2>
+
+    <div class="facts">
+      <div class="fact"><b>Before</b><span>2 external orchestrators, plus direct splits between two PSPs in some countries</span></div>
+      <div class="fact"><b>Scale</b><span>From 4 to 40+ countries, 2–3 providers per country on average</span></div>
+      <div class="fact"><b>Savings</b><span>~$100K/month (~20%) in processing costs from cost-aware routing</span></div>
+      <div class="fact"><b>Reliability</b><span>96.4% provider SLA with health monitoring and automatic failover</span></div>
+    </div>
+
+    <h3>Why we built our own</h3>
+    <div class="tblwrap"><table class="tbl">
+      <thead><tr><th>Problem</th><th>What we built</th><th>Outcome</th></tr></thead>
+      <tbody>
+        <tr><td>Orchestrator fees grew with every new country and every extra transaction</td><td>Direct connectors to each PSP and routing by provider cost, limits and coverage</td><td>~$100K/month saved (~20%)</td></tr>
+        <tr><td>Vendor lock-in: two orchestrators is too few to negotiate or switch</td><td>Our own layer where the old orchestrators are just two connectors among many; card tokens in our own vault</td><td>Adding or switching a provider no longer depends on a vendor</td></tr>
+        <tr><td>We set the routes, but inside someone else's system</td><td>Routing rules in our admin panel: business sets the commercial part, support and product react to drops</td><td>Routing changes without a release, by the people who own the outcome</td></tr>
+        <tr><td>A mix of end-provider errors, mapped somehow by the orchestrators</td><td>One internal transaction state model and our own status and error mapping per provider</td><td>Soft and hard declines handled consistently; outcomes are auditable</td></tr>
+        <tr><td>Incidents were reactive: we waited and controlled nothing</td><td>Health monitor on queue length, response speed and SLA, with failover and gradual return rules</td><td>96.4% provider SLA</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Target architecture</h3>
+    <div class="diagram" role="img" aria-label="Architecture: the payments API passes requests to our orchestration layer, which follows routing rules set in the admin panel and health signals from the health monitor. Connectors map each provider's statuses and errors; the card vault supplies card data. Connectors reach PSPs A, B and C directly and keep a share of traffic on an external orchestrator.">
+      <svg viewBox="0 0 680 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="om" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="od" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--data)"/></marker>
+        </defs>
+        <rect class="zone" x="30" y="16" width="620" height="318" rx="12"/><text class="zl" x="632" y="36" text-anchor="end">OUR PLATFORM</text>
+        <rect class="zone" x="30" y="362" width="620" height="122" rx="12" stroke-dasharray="5 4"/><text class="zl" x="632" y="472" text-anchor="end">PROVIDERS · EXTERNAL</text>
+        <g text-anchor="middle">
+          <rect class="b" x="50" y="50" width="170" height="56" rx="8"/><text class="t" x="135" y="74">Admin panel</text><text class="s" x="135" y="93">business · support · product</text>
+          <rect class="b" x="255" y="50" width="170" height="56" rx="8"/><text class="t" x="340" y="74">Routing rules</text><text class="s" x="340" y="93">cost · limits · coverage</text>
+          <rect class="b" x="450" y="50" width="170" height="56" rx="8"/><text class="t" x="535" y="74">Health monitor</text><text class="s" x="535" y="93">queue · speed · SLA</text>
+          <rect class="b" x="50" y="160" width="170" height="56" rx="8"/><text class="t" x="135" y="184">Payments API</text><text class="s" x="135" y="203">from app checkout</text>
+          <rect class="bm" x="255" y="160" width="365" height="56" rx="8"/><text class="t" x="437" y="184">Orchestration layer</text><text class="s" x="437" y="203">one state model · routing · failover · retries</text>
+          <rect class="b" x="50" y="260" width="170" height="56" rx="8"/><text class="t" x="135" y="284">Card vault</text><text class="s" x="135" y="303">own tokens · PCI DSS</text>
+          <rect class="b" x="255" y="260" width="365" height="56" rx="8"/><text class="t" x="437" y="284">Connectors</text><text class="s" x="437" y="303">one per provider · status and error mapping</text>
+          <rect class="bx" x="50" y="392" width="130" height="56" rx="8"/><text class="t" x="115" y="416">PSP A</text><text class="s" x="115" y="435">direct</text>
+          <rect class="bx" x="200" y="392" width="130" height="56" rx="8"/><text class="t" x="265" y="416">PSP B</text><text class="s" x="265" y="435">direct</text>
+          <rect class="bx" x="350" y="392" width="130" height="56" rx="8"/><text class="t" x="415" y="416">PSP C</text><text class="s" x="415" y="435">direct</text>
+          <rect class="bx" x="500" y="392" width="130" height="56" rx="8"/><text class="t" x="565" y="416">Orchestrator</text><text class="s" x="565" y="435">kept share</text>
+        </g>
+        <path class="d" d="M220,78 L249,78" marker-end="url(#od)"/>
+        <path class="d" d="M340,106 L340,154" marker-end="url(#od)"/>
+        <path class="d" d="M535,106 L535,154" marker-end="url(#od)"/>
+        <path class="m" d="M220,188 L249,188" marker-end="url(#om)"/>
+        <path class="m" d="M437,216 L437,254" marker-end="url(#om)"/>
+        <path class="d" d="M220,288 L249,288" marker-end="url(#od)"/>
+        <path class="d" d="M620,288 L640,288 L640,78 L626,78" marker-end="url(#od)"/>
+        <path class="m" d="M437,316 L437,346"/>
+        <path class="m" d="M115,346 L565,346"/>
+        <path class="m" d="M115,346 L115,386" marker-end="url(#om)"/>
+        <path class="m" d="M265,346 L265,386" marker-end="url(#om)"/>
+        <path class="m" d="M415,346 L415,386" marker-end="url(#om)"/>
+        <path class="m" d="M565,346 L565,386" marker-end="url(#om)"/>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>payment traffic</span><span><i class="d"></i>rules / signals / data</span><span><i class="x"></i>external</span></div>
+
+    <h3>Provider health: failover and gradual return</h3>
+    <div class="diagram" role="img" aria-label="Provider states: healthy, degraded with an alert, excluded with traffic failed over to other providers, recovering with traffic returned step by step, then healthy again. Signals are queue length, response speed and SLA.">
+      <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="hd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--fg-2)"/></marker></defs>
+        <g text-anchor="middle">
+          <rect class="bm" x="20" y="40" width="140" height="60" rx="8"/><text class="t" x="90" y="65">Healthy</text><text class="s" x="90" y="84">full routing share</text>
+          <rect class="b" x="190" y="40" width="140" height="60" rx="8"/><text class="t" x="260" y="65">Degraded</text><text class="s" x="260" y="84">alert · watch</text>
+          <rect class="bx" x="360" y="40" width="140" height="60" rx="8"/><text class="t" x="430" y="65">Excluded</text><text class="s" x="430" y="84">failover elsewhere</text>
+          <rect class="b" x="530" y="40" width="140" height="60" rx="8"/><text class="t" x="600" y="65">Recovering</text><text class="s" x="600" y="84">5 → 25 → 50 → 100%</text>
+        </g>
+        <path class="sq c" d="M160,70 L184,70" marker-end="url(#hd)"/>
+        <path class="sq c" d="M330,70 L354,70" marker-end="url(#hd)"/>
+        <path class="sq c" d="M500,70 L524,70" marker-end="url(#hd)"/>
+        <path class="sq r" d="M600,100 L600,130 L90,130 L90,106" marker-end="url(#hd)"/>
+        <text class="lbl2" x="345" y="150" text-anchor="middle">return rules met → back to full share</text>
+        <text class="lbl2" x="345" y="180" text-anchor="middle">Signals: pending queue length · payment and response speed · SLA.</text><text class="lbl2" x="345" y="200" text-anchor="middle">Support and product can override in the admin panel.</text>
+      </svg>
+    </div>
+
+    <div class="tblwrap"><table class="tbl">
+      <thead><tr><th>State</th><th>Typical trigger</th><th>What routing does</th></tr></thead>
+      <tbody>
+        <tr><td>Degraded</td><td>Success rate 5+ pp below the provider's baseline for ~5 min, p95 response time over 2× normal, or a growing pending queue</td><td>Alert, keep routing, watch closely</td></tr>
+        <tr><td>Excluded</td><td>Timeouts or errors above 15–20% for 3–5 min, pending queue over its limit, or an SLA breach</td><td>No new traffic; soft declines fail over to the next provider</td></tr>
+        <tr><td>Recovering</td><td>Health checks pass again</td><td>5% → 25% → 50% → 100% of the normal share, 10–15 min per step; any relapse goes back to Excluded</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:10px">Values are illustrative and follow common industry practice; production thresholds were tuned per provider and country.</p>
+
+    <h3>One driver top-up, step by step</h3>
+    <div class="diagram" role="img" aria-label="Sequence: the driver taps top up; the payment service creates a transaction with an idempotency key, asks routing for a route, gets card data from the vault and charges PSP A. PSP A returns a soft decline, which is classified as retryable and reported to health; the same transaction is charged on PSP B, approved, the driver balance is credited and the app shows the new balance. PSP B later confirms by webhook for reconciliation. A hard decline is never retried; the app shows the reason.">
+      <svg class="seq" viewBox="0 0 1000 870" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="tm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="td" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--fg-2)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="b" x="18" y="16" width="124" height="50" rx="8"/><text class="t" x="80" y="38">Driver app</text><text class="s" x="80" y="56">top up</text>
+          <rect class="bm" x="163" y="16" width="124" height="50" rx="8"/><text class="t" x="225" y="38">Payment</text><text class="s" x="225" y="56">orchestration</text>
+          <rect class="b" x="308" y="16" width="124" height="50" rx="8"/><text class="t" x="370" y="38">Routing</text><text class="s" x="370" y="56">+ health</text>
+          <rect class="b" x="453" y="16" width="124" height="50" rx="8"/><text class="t" x="515" y="38">Card vault</text><text class="s" x="515" y="56">tokens</text>
+          <rect class="bx" x="598" y="16" width="124" height="50" rx="8"/><text class="t" x="660" y="38">PSP A</text><text class="s" x="660" y="56">via connector</text>
+          <rect class="bx" x="743" y="16" width="124" height="50" rx="8"/><text class="t" x="805" y="38">PSP B</text><text class="s" x="805" y="56">via connector</text>
+          <rect class="bm" x="876" y="16" width="118" height="50" rx="8"/><text class="t" x="935" y="38">Driver</text><text class="s" x="935" y="56">balance</text>
+        </g>
+        <g class="ll"><path d="M80,66 V850"/><path d="M225,66 V850"/><path d="M370,66 V850"/><path d="M515,66 V850"/><path d="M660,66 V850"/><path d="M805,66 V850"/><path d="M935,66 V850"/></g>
+
+        <path class="sq c" d="M80,120 H219" marker-end="url(#td)"/><text class="lbl" x="90" y="112">1 Top up balance</text><text class="lbl2" x="90" y="138">amount · saved card · Idempotency-Key</text>
+        <path class="sq r" d="M225,168 H261 V194 H231" marker-end="url(#td)"/><text class="lbl" x="270" y="180">2 Create transaction · state created</text>
+        <path class="sq c" d="M225,232 H364" marker-end="url(#td)"/><text class="lbl" x="235" y="224">3 Pick route</text>
+        <path class="sq r" d="M370,270 H231" marker-end="url(#td)"/><text class="lbl" x="360" y="262" text-anchor="end">4 PSP A, then B</text><text class="lbl2" x="360" y="292" text-anchor="end">cost · limits · health</text>
+        <path class="sq c" d="M225,326 H509" marker-end="url(#td)"/><text class="lbl" x="505" y="318" text-anchor="end">5 Card data for PSP A</text>
+        <path class="sq m" d="M225,366 H654" marker-end="url(#tm)"/><text class="lbl" x="650" y="358" text-anchor="end">6 Charge</text><text class="lbl2" x="235" y="388">3DS challenge in the app if required</text>
+        <path class="sq r" d="M660,414 H231" marker-end="url(#td)"/><text class="lbl" x="650" y="406" text-anchor="end">7 Soft decline: issuer timeout</text>
+        <path class="sq r" d="M225,440 H261 V466 H231" marker-end="url(#td)"/><text class="lbl" x="270" y="452">8 Soft → retry allowed</text>
+        <path class="sq c" d="M225,500 H364" marker-end="url(#td)"/><text class="lbl" x="235" y="492">PSP A error → health</text>
+        <path class="sq m" d="M225,540 H799" marker-end="url(#tm)"/><text class="lbl" x="795" y="532" text-anchor="end">9 Charge, attempt 2, same transaction</text>
+        <path class="sq r" d="M805,578 H231" marker-end="url(#td)"/><text class="lbl" x="795" y="570" text-anchor="end">10 Approved</text>
+        <path class="sq m" d="M225,618 H929" marker-end="url(#tm)"/><text class="lbl" x="925" y="610" text-anchor="end">11 Credit driver balance · state succeeded</text>
+        <path class="sq r" d="M225,656 H86" marker-end="url(#td)"/><text class="lbl" x="215" y="648" text-anchor="end">12 New balance</text>
+        <path class="sq r" d="M805,696 H231" marker-end="url(#td)"/><text class="lbl" x="795" y="688" text-anchor="end">13 Webhook: final status</text><text class="lbl2" x="795" y="718" text-anchor="end">async · reconciliation</text>
+
+        <rect class="frame" x="12" y="742" width="560" height="104" rx="6"/>
+        <rect class="frametag" x="12" y="742" width="44" height="22" rx="6"/><text class="lbl" x="34" y="758" text-anchor="middle">alt</text>
+        <text class="lbl2" x="66" y="758">hard decline at step 7: insufficient funds, blocked card</text>
+        <path class="sq r" d="M225,800 H86" marker-end="url(#td)"/><text class="lbl" x="235" y="792">No retry · show reason</text><text class="lbl2" x="235" y="818">ask for another card</text>
+
+        <rect class="note" x="590" y="742" width="400" height="104" rx="8"/>
+        <text class="lbl" x="606" y="768">A second tap or a network retry</text>
+        <text class="lbl2" x="606" y="790">carries the same Idempotency-Key and returns the</text>
+        <text class="lbl2" x="606" y="810">same transaction: one top-up, one charge, even</text>
+        <text class="lbl2" x="606" y="830">when the attempt moved from PSP A to PSP B.</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money movement</span><span><i class="d2"></i>call</span><span><i class="r2"></i>response / callback</span></div>
+
+    <h3>How we moved 40+ countries without a big-bang switch</h3>
+    <div class="two">
+      <div class="card"><h4>1 · Orchestrators go under our layer</h4><p>The two external orchestrators were connected to our orchestration as ordinary connectors, so every payment already went through our routing and state model.</p></div>
+      <div class="card"><h4>2 · Dial traffic over to direct PSPs</h4><p>Country by country, traffic moved from the orchestrators to direct PSP connectors in steps, with the old path one rule away if something went wrong.</p></div>
+      <div class="card"><h4>3 · Migrate tokens provider by provider</h4><p>Cards started on provider tokens; we migrated them over a secure channel, one provider at a time, into our own vault. Going by provider rather than by country matched how the tokens were actually held.</p></div>
+      <div class="card"><h4>4 · Keep a share on the orchestrators</h4><p>We agreed with the orchestrators to keep part of the traffic: a live backup route, and an integration that stays working instead of rotting unused.</p></div>
+    </div>
+
+    <h3>Key decisions</h3>
+    <div class="two">
+      <div class="card"><h4>Rules in our admin, owned by the business</h4><p>Commercial routing is a business decision, so the business sets it; support and product step in on drops and failures without a release.</p></div>
+      <div class="card"><h4>Classify declines before retrying</h4><p>Soft declines can fail over to another provider; hard declines cannot. One internal state model makes that rule the same in every country.</p></div>
+      <div class="card"><h4>Exclude fast, return slowly</h4><p>A degraded provider leaves the routing quickly but comes back in steps, so one recovery blip does not hit full traffic.</p></div>
+      <div class="card"><h4>Own the card vault</h4><p>Tokens in our vault (PCI DSS Service Provider) mean cards are not tied to the PSP that first saw them, which is what makes routing across providers real.</p></div>
+    </div>
+
+    <p class="note">Generalised from my work at a ride-hailing super-app. Diagrams redrawn from scratch; provider names omitted.</p>
+    <a class="backtop" href="#top">↑ Back to contents</a>
+  </section>
+  <footer class="foot">
+    <div><b>Ekaterina Deys</b> · Lead Technical PM, payments and money movement</div>
+    <div><a href="mailto:katedeys@gmail.com">katedeys@gmail.com</a> · <a href="https://linkedin.com/in/kate-deys">linkedin.com/in/kate-deys</a> · open to product and solutions roles from November 2026, remote or relocation</div>
+  </footer>
+</div>
+<script>
+(function () {
+  var links = document.querySelectorAll(".topin a.tl");
+  if (!("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (l) { l.classList.toggle("on", l.dataset.s === e.target.id); });
+    });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll("section.case").forEach(function (s) { io.observe(s); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ekaterina Deys — CV</title>
+<style>
+  @page { size: A4; margin: 14mm 15mm 14mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 9.6pt; line-height: 1.38; color: #1a1a1a; margin: 0; }
+  h1 { font-size: 21pt; letter-spacing: 0.5px; margin: 0; font-weight: 700; }
+  .title { font-size: 11pt; color: #1f4e79; font-weight: 600; margin: 2px 0 4px; }
+  .contact { font-size: 9pt; color: #444; }
+  .contact a { color: #444; text-decoration: none; }
+  h2 { font-size: 10pt; text-transform: uppercase; letter-spacing: 1.2px; color: #1f4e79; border-bottom: 1px solid #c9d6e3; padding-bottom: 2px; margin: 13px 0 6px; }
+  p { margin: 0 0 4px; }
+  ul { margin: 2px 0 0; padding-left: 15px; }
+  li { margin: 0 0 2.5px; }
+  .job { margin-bottom: 8px; } .job-head, .company { break-after: avoid; } li { break-inside: avoid; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .role { font-weight: 700; font-size: 10pt; }
+  .dates { color: #555; font-size: 9pt; white-space: nowrap; }
+  .company { color: #444; font-size: 9pt; margin-bottom: 1px; }
+  .skills p { margin-bottom: 3px; }
+  .skills b { color: #1a1a1a; }
+</style>
+</head>
+<body>
+
+<h1>EKATERINA DEYS</h1>
+<div class="title">Senior Product Manager | Payments, Risk &amp; Authentication Flows</div>
+<div class="contact">Kazakhstan · Available from November 2026 · Remote · Open to relocation · <a href="mailto:katedeys@gmail.com">katedeys@gmail.com</a> · <a href="https://linkedin.com/in/kate-deys">linkedin.com/in/kate-deys</a></div>
+
+<h2>Professional Summary</h2>
+<p>Senior technical product manager with 10+ years in tech (7+ in product) across fintech, payments and platform products. Owns backend money-movement platforms whose users are other teams: payment orchestration across 40 countries, credit disbursement and repayment pipelines, and provider integration frameworks. Translates business, finance, security and compliance requirements (PCI DSS, KYC/AML) into transaction lifecycles, API contracts, state models and reconciliation rules, and turns one-off integrations into repeatable processes. Works across Engineering, Finance, Security, Compliance and external partners, leading through written specs in remote, asynchronous teams. Uses AI tools daily for analysis, spec writing and prototyping.</p>
+
+<h2>Selected Impact</h2>
+<ul>
+  <li>Made partner onboarding repeatable: one integration contract for 4+ PSP, EMI and acquiring partners turned unpredictable timelines into a steady 2.5 weeks.</li>
+  <li>Reduced cost to serve by ~$100K/month (~20%) through cost-aware in-house payment routing at inDrive.</li>
+  <li>Reached a 96.4% provider SLA through health monitoring, automatic provider exclusion and traffic restoration.</li>
+  <li>Led PCI DSS Service Provider certification across Product, Engineering, Security and Compliance.</li>
+  <li>Built lending payments in Malaysia: repayments with 2 partners and 3 methods each, asynchronous disbursements that removed manual payout investigations entirely, and Virtual IBANs that reconcile 100% of bank-transfer repayments automatically.</li>
+</ul>
+
+<h2>Professional Experience</h2>
+
+<div class="job">
+  <div class="job-head"><span class="role">Lead Technical Product Manager — Payments Platform</span><span class="dates">Oct 2025 – Oct 2026</span></div>
+  <div class="company">Lending fintech, Southeast Asia (NDA) · Malaysia (remote) · contract; part-time Oct 2025 – Jan 2026 alongside inDrive, full-time from Feb 2026</div>
+  <ul>
+    <li>Owned product direction for the payments platform behind credit products (disbursements, repayments, wallet operations, partner integrations), used by lending and origination teams.</li>
+    <li>Defined the credit-line money flows between BFF and Credit Engine: drawdowns, repayments, balance and minimum-payment calculation, with cached retrieval and refresh triggered by balance-changing events.</li>
+    <li>Designed asynchronous full-payoff calculation with invalidation and revalidation before execution, so customers are charged the exact amount owed at payment time.</li>
+    <li>Designed asynchronous disbursement flows with callbacks, status checks, idempotency, retries and reconciliation to prevent duplicate or missed money movements, which removed manual payout investigations entirely.</li>
+    <li>Launched multi-channel repayments in Malaysia with 2 partners and 3 methods each (cards via PSPs, bank transfers via Virtual IBANs, cash) and the payment event model feeding the Credit Engine.</li>
+    <li>Defined integration contracts with PSPs and banks: request/response schemas, transaction identifiers, status transitions, error mapping and validation rules.</li>
+    <li>Designed Virtual IBAN issuance within loan origination, including async callbacks, timeouts, retries and duplicate-account closure; 100% of bank-transfer repayments now reconcile automatically.</li>
+    <li>Defined monitoring and alerting requirements for the credit payouts rollout and supported its operational launch.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Technical Product Manager — Payments</span><span class="dates">Jan 2023 – Jan 2026</span></div>
+  <div class="company">inDrive · Astana, Kazakhstan</div>
+  <ul>
+    <li>Built the payment orchestration platform end to end, from discovery and solution design through partner integrations, pilot and rollout, scaling from 4 to 40+ countries.</li>
+    <li>Designed cost-aware routing based on provider priority, amount, limits, geographic coverage and processing cost, saving ~$100K/month (~20%).</li>
+    <li>Designed failover logic using soft/hard decline classification, defining retry eligibility and alternative routing paths.</li>
+    <li>Defined unified status and error mapping, aligning external provider responses with one internal transaction state model for consistent, auditable outcomes.</li>
+    <li>Designed provider health management (backlogs, timeouts, alerts, support signals), automatic exclusion and gradual traffic restoration, reaching a 96.4% SLA.</li>
+    <li>Led PCI DSS Service Provider certification, coordinating Product, Engineering, Security and Compliance.</li>
+    <li>Optimized payment flows, growing transaction volume by 1.5%; managed PSP relationships across integrations, incidents and performance reviews.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Lead Product Manager</span><span class="dates">May 2022 – Jan 2023</span></div>
+  <div class="company">Tinkoff Bank · Russia</div>
+  <ul>
+    <li>Automated merchant onboarding, cutting it from 1 month to 2 weeks and reducing support volume by 23%.</li>
+    <li>Introduced an OKR-based discovery-to-delivery operating model; hired 3 PMs after 40+ interviews and ran a junior-to-middle mentoring programme.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Lead / Senior Product Manager</span><span class="dates">Jun 2020 – May 2022</span></div>
+  <div class="company">Sbermarket · Russia</div>
+  <ul>
+    <li>Built financial reconciliation and reporting products for the top 40 retailers, cutting report preparation from 1 day to 1.5 hours.</li>
+    <li>Launched a paid SMB analytics subscription MVP (3 of 5 pilot retailers converted to paid); reduced retailer churn by 15%.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Product Manager</span><span class="dates">Jan 2019 – Jun 2020</span></div>
+  <div class="company">Drom.ru · Russia</div>
+  <ul>
+    <li>Designed and launched a CPA monetization model adopted by 90% of wholesale sellers; reduced listing errors from 20% to 4% through automation.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Project Manager</span><span class="dates">2015 – 2018</span></div>
+  <div class="company">Interfaced</div>
+</div>
+
+<h2>Additional Experience</h2>
+<div class="job">
+  <div class="job-head"><span class="role">Financial Operations &amp; Risk (part-time)</span><span class="dates">Jan 2022 – Jan 2023</span></div>
+  <div class="company">Cyprus · part-time contract alongside full-time roles at Sbermarket and Tinkoff Bank</div>
+  <ul>
+    <li>Automated corporate actions processing, cutting it from 1 day to 10 minutes; supported acquiring and KYC integrations, reducing KYC turnaround by 15%.</li>
+  </ul>
+</div>
+
+<h2>Skills</h2>
+<div class="skills">
+  <p><b>Billing &amp; monetization:</b> pricing model launches (CPA, subscriptions) · balances, drawdowns &amp; repayments · reconciliation · settlements · refunds &amp; reversals · financial reporting · cost to serve</p>
+  <p><b>Platform &amp; integration:</b> API contracts · transaction lifecycle &amp; state models · async integrations · callbacks &amp; webhooks · idempotency · retries · error mapping · monitoring &amp; alerting</p>
+  <p><b>Payments &amp; compliance:</b> orchestration · routing &amp; failover · PSP/acquirer/EMI/bank integrations · Virtual IBANs · PCI DSS (Service Provider) · KYC/AML</p>
+  <p><b>Ways of working:</b> written specs &amp; async decision-making · cross-functional work with Finance, Security &amp; Compliance · AI-assisted analysis and spec writing · SQL · Grafana · Amplitude · Mixpanel</p>
+</div>
+
+<h2>Education &amp; Languages</h2>
+<p>Tomsk State University — Applied Mathematics and Cybernetics, 2014</p>
+<p>Russian — Native · English — C1</p>
+
+</body>
+</html>

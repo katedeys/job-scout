@@ -1,0 +1,7 @@
+secrets/*
+!secrets/telegram.env.example
+scout/data/*
+!scout/data/README.md
+github-export/
+portfolio/site-repo/
+.DS_Store

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PM market by geography</title>
+<style>
+  :root {
+    --surface: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-3: #8a8983;
+    --grid: #e7e6e2;
+    --bar: #c9c8c1;
+    --accent: #2a78d6;
+    --accent-soft: #e3eefb;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 1350px; background: var(--surface); color: var(--ink);
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 64px 72px; }
+  .eyebrow { font-size: 22px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  h1 { font-size: 52px; line-height: 1.12; margin-top: 14px; font-weight: 800; letter-spacing: -0.5px; }
+  .sub { font-size: 24px; color: var(--ink-2); margin-top: 14px; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 38px; }
+  .kpi { border-top: 3px solid var(--ink); padding-top: 12px; }
+  .kpi.hl { border-top-color: var(--accent); }
+  .kpi b { display: block; font-size: 46px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .kpi.hl b { color: var(--accent); }
+  .kpi span { font-size: 19px; color: var(--ink-2); line-height: 1.3; display: block; margin-top: 4px; }
+  .chart { margin-top: 44px; }
+  .row { display: grid; grid-template-columns: 300px 1fr 60px; align-items: center; height: 46px; }
+  .label { font-size: 22px; color: var(--ink); }
+  .row.hl .label { font-weight: 700; color: var(--accent); }
+  .track { position: relative; height: 26px; }
+  .bar { position: absolute; left: 0; top: 0; height: 26px; background: var(--bar); border-radius: 0 4px 4px 0; }
+  .row.hl .bar { background: var(--accent); }
+  .val { font-size: 22px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  .row.hl .val { color: var(--accent); }
+  .note { position: absolute; font-size: 19px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 48px; font-size: 17px; color: var(--ink-3); line-height: 1.45;
+          border-top: 1px solid var(--grid); padding-top: 14px; }
+</style>
+</head>
+<body>
+  <div class="eyebrow">Product manager roles · Fintech &amp; tech · 27 Oct 2026</div>
+  <h1>Where the PM jobs are — and how few are truly remote</h1>
+  <div class="sub">226 open product roles at 82 fintech and tech companies, by location</div>
+
+  <div class="kpis">
+    <div class="kpi"><b>226</b><span>PM openings out of 4,906 roles (4.6%)</span></div>
+    <div class="kpi"><b>63%</b><span>are Senior, Lead, Staff or Head level</span></div>
+    <div class="kpi"><b>28%</b><span>are in the US or US-only remote</span></div>
+    <div class="kpi hl"><b>8%</b><span>are remote and open to Europe or anywhere</span></div>
+  </div>
+
+  <div class="chart" id="chart"></div>
+
+  <div class="foot">Snapshot of public job boards (Greenhouse, Lever, Ashby, Workable, SmartRecruiters and others) of 82 companies I track, mostly payments and fintech, skewed to Europe and the Middle East. Product titles only (PM, PO, TPM, product lead/head); 8 roles with unclear location left out. Built with my own job-search bot.</div>
+
+<script>
+  const rows = [
+    ["Remote · US / Americas only", 37, "us"],
+    ["Netherlands", 28],
+    ["US & Canada (on-site)", 27, "us"],
+    ["UK", 26],
+    ["Other EU countries", 23],
+    ["APAC, LatAm, Africa, KSA", 19],
+    ["Remote · Europe / anywhere", 18, "hl"],
+    ["Israel", 14],
+    ["Germany", 8],
+    ["Spain & Portugal", 6],
+    ["Serbia", 5],
+    ["Poland", 3],
+    ["Austria", 2],
+    ["UAE", 2]
+  ];
+  const max = 40, trackPx = 1200 - 144 - 300 - 60;
+  const el = document.getElementById("chart");
+  el.innerHTML = rows.map(([l, v, c]) =>
+    `<div class="row ${c || ""}"><div class="label">${l}</div>
+       <div class="track"><div class="bar" style="width:${(v / max) * 100}%"></div>
+       ${c === "hl" ? `<div class="note" style="left:calc(${(v / max) * 100}% + 14px); top:-1px">← no US work rights or relocation needed</div>` : ""}</div>
+       <div class="val">${v}</div></div>`).join("");
+</script>
+</body>
+</html>

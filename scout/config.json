@@ -1,0 +1,73 @@
+{
+  "tracker_url": "https://claude.ai/artifact/GJyah42UiqHbFTZ5jfmowa",
+  "cv_versions": {
+    "general_pm": {
+      "file": "../Ekaterina_Deys_Lead_Technical_PM_Payments_CV.pdf",
+      "asset_url": "/_blob/d05cacec5af315ecde5d6fd486fb3094",
+      "name": "Lead Technical PM (общая)",
+      "use_for": "payments PM / lead PM / technical PM, default"
+    },
+    "solutions_architect": {
+      "file": "../Ekaterina_Deys_Payments_Solutions_Architect_CV.pdf",
+      "asset_url": "/_blob/ccc2d4376c4a5631927fd580edcbe812",
+      "name": "Solutions Architect",
+      "use_for": "solutions architect/engineer, pre-sales, integration, implementation"
+    },
+    "billing_platform_pm": {
+      "file": "../Ekaterina_Deys_Senior_PM_Billing_GitLab.pdf",
+      "asset_url": "/_blob/ed92dac1ec9af171fa2d99646c000010",
+      "name": "Billing / Platform PM",
+      "use_for": "billing, monetization, platform PM"
+    },
+    "client_pm": {
+      "file": "../Ekaterina_Deys_Product_Manager_Ingsoftware.pdf",
+      "asset_url": "/_blob/a0cd064e6f426afa7aaca262f2ec2926",
+      "name": "Product Manager (клиентский)",
+      "use_for": "agencies/outsourcing, client-facing generalist PM"
+    },
+    "salmon_nda": {
+      "file": "../tailored/Ekaterina_Deys_Senior_PM_Billing_Monetization_Payments.pdf",
+      "asset_url": "/_blob/55cb02c39ef0946a5a9d1c960ad1a629",
+      "name": "Senior PM Billing/Payments (NDA для конкурентов SkyRo)",
+      "use_for": "Salmon and other Southeast Asian lenders (SkyRo competitors)"
+    },
+    "pricing_monetization": {
+      "file": "../tailored/Ekaterina_Deys_PM_Pricing_Monetization_Nebius.pdf",
+      "asset_url": "/_blob/2cc30658b2777491a93301ac4a030a24",
+      "name": "Pricing / Monetization",
+      "use_for": "pricing, billing platform, monetization roles"
+    }
+  },
+  "salary_floor": {
+    "note": "Её ориентир: в идеале от €7,000/мес. Пороги ниже — минимум, ниже которого не опускаться в анкете; target — что писать по умолчанию. Рыночные ориентиры осени 2026, приблизительно.",
+    "remote_contractor": {
+      "floor": "€6,000/мес",
+      "target": "€7,000–8,000/мес"
+    },
+    "eu_relocation_amsterdam_london_berlin": {
+      "floor": "€85,000/год gross",
+      "target": "€95,000–110,000/год gross"
+    },
+    "dubai_uae": {
+      "floor": "AED 35,000/мес (без налога)",
+      "target": "AED 40,000–45,000/мес"
+    },
+    "armenia_serbia_georgia_local": {
+      "floor": "€5,000/мес",
+      "target": "€6,000–7,000/мес"
+    }
+  },
+  "no_go": {
+    "note": "Не предлагать роли с переездом сюда; удалённые роли этих компаний — можно.",
+    "relocation": [
+      "Mexico",
+      "United States",
+      "Canada"
+    ],
+    "easy_relocation": [
+      "Serbia"
+    ]
+  },
+  "portfolio_url": "https://katedeys.github.io/katedeys-portfolio/",
+  "portfolio_draft_artifact": "https://claude.ai/artifact/YcJmY9mqvXa25bsLpwKEvj"
+}

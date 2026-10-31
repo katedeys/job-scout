@@ -1,0 +1,39 @@
+# Трекер
+
+Claude-артефакт «Job Scout» с общей базой данных. Ссылка в `scout/config.json → tracker_url`.
+Код страницы лежит в `tracker/tracker.html`, а данные — в коллекции `jobs` базы артефакта.
+
+## Вкладки и статусы
+
+| Вкладка | Статусы |
+|---|---|
+| Откликнуться | `new` |
+| Ждём ответа | `applied` |
+| В процессе | `replied`, `interview`, `offer` |
+| Закрытые | `rejected`, `skipped` |
+| Все | всё |
+
+Статус можно менять прямо на странице. Кнопка ✅ в Telegram переводит `new` → `applied` в утреннем прогоне.
+
+## Поля документа
+
+| Поле | Что значит |
+|---|---|
+| `company`, `title`, `url`, `location` | Вакансия |
+| `location_ok` | `true` — подходит, `false` — нужно резидентство или это no-go страна, `null` — неясно |
+| `track` | `PM-payments`, `PM-adjacent`, `PM`, `SA`, `Expansion`, `Consulting`, `Нетворкинг`, `Отклик` (импорт из почты) |
+| `score`, `why` | Оценка 1–10 и почему, одной строкой |
+| `salary`, `salary_estimate`, `salary_basis`, `salary_ask` | Вилка из вакансии, оценка, на чём основана, что писать в анкете |
+| `cv_name`, `cv_url` | Какая версия CV, PDF в хранилище артефакта |
+| `cover` | Текст письма (для нетворкинга — текст сообщения или напоминания) |
+| `status`, `applied_at`, `rejected_at` | Статус и даты |
+| `followup_on` | Дата напоминания (для контактов) |
+| `notes` | История: даты, ответы, что делали |
+
+## ID документов
+
+Префикс показывает источник: `gh-` Greenhouse, `lv-` Lever, `ab-` Ashby, `wk-` Workable, `sr-` SmartRecruiters, `rc-` Recruitee, `pp-` Pinpoint, `bh-` BambooHR, `tt-` Teamtailor, `sam-` staff.am, `li-` LinkedIn, `web-` сайт, `mail-` из почты, `net-` нетворкинг, `manual-` вручную.
+
+## Как поменять что-то в трекере через Claude
+
+Попроси обычными словами, например «отметь Monzo как интервью» или «добавь отклик в Fundraise Up». Claude пишет в базу через ArtifactData: точечно, с проверкой версии документа, так что твои правки на странице не перетираются.

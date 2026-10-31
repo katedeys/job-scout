@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Payments outside fintech</title>
+<style>
+  :root {
+    --surface: #fcfcfb;
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-3: #8a8983;
+    --grid: #e7e6e2;
+    --bar: #c9c8c1;
+    --accent: #2a78d6;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1200px; height: 1350px; background: var(--surface); color: var(--ink); position: relative;
+         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 64px 72px; }
+  .eyebrow { font-size: 22px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  h1 { font-size: 52px; line-height: 1.12; margin-top: 14px; font-weight: 800; letter-spacing: -0.5px; }
+  .sub { font-size: 24px; color: var(--ink-2); margin-top: 14px; line-height: 1.35; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 38px; }
+  .kpi { border-top: 3px solid var(--ink); padding-top: 12px; }
+  .kpi.hl { border-top-color: var(--accent); }
+  .kpi b { display: block; font-size: 46px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .kpi.hl b { color: var(--accent); }
+  .kpi span { font-size: 19px; color: var(--ink-2); line-height: 1.3; display: block; margin-top: 4px; }
+  .chart-title { margin-top: 48px; font-size: 22px; font-weight: 700; }
+  .chart { margin-top: 18px; display: grid; gap: 22px; }
+  .row { display: grid; grid-template-columns: 330px 1fr 50px; align-items: center; column-gap: 0; }
+  .label { font-size: 22px; font-weight: 600; }
+  .track { position: relative; height: 26px; }
+  .bar { position: absolute; left: 0; top: 0; height: 26px; background: var(--accent); border-radius: 0 4px 4px 0; }
+  .val { font-size: 22px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  .ex { grid-column: 1 / -1; font-size: 18px; color: var(--ink-2); margin-top: 6px; line-height: 1.35; }
+  .callout { margin-top: 56px; border-left: 4px solid var(--accent); padding: 6px 0 6px 24px; font-size: 30px; line-height: 1.3; font-weight: 700; }
+  .callout span { display: block; font-size: 21px; font-weight: 400; color: var(--ink-2); margin-top: 8px; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 48px; font-size: 17px; color: var(--ink-3); line-height: 1.45;
+          border-top: 1px solid var(--grid); padding-top: 14px; }
+</style>
+</head>
+<body>
+  <div class="eyebrow">Product roles · Non-fintech tech companies · 28 Oct 2026</div>
+  <h1>Payments work outside fintech rarely says “payments”</h1>
+  <div class="sub">Open product roles at marketplaces, travel, delivery, mobility, AI cloud and SaaS companies that own money, risk or integrations</div>
+
+  <div class="kpis">
+    <div class="kpi"><b>30</b><span>non-fintech tech companies</span></div>
+    <div class="kpi"><b>76</b><span>open product roles</span></div>
+    <div class="kpi"><b>17</b><span>own money, risk or integrations (22%)</span></div>
+    <div class="kpi hl"><b>0</b><span>have “payments” in the title</span></div>
+  </div>
+
+  <div class="chart-title">What those 17 roles are called instead</div>
+  <div class="chart" id="chart"></div>
+  <div class="callout">Search for “payments product manager” and you miss all 17.<span>Same skills, different words: money flows, partners and risk hide under pricing, platform, trust or marketplace.</span></div>
+
+  <div class="foot">Public job boards (Greenhouse, Lever, Ashby, SmartRecruiters and others) of 30 non-fintech companies I track, mostly Europe and Israel. Product titles only (PM, PO, TPM, product lead/head); duplicates of one role in several cities counted once. Small sample, sorted by hand. Built with my own job-search bot.</div>
+
+<script>
+  const rows = [
+    ["Fraud, trust & compliance", 5, "Anti Fraud · Trust & Compliance · Identity · Compliance"],
+    ["Partners, APIs & marketplaces", 4, "API Marketplace · Loyalty Partners · Marketplace · M&A Integration"],
+    ["Pricing & billing", 3, "Pricing · Commercial Agreements & Pricing · Billing & Subscriptions"],
+    ["Checkout, tax & commerce", 3, "Checkout & Post-Order · Tax Platform · E-Commerce"],
+    ["Market & site launches", 2, "New Data Center Launches"]
+  ];
+  const max = 6;
+  document.getElementById("chart").innerHTML = rows.map(([l, v, ex]) =>
+    `<div class="row"><div class="label">${l}</div>
+       <div class="track"><div class="bar" style="width:${(v / max) * 100}%"></div></div>
+       <div class="val">${v}</div>
+       <div class="ex">${ex}</div></div>`).join("");
+</script>
+</body>
+</html>

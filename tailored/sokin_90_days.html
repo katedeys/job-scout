@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ekaterina Deys — 90-day plan, Sokin</title>
+<style>
+  @page { size: A4; margin: 14mm 15mm 14mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 9.6pt; line-height: 1.38; color: #1a1a1a; margin: 0; }
+  h1 { font-size: 21pt; letter-spacing: 0.5px; margin: 0; font-weight: 700; }
+  .title { font-size: 11pt; color: #1f4e79; font-weight: 600; margin: 2px 0 4px; }
+  .contact { font-size: 9pt; color: #444; }
+  .contact a { color: #444; text-decoration: none; }
+  h2 { font-size: 10pt; text-transform: uppercase; letter-spacing: 1.2px; color: #1f4e79; border-bottom: 1px solid #c9d6e3; padding-bottom: 2px; margin: 13px 0 6px; }
+  p { margin: 0 0 4px; }
+  ul { margin: 2px 0 0; padding-left: 15px; }
+  li { margin: 0 0 2.5px; }
+  .job { margin-bottom: 8px; } .job-head, .company { break-after: avoid; } li { break-inside: avoid; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .role { font-weight: 700; font-size: 10pt; }
+  .dates { color: #555; font-size: 9pt; white-space: nowrap; }
+  .company { color: #444; font-size: 9pt; margin-bottom: 1px; }
+  .skills p { margin-bottom: 3px; }
+  .skills b { color: #1a1a1a; }
+  .lead { font-size: 10pt; margin: 4px 0 8px; }
+  .phase { margin-bottom: 9px; break-inside: avoid; }
+  .phase h3 { font-size: 10pt; margin: 0 0 2px; color: #1a1a1a; }
+  .phase .goal { color: #1f4e79; font-weight: 600; font-size: 9.3pt; margin-bottom: 2px; }
+  table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 4px 0 6px; }
+  th, td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #dde3ea; vertical-align: top; }
+  th { color: #1f4e79; font-weight: 600; }
+  .note { color: #555; font-size: 8.8pt; }
+</style>
+</head>
+<body>
+<h1>EKATERINA DEYS</h1>
+<div class="title">Payment Success at Sokin — my first 90 days</div>
+<div class="contact">Product Manager, Payment Success · Belgrade · katedeys@gmail.com · linkedin.com/in/kate-deys</div>
+
+<p class="lead">This plan is written from the outside, based on the job description and how cross-border B2B payments usually break. I would treat every point as a hypothesis, test it against Sokin's data in the first two weeks, and rewrite the plan with the team. The goal stays the same: more payments go straight through, and clients always know where their money is.</p>
+
+<h2>How I would measure payment success</h2>
+<table>
+  <tr><th>Metric</th><th>Why it matters</th></tr>
+  <tr><td><b>Straight-through processing rate</b></td><td>Share of payments that complete with no manual repair or client follow-up. The headline number for the role.</td></tr>
+  <tr><td><b>First-time submission success</b></td><td>Payments rejected at creation or by a partner show where rules or validation are missing.</td></tr>
+  <tr><td><b>Repairs and manual touches per 1,000 payments</b></td><td>The operations cost of every gap in the rules.</td></tr>
+  <tr><td><b>Status-related tickets per 1,000 payments</b></td><td>"Where is my payment?" questions measure how good tracking really is.</td></tr>
+  <tr><td><b>Time to final status, by corridor</b></td><td>Speed clients feel; the base for honest ETAs.</td></tr>
+</table>
+
+<h2>Days 1–30 · Learn and set the baseline</h2>
+<div class="phase">
+  <div class="goal">Outcome: one shared picture of where payments fail and what each failure costs.</div>
+  <ul>
+    <li>Map the payment lifecycle end to end: creation and rules, validation, routing, submission to partners, confirmation, tracking, returns.</li>
+    <li>Build a failure taxonomy from transaction-level data: rejections by rule, partner, corridor, currency and reason code. Size each bucket in payments, money and ops hours.</li>
+    <li>Sit with Operations, Support and Compliance on real repairs and tickets; learn which checks exist for regulatory reasons and must stay.</li>
+    <li>Agree baseline metrics and one dashboard the tribe trusts; ship 2–3 quick wins (clearer validation messages, missing pre-checks on beneficiary data).</li>
+  </ul>
+</div>
+
+<h2>Days 31–60 · Fix the biggest leaks</h2>
+<div class="phase">
+  <div class="goal">Outcome: the top three failure buckets measurably smaller.</div>
+  <ul>
+    <li>Move checks to payment creation: corridor-specific beneficiary and purpose-code rules, so bad payments are fixed by the client before submission instead of repaired by Ops after.</li>
+    <li>One internal payment state model with clear reason codes, mapped from every partner's responses. At inDrive this single model is what made outcomes consistent for finance and support.</li>
+    <li>Client-facing tracking built on that model: plain-language status, the reason when something is held, and the next step.</li>
+    <li>Partner health monitoring and alerts (backlogs, timeouts, reject spikes), so degradation is caught before clients notice.</li>
+  </ul>
+</div>
+
+<h2>Days 61–90 · Make it scale and prepare the ML bets</h2>
+<div class="phase">
+  <div class="goal">Outcome: a platform regional teams can build on, and a ranked roadmap for H1.</div>
+  <ul>
+    <li>Routing and fallback rules per corridor by success, speed and cost, with a clear owner and change process.</li>
+    <li>Pick the first ML use case by data readiness and value. Likely candidates from the JD: failure prediction before submission, delivery-time prediction for ETAs, routing decisions. Start with one pilot and a clear success metric.</li>
+    <li>A monthly payment success review with Engineering, Ops and Compliance, plus a roadmap that balances fixes, platform work and expansion needs.</li>
+  </ul>
+</div>
+
+<h2>What I bring to this</h2>
+<ul>
+  <li><b>Routing, failover and provider health:</b> payment orchestration across 40 countries at inDrive, cost-based routing (~$100K/month saved), failover on soft/hard declines, 96.4% provider SLA.</li>
+  <li><b>Correct, auditable money movement:</b> disbursements with idempotency, retries and reconciliation; PSP, EMI and bank integration contracts with error mapping (SkyRo).</li>
+  <li><b>Compliance as a partner:</b> led PCI DSS Service Provider certification with Security and Compliance.</li>
+</ul>
+<p class="note">Questions I would bring to the first week: which corridors carry most volume and most repairs; where STP is lost today (creation, partner rejects or returns); how repairs are handled now; which partner signals we already capture. Most of my hands-on experience is with card and PSP flows; cross-border rails and local schemes are where I would invest time first.</p>
+</body>
+</html>
