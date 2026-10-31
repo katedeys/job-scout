@@ -26,6 +26,20 @@ of the tracker (`tracker_url` in config.json); read it with the ArtifactData too
   doc backwards from replied/interview/offer/rejected). No Telegram message per item; DAILY.md mentions the count in
   the digest ("✅ Отмечено откликов из Telegram: N").
 
+- `type: "vacancy"` — she sent a vacancy to the bot: `{id: "tg-…", url, text, ts}`. This line has no tracker doc yet.
+  1. Merge: a line with a linkedin.com `url` and a following line within 15 minutes that has only `text` are one vacancy.
+  2. Get the description: open `url` (never linkedin.com; use the pasted `text` for LinkedIn). If the URL is a known ATS
+     (Greenhouse, Lever, Ashby, Workable, SmartRecruiters…), use its API and its id format (`gh-…`, `lv-…`) as the doc id;
+     otherwise `web-<company>-<role>` in kebab case. If the doc already exists in the tracker, update it instead of creating one.
+     If neither the page nor the text gives a description, send "Не смогла открыть вакансию: пришли текст одним сообщением" and stop for this line.
+  3. Assess exactly as DAILY.md step 4 (score 1–10, location_ok, why, track, cv) and estimate the salary as step 5b, even if
+     the score is low: she asked for this one. Be honest in `why` when it is a weak fit.
+  4. Write the cover letter (style rules below and in DAILY.md, portfolio link for SA and technical PM roles; NDA rules for
+     SkyRo competitors), make a tailored CV only if the role clearly needs a different emphasis.
+  5. Create or update the tracker doc (`source: "Telegram"`, `added`: today, status "new"), render the cover PDF and send the card:
+     `./send_job_docs.sh <caption.html> <cv.pdf> <cover.pdf> <doc id>` with caption "📥 Твоя вакансия: <b>Company</b> — <a href=url>Title</a>\n📍 location · ⭐score · 💶 salary or ≈ estimate\nwhy".
+  6. Add one task to today's day plan in block "Поиск работы": "Откликнуться: Company — Role".
+
 When done, delete `data/ondemand_processing.jsonl`. If one request fails, send a one-line Telegram note about it and
 continue with the rest. Never print or write the Telegram token. Never send email or submit applications.
 

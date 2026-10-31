@@ -60,6 +60,18 @@ while true; do
     if [ "$data" = "more" ] || [[ "$text" == /more* ]] || [[ "$text" == "ещё"* ]] || [[ "$text" == "еще"* ]]; then
       [ -n "$cb" ] && curl -s "$API/answerCallbackQuery" --data-urlencode "callback_query_id=$cb" --data-urlencode "text=Собираю ещё вакансии…" >/dev/null
       ./send_more.sh >> data/listener.log 2>&1
+      continue
+    fi
+    # A vacancy sent by Ekaterina: a link, /vac <link or text>, or a long pasted description
+    if [ -n "$text" ] && [[ "$text" != /* || "$text" == /vac* ]]; then
+      body=${text#/vac}
+      url=$(grep -oE 'https?://[^[:space:]]+' <<<"$body" | head -1)
+      if [ -n "$url" ] || [ ${#body} -ge 200 ]; then
+        jq -cn --arg url "$url" --arg text "$body" --arg ts "$(date -u +%FT%TZ)" '{type:"vacancy", id:("tg-"+($ts|gsub("[^0-9]";""))), url:$url, text:$text, ts:$ts}' >> data/ondemand.jsonl
+        printf '%s\n' "📥 Вакансию приняла. Оценю, посчитаю зарплату и сделаю CV с письмом в ближайший прогон. Срочно — напиши Claude «разбери вакансии из бота»." > data/out/vac_ack.html
+        [[ "$url" == *linkedin.com* ]] && printf '%s\n' "LinkedIn я сама не открываю: если ссылка на LinkedIn, пришли ещё и текст вакансии одним сообщением." >> data/out/vac_ack.html
+        ./send_tg.sh data/out/vac_ack.html >/dev/null
+      fi
     fi
   done < <(jq -c '.result[]' <<<"$resp")
 done
