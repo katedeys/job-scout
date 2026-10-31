@@ -116,7 +116,7 @@
 </head>
 <body>
 
-<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a><a class="tl" href="#payouts" data-s="payouts">4 · Payouts</a></div></div>
+<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a><a class="tl" href="#payouts" data-s="payouts">4 · Payouts</a><a class="tl" href="#antifraud" data-s="antifraud">5 · Antifraud</a></div></div>
 <div class="wrap">
   <header>
     <h1>Ekaterina Deys</h1>
@@ -130,6 +130,7 @@
     <a class="ccard" href="#viban"><span class="cn">Case 2</span><b>Virtual IBANs in loan origination</b><span>One account per loan, so bank-transfer repayments match themselves</span><em>100% auto-reconciled</em></a>
     <a class="ccard" href="#orchestration"><span class="cn">Case 3</span><b>Own payment orchestration, 40+ countries</b><span>From two external orchestrators to routing, failover and a card vault of our own</span><em>~$100K/month saved · 96.4% SLA</em></a>
     <a class="ccard" href="#payouts"><span class="cn">Case 4</span><b>Loan payouts and repayments on one event bus</b><span>Primary and backup payout partners; cards, Virtual IBANs and cash QR for repayments</span><em>No manual payout investigations</em></a>
+    <a class="ccard" href="#antifraud"><span class="cn">Case 5</span><b>Payments as the data source for fraud controls</b><span>Signals and check points for in-house fraud services: charges, loan issuance, payouts</span><em>Owner of the data, consultant on the rules</em></a>
   </nav>
 
   <section class="case" id="remittances">
@@ -673,6 +674,66 @@
     </div>
 
     <p class="note">Generalised from my work at a lending fintech. Diagrams redrawn from scratch; partner names omitted.</p>
+    <a class="backtop" href="#top">↑ Back to contents</a>
+  </section>
+
+  <section class="case" id="antifraud">
+    <div class="eyebrow">Case 5 · Payments and lending · in-house fraud services</div>
+    <h2>Payments as the data source for fraud controls</h2>
+
+    <div class="facts">
+      <div class="fact"><b>My role</b><span>Owner of the payment data and integration points; consultant on the rules, not the fraud product owner</span></div>
+      <div class="fact"><b>Scope</b><span>Card payment rules, chargebacks, checks at loan issuance, payout protection</span></div>
+      <div class="fact"><b>Setup</b><span>In-house fraud services, no external vendor</span></div>
+      <div class="fact"><b>What I brought</b><span>Which signals payments can give, and where in the flow a check can stop money</span></div>
+    </div>
+
+    <h3>The problem</h3>
+    <p>A fraud team can only stop what it can see in time. Most of the useful signals are born in payments: declines and their reasons, 3DS outcomes, chargebacks, cards reused across accounts, a payout destination that changed an hour before the payout. My job was to make those signals reliable and to give the fraud services a place in the flow where a decision actually changes what happens to the money.</p>
+
+    <h3>Where fraud checks plug into the money flow</h3>
+    <div class="diagram" role="img" aria-label="Three points where in-house fraud services act on payment flows: before a card charge (allow, require 3DS or decline), at loan issuance (KYC, documents and device checks before the loan is approved), and before a payout (release or hold for review). Payment events such as declines, 3DS results, chargebacks and payout destination changes flow back to the fraud services as signals.">
+      <svg viewBox="0 0 680 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="fm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="fd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--data)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="b" x="30" y="30" width="190" height="56" rx="8"/><text class="t" x="125" y="54">Card payment</text><text class="s" x="125" y="73">top-up · repayment</text>
+          <rect class="b" x="245" y="30" width="190" height="56" rx="8"/><text class="t" x="340" y="54">Loan issuance</text><text class="s" x="340" y="73">origination</text>
+          <rect class="b" x="460" y="30" width="190" height="56" rx="8"/><text class="t" x="555" y="54">Payout</text><text class="s" x="555" y="73">money to the customer</text>
+
+          <rect class="bx" x="30" y="140" width="190" height="66" rx="8"/><text class="t" x="125" y="164">Check before charge</text><text class="s" x="125" y="183">allow · require 3DS · decline</text>
+          <rect class="bx" x="245" y="140" width="190" height="66" rx="8"/><text class="t" x="340" y="164">Check before approval</text><text class="s" x="340" y="183">KYC · documents · device</text>
+          <rect class="bx" x="460" y="140" width="190" height="66" rx="8"/><text class="t" x="555" y="164">Check before payout</text><text class="s" x="555" y="183">release · hold for review</text>
+
+          <rect class="bm" x="30" y="256" width="620" height="56" rx="8"/><text class="t" x="340" y="280">In-house fraud services</text><text class="s" x="340" y="299">rules · limits · blocklists · review queue</text>
+
+          <rect class="b" x="30" y="356" width="620" height="56" rx="8"/><text class="t" x="340" y="380">Signals from payments</text><text class="s" x="340" y="399">decline reasons · 3DS results · chargebacks · card reuse · velocity · payout destination changes</text>
+        </g>
+        <path class="m" d="M125,86 L125,134" marker-end="url(#fm)"/>
+        <path class="m" d="M340,86 L340,134" marker-end="url(#fm)"/>
+        <path class="m" d="M555,86 L555,134" marker-end="url(#fm)"/>
+        <path class="d" d="M125,250 L125,212" marker-end="url(#fd)"/>
+        <path class="d" d="M340,250 L340,212" marker-end="url(#fd)"/>
+        <path class="d" d="M555,250 L555,212" marker-end="url(#fd)"/>
+        <path class="d" d="M340,356 L340,318" marker-end="url(#fd)"/>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money flow paused for a decision</span><span><i class="d"></i>decisions / signals</span><span><i class="x"></i>fraud check point</span></div>
+
+    <h3>What I worked on</h3>
+    <div class="two">
+      <div class="card"><h4>Clean signals from payments</h4><p>One internal state model and unified decline codes meant fraud rules could rely on "insufficient funds" and "stolen card" meaning the same thing across every provider and country.</p></div>
+      <div class="card"><h4>3DS as a dial, not a switch</h4><p>Helping decide when to step a payment up to 3DS: a lever between conversion and fraud losses, rather than "always" or "never".</p></div>
+      <div class="card"><h4>Chargebacks back into the loop</h4><p>Chargeback and dispute outcomes returned as events, so a card or account that cost money once is visible to the next check.</p></div>
+      <div class="card"><h4>A hold point before payouts</h4><p>A payout can wait for review without breaking the flow: hold is a normal payout state with its own push to the customer, not a stuck transaction.</p></div>
+    </div>
+
+    <h3>What this taught me</h3>
+    <p>Most fraud controls fail at the plumbing, not at the model: a rule is only as good as the signal it reads and the point in the flow where it can still stop the money. I'm comfortable on that boundary and would grow into owning the rules and the review operations themselves.</p>
+
+    <p class="note">Generalised from my work at a ride-hailing super-app and a lending fintech. I was the payments owner and a consultant to in-house fraud teams, not the owner of the fraud product.</p>
     <a class="backtop" href="#top">↑ Back to contents</a>
   </section>
   <footer class="foot">
