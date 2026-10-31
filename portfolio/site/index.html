@@ -116,7 +116,7 @@
 </head>
 <body>
 
-<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a></div></div>
+<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a><a class="tl" href="#payouts" data-s="payouts">4 · Payouts</a></div></div>
 <div class="wrap">
   <header>
     <h1>Ekaterina Deys</h1>
@@ -129,6 +129,7 @@
     <a class="ccard" href="#remittances"><span class="cn">Case 1</span><b>Remittances → cross-border repayments</b><span>Gulf → Southeast Asia: from a remittance MVP to relatives repaying a credit line from abroad</span><em>0 → MVP → pivot</em></a>
     <a class="ccard" href="#viban"><span class="cn">Case 2</span><b>Virtual IBANs in loan origination</b><span>One account per loan, so bank-transfer repayments match themselves</span><em>100% auto-reconciled</em></a>
     <a class="ccard" href="#orchestration"><span class="cn">Case 3</span><b>Own payment orchestration, 40+ countries</b><span>From two external orchestrators to routing, failover and a card vault of our own</span><em>~$100K/month saved · 96.4% SLA</em></a>
+    <a class="ccard" href="#payouts"><span class="cn">Case 4</span><b>Loan payouts and repayments on one event bus</b><span>Primary and backup payout partners; cards, Virtual IBANs and cash QR for repayments</span><em>No manual payout investigations</em></a>
   </nav>
 
   <section class="case" id="remittances">
@@ -530,6 +531,148 @@
     </div>
 
     <p class="note">Generalised from my work at a ride-hailing super-app. Diagrams redrawn from scratch; provider names omitted.</p>
+    <a class="backtop" href="#top">↑ Back to contents</a>
+  </section>
+
+  <section class="case" id="payouts">
+    <div class="eyebrow">Case 4 · Lending fintech · Malaysia</div>
+    <h2>Money out and money in: async loan payouts and multi-channel repayments on one event bus</h2>
+
+    <div class="facts">
+      <div class="fact"><b>Payouts</b><span>Built from scratch: primary and backup partner, mostly bank transfer via FPX</span></div>
+      <div class="fact"><b>Repayments</b><span>2 partners, 3 methods each: cards (one-off and auto-debit), Virtual IBAN transfers, cash by QR</span></div>
+      <div class="fact"><b>Events</b><span>Every success and failure goes to Kafka: credit engine, DWH and origination listen</span></div>
+      <div class="fact"><b>Result</b><span>Manual payout investigations removed entirely</span></div>
+    </div>
+
+    <h3>The problem</h3>
+    <p>A lender lives on two money flows: the loan going out and the repayments coming back. Payout partners answer slowly and sometimes not at all; repayments arrive through cards, bank transfers and cash desks, each with its own statuses. If either side loses a status, someone ends up searching for a missing payout or a repayment that never reached the loan.</p>
+
+    <h3>Architecture</h3>
+    <div class="diagram" role="img" aria-label="Architecture: origination asks the payment service to pay out a loan through a primary or backup payout partner; the app starts repayments by card, Virtual IBAN transfer or cash QR through repayment partners. The payment service publishes every success and failure to Kafka, which feeds the credit engine, the data warehouse and origination.">
+      <svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="pm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="pd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--data)"/></marker>
+        </defs>
+        <rect class="zone" x="30" y="16" width="620" height="226" rx="12"/><text class="zl" x="632" y="234" text-anchor="end">OUR PLATFORM</text>
+        <rect class="zone" x="30" y="292" width="620" height="94" rx="12" stroke-dasharray="5 4"/><text class="zl" x="632" y="380" text-anchor="end">PARTNERS · EXTERNAL</text>
+        <g text-anchor="middle">
+          <rect class="b" x="50" y="36" width="175" height="56" rx="8"/><text class="t" x="137" y="60">App + BFF</text><text class="s" x="137" y="79">repay · see status</text>
+          <rect class="b" x="255" y="36" width="170" height="56" rx="8"/><text class="t" x="340" y="60">Origination</text><text class="s" x="340" y="79">asks for payout</text>
+          <rect class="bm" x="450" y="36" width="170" height="56" rx="8"/><text class="t" x="535" y="60">Credit engine</text><text class="s" x="535" y="79">balances · payoff logic</text>
+          <rect class="bm" x="50" y="150" width="175" height="56" rx="8"/><text class="t" x="137" y="174">Payment service</text><text class="s" x="137" y="193">idempotent · retries</text>
+          <rect class="b" x="255" y="150" width="170" height="56" rx="8"/><text class="t" x="340" y="174">Kafka</text><text class="s" x="340" y="193">payment events</text>
+          <rect class="b" x="450" y="150" width="170" height="56" rx="8"/><text class="t" x="535" y="174">DWH</text><text class="s" x="535" y="193">reporting · analytics</text>
+          <rect class="bx" x="41" y="306" width="110" height="56" rx="8"/><text class="t" x="96" y="330">Card PSP</text><text class="s" x="96" y="349">one-off · auto</text>
+          <rect class="bx" x="163" y="306" width="110" height="56" rx="8"/><text class="t" x="218" y="330">Bank</text><text class="s" x="218" y="349">Virtual IBAN</text>
+          <rect class="bx" x="285" y="306" width="110" height="56" rx="8"/><text class="t" x="340" y="330">Cash network</text><text class="s" x="340" y="349">QR in app</text>
+          <rect class="bx" x="407" y="306" width="110" height="56" rx="8"/><text class="t" x="462" y="330">Payout A</text><text class="s" x="462" y="349">primary · FPX</text>
+          <rect class="bx" x="529" y="306" width="110" height="56" rx="8"/><text class="t" x="584" y="330">Payout B</text><text class="s" x="584" y="349">backup</text>
+        </g>
+        <path class="d" d="M137,92 L137,144" marker-end="url(#pd)"/>
+        <path class="d" d="M268,92 L268,120 L200,120 L200,144" marker-end="url(#pd)"/>
+        <path class="d" d="M225,178 L249,178" marker-end="url(#pd)"/>
+        <path class="d" d="M380,150 L380,125 L535,125 L535,98" marker-end="url(#pd)"/>
+        <path class="d" d="M330,150 L330,98" marker-end="url(#pd)"/>
+        <path class="d" d="M425,178 L444,178" marker-end="url(#pd)"/>
+        <path class="m" d="M96,306 L96,284"/><path class="m" d="M218,306 L218,284"/><path class="m" d="M340,306 L340,284"/>
+        <path class="m" d="M96,284 L340,284"/>
+        <path class="m" d="M170,284 L170,212" marker-end="url(#pm)"/>
+        <path class="m" d="M210,206 L210,268 L584,268"/>
+        <path class="m" d="M462,268 L462,300" marker-end="url(#pm)"/>
+        <path class="m" d="M584,268 L584,300" marker-end="url(#pm)"/>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>money</span><span><i class="d"></i>requests / events</span><span><i class="x"></i>external</span><span><i class="hm"></i>holds money</span></div>
+
+    <h3>A loan payout, step by step</h3>
+    <div class="diagram" role="img" aria-label="Sequence: origination asks the payment service to pay out a loan with the loan ID as idempotency key; the payment service sends the payout to the primary partner. If there is no answer, it checks status and retries on a growing time ladder until a timeout, then fails over to the backup partner. On the callback the payment service publishes a payout event to Kafka, the credit engine books the drawdown, and the app gets a push. Statuses are reconciled through the partner API.">
+      <svg class="seq" viewBox="0 0 1000 720" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="xm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="xd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--fg-2)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="b" x="16" y="16" width="140" height="50" rx="8"/><text class="t" x="86" y="38">Origination</text><text class="s" x="86" y="56">loan approved</text>
+          <rect class="bm" x="186" y="16" width="140" height="50" rx="8"/><text class="t" x="256" y="38">Payment</text><text class="s" x="256" y="56">service</text>
+          <rect class="bx" x="356" y="16" width="140" height="50" rx="8"/><text class="t" x="426" y="38">Payout A</text><text class="s" x="426" y="56">primary</text>
+          <rect class="bx" x="526" y="16" width="140" height="50" rx="8"/><text class="t" x="596" y="38">Payout B</text><text class="s" x="596" y="56">backup</text>
+          <rect class="b" x="696" y="16" width="140" height="50" rx="8"/><text class="t" x="766" y="38">Kafka →</text><text class="s" x="766" y="56">credit engine · DWH</text>
+          <rect class="b" x="846" y="16" width="140" height="50" rx="8"/><text class="t" x="916" y="38">App</text><text class="s" x="916" y="56">customer</text>
+        </g>
+        <g class="ll"><path d="M86,66 V700"/><path d="M256,66 V700"/><path d="M426,66 V700"/><path d="M596,66 V700"/><path d="M766,66 V700"/><path d="M916,66 V700"/></g>
+
+        <path class="sq c" d="M86,118 H250" marker-end="url(#xd)"/><text class="lbl" x="96" y="110">1 Pay out loan</text><text class="lbl2" x="96" y="136">loan_id = idempotency key</text>
+        <path class="sq r" d="M256,160 H292 V186 H262" marker-end="url(#xd)"/><text class="lbl" x="300" y="172">2 Payout · state pending</text>
+        <path class="sq m" d="M256,226 H420" marker-end="url(#xm)"/><text class="lbl" x="266" y="218">3 Send payout</text><text class="lbl2" x="266" y="244">bank account · FPX</text>
+
+        <rect class="frame" x="200" y="262" width="470" height="156" rx="6"/>
+        <rect class="frametag" x="200" y="262" width="44" height="22" rx="6"/><text class="lbl" x="222" y="278" text-anchor="middle">alt</text>
+        <text class="lbl2" x="254" y="278">no callback</text>
+        <path class="sq c" d="M256,312 H420" marker-end="url(#xd)"/><text class="lbl" x="266" y="304">Status check by payout_id</text>
+        <path class="sq c" d="M256,346 H420" marker-end="url(#xd)"/><text class="lbl" x="266" y="338">Retry on a growing time ladder</text>
+        <path class="sq m" d="M256,392 H590" marker-end="url(#xm)"/><text class="lbl" x="586" y="384" text-anchor="end">Timeout on A → send via backup</text>
+
+        <path class="sq r" d="M426,450 H262" marker-end="url(#xd)"/><text class="lbl" x="416" y="442" text-anchor="end">4 Callback: paid</text>
+        <path class="sq c" d="M256,490 H760" marker-end="url(#xd)"/><text class="lbl" x="756" y="482" text-anchor="end">5 Event: payout succeeded</text><text class="lbl2" x="756" y="508" text-anchor="end">credit engine books the drawdown · DWH · origination</text>
+        <path class="sq c" d="M256,550 H910" marker-end="url(#xd)"/><text class="lbl" x="906" y="542" text-anchor="end">6 Push: money is on its way</text>
+        <path class="sq c" d="M256,594 H420" marker-end="url(#xd)"/><text class="lbl" x="266" y="586">7 Reconcile via partner API</text>
+
+        <rect class="note" x="560" y="600" width="430" height="84" rx="8"/>
+        <text class="lbl" x="576" y="626">A failed payout is an event too</text>
+        <text class="lbl2" x="576" y="648">It goes to Kafka with its reason, the customer gets a push,</text>
+        <text class="lbl2" x="576" y="668">and nobody has to discover it from a support ticket.</text>
+      </svg>
+    </div>
+
+    <h3>A repayment, step by step</h3>
+    <div class="diagram" role="img" aria-label="Sequence: the customer chooses a method in the app; the payment service creates the payment linked to the loan contract and returns a card form or a cash QR code. The partner confirms success or failure by callback; the payment service publishes either result to Kafka, the credit engine applies a success and the app shows the new balance. Auto-debit creates the same event without the customer.">
+      <svg class="seq" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ym" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="yd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--fg-2)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="b" x="16" y="16" width="140" height="50" rx="8"/><text class="t" x="86" y="38">App</text><text class="s" x="86" y="56">customer</text>
+          <rect class="bm" x="186" y="16" width="140" height="50" rx="8"/><text class="t" x="256" y="38">Payment</text><text class="s" x="256" y="56">service</text>
+          <rect class="bx" x="356" y="16" width="140" height="50" rx="8"/><text class="t" x="426" y="38">Partner</text><text class="s" x="426" y="56">card PSP · cash</text>
+          <rect class="b" x="526" y="16" width="140" height="50" rx="8"/><text class="t" x="596" y="38">Kafka</text><text class="s" x="596" y="56">payment events</text>
+          <rect class="bm" x="696" y="16" width="140" height="50" rx="8"/><text class="t" x="766" y="38">Credit</text><text class="s" x="766" y="56">engine</text>
+          <rect class="b" x="846" y="16" width="140" height="50" rx="8"/><text class="t" x="916" y="38">DWH +</text><text class="s" x="916" y="56">origination</text>
+        </g>
+        <g class="ll"><path d="M86,66 V580"/><path d="M256,66 V580"/><path d="M426,66 V580"/><path d="M596,66 V580"/><path d="M766,66 V580"/><path d="M916,66 V580"/></g>
+
+        <path class="sq c" d="M86,118 H250" marker-end="url(#yd)"/><text class="lbl" x="96" y="110">1 Repay · method</text><text class="lbl2" x="96" y="136">amount from credit engine</text>
+        <path class="sq c" d="M256,170 H420" marker-end="url(#yd)"/><text class="lbl" x="266" y="162">2 Create payment</text><text class="lbl2" x="266" y="188">linked to loan contract</text>
+        <path class="sq r" d="M426,214 H92" marker-end="url(#yd)"/><text class="lbl" x="416" y="206" text-anchor="end">3 Card form or cash QR</text>
+        <path class="sq m" d="M86,262 H420" marker-end="url(#ym)"/><text class="lbl" x="96" y="254">4 Customer pays</text><text class="lbl2" x="96" y="280">card in app · QR at a cash desk</text>
+        <path class="sq r" d="M426,318 H262" marker-end="url(#yd)"/><text class="lbl" x="416" y="310" text-anchor="end">5 Callback: paid or failed</text>
+        <path class="sq c" d="M256,358 H590" marker-end="url(#yd)"/><text class="lbl" x="586" y="350" text-anchor="end">6 Event: success or failure</text>
+        <path class="sq c" d="M596,398 H760" marker-end="url(#yd)"/><text class="lbl" x="606" y="390">7 Apply repayment</text>
+        <path class="sq c" d="M596,438 H910" marker-end="url(#yd)"/><text class="lbl" x="906" y="430" text-anchor="end">8 Same event</text>
+        <path class="sq r" d="M766,478 H92" marker-end="url(#yd)"/><text class="lbl" x="756" y="470" text-anchor="end">9 New balance and next payment</text>
+
+        <rect class="note" x="16" y="500" width="470" height="70" rx="8"/>
+        <text class="lbl" x="32" y="526">Auto-debit and Virtual IBAN transfers</text>
+        <text class="lbl2" x="32" y="548">start at step 5: the same event, no customer action.</text>
+        <rect class="note" x="510" y="500" width="480" height="70" rx="8"/>
+        <text class="lbl" x="526" y="526">Full payoff</text>
+        <text class="lbl2" x="526" y="548">The credit engine calculates it and recalculates before charging.</text>
+      </svg>
+    </div>
+
+    <h3>Key decisions</h3>
+    <div class="two">
+      <div class="card"><h4>A backup payout partner from day one</h4><p>Payouts are the moment the customer is waiting for. A second partner turns a partner outage into a slower payout instead of no payout.</p></div>
+      <div class="card"><h4>Retry on a ladder, then fail over</h4><p>Status check and retries with growing intervals up to a timeout, always with the same idempotency key, so a slow partner never produces a double payout.</p></div>
+      <div class="card"><h4>Link every repayment to the contract at the start</h4><p>The payment knows which loan it belongs to before money moves: a QR per payment for cash, a VIBAN per loan for transfers. Nothing has to be matched afterwards.</p></div>
+      <div class="card"><h4>Failures are events, not silence</h4><p>Success and failure both go to Kafka. The credit engine, DWH and origination see the same truth, and the customer hears about a failure from a push, not from support.</p></div>
+      <div class="card"><h4>Money logic stays in the credit engine</h4><p>Balances, minimum payment and the full-payoff amount are calculated in one place; the payment service moves money and reports what happened.</p></div>
+      <div class="card"><h4>Reconcile through the partner API</h4><p>Statuses are checked against the partner's API rather than files and spreadsheets, so a mismatch shows up the same day.</p></div>
+    </div>
+
+    <p class="note">Generalised from my work at a lending fintech. Diagrams redrawn from scratch; partner names omitted.</p>
     <a class="backtop" href="#top">↑ Back to contents</a>
   </section>
   <footer class="foot">
