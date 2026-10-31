@@ -84,6 +84,23 @@ textarea { width: 100%; font: inherit; font-size: 0.88rem; border: 1px solid var
 .empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 12px; padding: 28px 20px; text-align: center; color: var(--muted); }
 .empty strong { color: var(--ink); display: block; margin-bottom: 6px; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; }
+.today { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+.today-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.today h2 { font-size: 1.05rem; margin: 0; }
+.progress { font-family: var(--font-data); font-size: 0.85rem; color: var(--muted); }
+.bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--good); width: 0; }
+.tasks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.task { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: flex-start; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); }
+.task input { width: 20px; height: 20px; margin: 1px 0 0; flex: none; accent-color: var(--good); cursor: pointer; }
+.task .tx { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.task .tt { font-weight: 600; overflow-wrap: anywhere; }
+.task .td { color: var(--muted); font-size: 0.85rem; overflow-wrap: anywhere; white-space: pre-wrap; }
+.task .tl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex-basis: 100%; padding-left: 30px; }
+.task .tl:empty { display: none; }
+.task.done .tt, .task.done .td { text-decoration: line-through; opacity: 0.6; }
+.cat { font-size: 0.72rem; border-radius: 6px; padding: 1px 7px; background: var(--accent-soft); color: var(--accent); }
+.cat.old { background: var(--warn-soft); color: var(--warn); }
 @media (prefers-reduced-motion: no-preference) { .card { transition: border-color .15s; } }
 </style>
 
@@ -92,6 +109,12 @@ textarea { width: 100%; font: inherit; font-size: 0.88rem; border: 1px solid var
     <h1>Job Scout</h1>
     <span class="sub" id="updated">Вакансии появляются здесь каждое утро</span>
   </header>
+
+  <section class="today" id="today" hidden aria-label="План на день">
+    <div class="today-h"><h2 id="t-title">План на день</h2><span class="progress" id="t-progress"></span></div>
+    <div class="bar"><i id="t-bar"></i></div>
+    <ul class="tasks" id="tasks"></ul>
+  </section>
 
   <section class="stats" aria-label="Статистика">
     <div class="stat"><b id="s-new">–</b><span>Откликнуться</span></div>
@@ -122,6 +145,8 @@ const TABS = [
   ["all", "Все", () => true]
 ];
 let jobs = [], tab = "todo", db = null, canWrite = true, openCovers = new Set();
+let tasks = [];
+const localDay = (d = new Date()) => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
 try { tab = localStorage.getItem("js-tab") || "todo"; } catch (e) {}
 
 const $ = id => document.getElementById(id);
@@ -195,6 +220,33 @@ function render() {
     : `<div class="empty"><strong>${jobs.length ? "Здесь пока пусто" : "Вакансий пока нет"}</strong>${jobs.length ? "Загляни в другие вкладки." : "Каждое утро сюда попадают новые вакансии с оценкой, версией CV и сопроводительным."}</div>`;
 }
 
+function renderTasks() {
+  const today = localDay();
+  const list = tasks.filter(t => t.date === today || (t.date < today && !t.done))
+    .sort((a, b) => String(a.date).localeCompare(String(b.date)) || (Number(a.order) || 0) - (Number(b.order) || 0));
+  const box = $("today");
+  if (!list.length) { box.hidden = true; return; }
+  box.hidden = false;
+  const done = list.filter(t => t.done).length;
+  const d = new Date(); const wd = d.toLocaleDateString("ru-RU", { weekday: "long", day: "numeric", month: "long" });
+  $("t-title").textContent = "План на " + wd;
+  $("t-progress").textContent = done + " из " + list.length;
+  $("t-bar").style.width = Math.round(done / list.length * 100) + "%";
+  $("tasks").innerHTML = list.map(t => `<li class="task ${t.done ? "done" : ""}" data-tid="${esc(t.id)}">
+    <input type="checkbox" id="tk-${esc(t.id)}" ${t.done ? "checked" : ""} ${canWrite ? "" : "disabled"} aria-label="Сделано">
+    <label class="tx" for="tk-${esc(t.id)}"><span class="tt">${esc(t.title)}</span>${t.detail ? `<span class="td">${esc(t.detail)}</span>` : ""}</label>
+    <span class="tl">${t.date < today ? `<span class="cat old">с ${esc(t.date.slice(8,10) + "." + t.date.slice(5,7))}</span>` : ""}${t.category ? `<span class="cat">${esc(t.category)}</span>` : ""}${t.link ? `<a class="btn" href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.link_label || "Открыть")}</a>` : ""}</span>
+  </li>`).join("");
+}
+
+$("tasks").addEventListener("change", async e => {
+  const li = e.target.closest("[data-tid]"); if (!li || !db) return;
+  const done = e.target.checked;
+  const t = tasks.find(x => x.id === li.dataset.tid); if (t) { t.done = done; renderTasks(); }
+  try { await db.collection("tasks").doc(li.dataset.tid).update({ done, done_at: done ? new Date().toISOString() : null }); toast(done ? "Готово ✓" : "Вернула в план"); }
+  catch (err) { if (t) { t.done = !done; renderTasks(); } toast("Не получилось сохранить"); }
+});
+
 $("tabs").addEventListener("click", e => {
   const b = e.target.closest("[data-tab]"); if (!b) return;
   tab = b.dataset.tab; try { localStorage.setItem("js-tab", tab); } catch (err) {}
@@ -234,6 +286,7 @@ $("list").addEventListener("change", async e => {
   if (!db) { $("list").innerHTML = `<div class="empty"><strong>Трекер недоступен в этом окне</strong>Открой ссылку в claude.ai, войдя в свой аккаунт.</div>`; return; }
   const user = await claude.use("user");
   if (user && typeof user.can === "function") { const w = await user.can("data.write"); if (w === false) canWrite = false; }
+  db.collection("tasks").onSnapshot(snap => { tasks = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderTasks(); }, () => {});
   db.collection("jobs").onSnapshot(snap => {
     jobs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     const last = jobs.map(j => j.added || "").sort().pop();
