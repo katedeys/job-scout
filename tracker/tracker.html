@@ -99,6 +99,9 @@ textarea { width: 100%; font: inherit; font-size: 0.88rem; border: 1px solid var
 .task .tl { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex-basis: 100%; padding-left: 30px; }
 .task .tl:empty { display: none; }
 .task.done .tt, .task.done .td { text-decoration: line-through; opacity: 0.6; }
+.grp { display: flex; justify-content: space-between; align-items: baseline; margin-top: 8px; padding: 0 2px; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.grp:first-child { margin-top: 0; }
+.grp .gn { font-family: var(--font-data); font-weight: 500; letter-spacing: 0; }
 .cat { font-size: 0.72rem; border-radius: 6px; padding: 1px 7px; background: var(--accent-soft); color: var(--accent); }
 .cat.old { background: var(--warn-soft); color: var(--warn); }
 @media (prefers-reduced-motion: no-preference) { .card { transition: border-color .15s; } }
@@ -146,6 +149,9 @@ const TABS = [
 ];
 let jobs = [], tab = "todo", db = null, canWrite = true, openCovers = new Set();
 let tasks = [];
+const BLOCKS = ["Виза", "Поиск работы", "Аутрич", "Консалтинг", "Развитие"];
+const BLOCK_OF = { "Визы": "Виза", "Отклики": "Поиск работы", "Нетворкинг": "Аутрич", "SA": "Развитие", "Профиль": "Развитие", "Контент": "Развитие", "Безопасность": "Развитие" };
+const blockOf = t => BLOCK_OF[t.category] || (BLOCKS.includes(t.category) ? t.category : "Прочее");
 const localDay = (d = new Date()) => new Date(d.getTime() - d.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
 try { tab = localStorage.getItem("js-tab") || "todo"; } catch (e) {}
 
@@ -232,11 +238,16 @@ function renderTasks() {
   $("t-title").textContent = "План на " + wd;
   $("t-progress").textContent = done + " из " + list.length;
   $("t-bar").style.width = Math.round(done / list.length * 100) + "%";
-  $("tasks").innerHTML = list.map(t => `<li class="task ${t.done ? "done" : ""}" data-tid="${esc(t.id)}">
+  const taskHtml = t => `<li class="task ${t.done ? "done" : ""}" data-tid="${esc(t.id)}">
     <input type="checkbox" id="tk-${esc(t.id)}" ${t.done ? "checked" : ""} ${canWrite ? "" : "disabled"} aria-label="Сделано">
     <label class="tx" for="tk-${esc(t.id)}"><span class="tt">${esc(t.title)}</span>${t.detail ? `<span class="td">${esc(t.detail)}</span>` : ""}</label>
-    <span class="tl">${t.date < today ? `<span class="cat old">с ${esc(t.date.slice(8,10) + "." + t.date.slice(5,7))}</span>` : ""}${t.category ? `<span class="cat">${esc(t.category)}</span>` : ""}${t.link ? `<a class="btn" href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.link_label || "Открыть")}</a>` : ""}</span>
-  </li>`).join("");
+    <span class="tl">${t.date < today ? `<span class="cat old">с ${esc(t.date.slice(8,10) + "." + t.date.slice(5,7))}</span>` : ""}${t.link ? `<a class="btn" href="${esc(t.link)}" target="_blank" rel="noopener">${esc(t.link_label || "Открыть")}</a>` : ""}</span>
+  </li>`;
+  $("tasks").innerHTML = [...BLOCKS, "Прочее"].map(b => {
+    const items = list.filter(t => blockOf(t) === b);
+    if (!items.length) return "";
+    return `<li class="grp"><span>${esc(b)}</span><span class="gn">${items.filter(t => t.done).length}/${items.length}</span></li>` + items.map(taskHtml).join("");
+  }).join("");
 }
 
 $("tasks").addEventListener("change", async e => {
