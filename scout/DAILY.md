@@ -63,6 +63,8 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    No-go relocation countries are in `config.json` → `no_go.relocation` (Mexico, US, Canada): set `location_ok: false` for
    on-site or hybrid roles there; remote roles of the same companies (e.g. Plata, Salmon) stay eligible.
    - Drop Solutions roles that require coding/software engineering experience.
+   - **Languages:** she works in English (C1) and Russian. Drop roles whose posting or application form requires another language (Spanish, German, Dutch, Hebrew, Arabic, Armenian, Georgian, Polish…). If unsure, say so in `why`.
+   - **Alert-only roles** (from LinkedIn and other job-alert emails): before a role goes into a top or a day-plan task, find its live posting (company careers page, ATS, or the exact LinkedIn job URL from the alert) and read the description. If you cannot confirm it exists, keep it out of the tops and tasks, put it in a country queue marked "не проверено", and write no letter.
    - `score` 1–10 for fit (domain, seniority, technical depth, location). Keep score ≥ 5.
    - `why`: one short sentence in Russian — main reason it fits and the main risk.
    - `salary` if stated.
