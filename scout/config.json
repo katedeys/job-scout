@@ -3,37 +3,37 @@
   "cv_versions": {
     "general_pm": {
       "file": "../Ekaterina_Deys_Lead_Technical_PM_Payments_CV.pdf",
-      "asset_url": "/_blob/d05cacec5af315ecde5d6fd486fb3094",
+      "asset_url": "/_blob/e287ecbf0c42ae4b5ecce442e9803e41",
       "name": "Lead Technical PM (общая)",
       "use_for": "payments PM / lead PM / technical PM, default"
     },
     "solutions_architect": {
       "file": "../Ekaterina_Deys_Payments_Solutions_Architect_CV.pdf",
-      "asset_url": "/_blob/ccc2d4376c4a5631927fd580edcbe812",
+      "asset_url": "/_blob/27625fae253b8b64e6c9415086dcb844",
       "name": "Solutions Architect",
       "use_for": "solutions architect/engineer, pre-sales, integration, implementation"
     },
     "billing_platform_pm": {
       "file": "../Ekaterina_Deys_Senior_PM_Billing_GitLab.pdf",
-      "asset_url": "/_blob/ed92dac1ec9af171fa2d99646c000010",
+      "asset_url": "/_blob/63c52e30b08027749f9c8dfa9c943f0e",
       "name": "Billing / Platform PM",
       "use_for": "billing, monetization, platform PM"
     },
     "client_pm": {
       "file": "../Ekaterina_Deys_Product_Manager_Ingsoftware.pdf",
-      "asset_url": "/_blob/a0cd064e6f426afa7aaca262f2ec2926",
+      "asset_url": "/_blob/00a4ba197d22c69e9bc9a85a78b5ceb2",
       "name": "Product Manager (клиентский)",
       "use_for": "agencies/outsourcing, client-facing generalist PM"
     },
     "salmon_nda": {
       "file": "../tailored/Ekaterina_Deys_Senior_PM_Billing_Monetization_Payments.pdf",
-      "asset_url": "/_blob/55cb02c39ef0946a5a9d1c960ad1a629",
+      "asset_url": "/_blob/02ef2542d695607d241d60a162bfa964",
       "name": "Senior PM Billing/Payments (NDA для конкурентов SkyRo)",
       "use_for": "Salmon and other Southeast Asian lenders (SkyRo competitors)"
     },
     "pricing_monetization": {
       "file": "../tailored/Ekaterina_Deys_PM_Pricing_Monetization_Nebius.pdf",
-      "asset_url": "/_blob/2cc30658b2777491a93301ac4a030a24",
+      "asset_url": "/_blob/00da8ebb6b93a55f6b27a6e57bdf540d",
       "name": "Pricing / Monetization",
       "use_for": "pricing, billing platform, monetization roles"
     }
