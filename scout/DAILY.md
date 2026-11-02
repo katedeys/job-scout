@@ -152,6 +152,7 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    📊 <b>Статистика</b>: откликов X (за неделю Y) · ответили Z (R%) · интервью I
    Продакт: откликов A · ответов B · Solutions: откликов C · ответов D (tracks PM*/Expansion vs SA; rows with track "Отклик" count by title)
    ⏰ <b>Фоллоу-апы</b>: Company — сколько дней (текст в трекере, if any)
+   🔎 Salmon-вотчер: one line from `data/watch_status.txt` (last hourly check time and number of roles seen), e.g. "🔎 Salmon: проверка 02.11 08:16, 61 вакансия, новых нет"
    📝 <a href="tracker_url">Открыть трекер</a>
    ```
    Send it with `./send_tg.sh data/digest.html`. Then send the product top 10, then a one-line separator message "🛠 Solutions — топ-5" and the SA top 5, each card as one album with BOTH files: render the

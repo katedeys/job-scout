@@ -5,5 +5,3 @@
 - General rule (from 28.10): a vacancy she was sent but has not applied to (no mail confirmation, status still "new")
   may be shown once more 1–2 days later in the "🔁 <b>Ещё не откликнулась</b>" block, then not again.
 
-- 02.11 (пн): напомнить про Егора (Salmon, tech recruiter) — получил всё 27.10. Если тишина, предложить мягкий фоллоу-ап одной строкой, черновик дать в дайджесте. Раньше не пушить.
-
