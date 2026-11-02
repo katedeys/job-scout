@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Fundraise Up: шпаргалка</title>
+<style>
+  @page { size: A4; margin: 11mm 12mm; }
+  * { box-sizing: border-box; }
+  body { font: 9.3pt/1.36 "Helvetica Neue", Helvetica, Arial, sans-serif; color: #15171a; margin: 0; }
+  h1 { font-size: 15pt; margin: 0; }
+  .sub { color: #4a4f57; font-size: 8.8pt; margin: 2px 0 8px; }
+  h2 { font-size: 11pt; margin: 10px 0 5px; color: #1f5fbf; border-bottom: 1px solid #dde3ea; padding-bottom: 2px; }
+  h3 { font-size: 9.5pt; margin: 6px 0 3px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .box { border: 1px solid #e3e6ea; border-radius: 6px; padding: 6px 8px; }
+  .lang { font-size: 7.5pt; font-weight: 700; letter-spacing: 1px; color: #8a8f98; text-transform: uppercase; margin-bottom: 2px; }
+  ul { margin: 0; padding-left: 14px; }
+  li { margin: 1.5px 0; }
+  p { margin: 0 0 4px; }
+  .nums { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 4px 0 2px; }
+  .nums div { border-top: 2px solid #15171a; padding-top: 2px; font-size: 7.8pt; color: #4a4f57; }
+  .nums b { display: block; font-size: 10.5pt; color: #15171a; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  td { vertical-align: top; padding: 3px 5px 3px 0; border-bottom: 1px solid #eceef1; }
+  td:first-child { font-weight: 600; width: 22%; }
+  .check li { list-style: none; margin-left: -14px; }
+  .check li::before { content: "☐ "; }
+  .pb { break-before: page; }
+</style>
+</head>
+<body>
+
+<h1>Fundraise Up · Senior PM, API &amp; Billing · шпаргалка</h1>
+<div class="sub">Роль: Armenia remote, русскоязычная команда, $4,900–5,300/мес gross · KPI: объём через API, активные интеграции, время до первого вызова, доставка вебхуков</div>
+
+<div class="nums">
+  <div><b>40+</b>стран в inDrive (с 4)</div>
+  <div><b>~$100K</b>/мес экономии</div>
+  <div><b>96.4%</b>SLA провайдеров</div>
+  <div><b>2.5 нед</b>подключение партнёра</div>
+  <div><b>100%</b>автосверка VIBAN</div>
+  <div><b>10+ / 7+</b>лет в тех / в продукте</div>
+</div>
+
+<h2>1. Расскажите о себе · 90 секунд</h2>
+<div class="two">
+  <div class="box"><div class="lang">RU</div>
+    <ul>
+      <li>Продакт в платежах: 10+ лет в тех, 7+ в продукте.</li>
+      <li>inDrive: построила платёжную оркестрацию с нуля, с 4 до 40+ стран. Маршрутизация по стоимости — ~$100K/мес экономии, health-мониторинг провайдеров — SLA 96.4%, PCI DSS.</li>
+      <li>SkyRo (лендинг-финтех): платёжная платформа под кредиты — выплаты, погашения, Virtual IBAN со 100% автосверкой, ремитансы с нуля до MVP. Стандартизировала интеграции: партнёр подключается за 2,5 недели.</li>
+      <li>До этого Tinkoff, Sbermarket, Drom: онбординг мерчантов, монетизация, лид команды PM.</li>
+      <li>Ищу роль, где платформа и интеграции и есть продукт. У вас ровно это.</li>
+    </ul>
+  </div>
+  <div class="box"><div class="lang">EN</div>
+    <ul>
+      <li>I'm a payments product manager: 10+ years in tech, 7+ in product.</li>
+      <li>At inDrive I built payment orchestration from scratch and scaled it from 4 to 40+ countries: cost-aware routing saved about $100K a month, provider health monitoring got us to a 96.4% SLA, and I led PCI DSS certification.</li>
+      <li>At SkyRo, a lending fintech, I owned the payments platform behind credit products: payouts, repayments, Virtual IBANs with 100% automatic reconciliation, and a remittance product from zero to MVP. Standardised partner integrations got go-live down to a steady 2.5 weeks.</li>
+      <li>Before that: Tinkoff, Sbermarket, Drom — merchant onboarding, monetization, leading PMs.</li>
+      <li>I'm looking for a role where the platform and integrations are the product. That's exactly this one.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>2. Что ищете и почему Fundraise Up</h2>
+<div class="two">
+  <div class="box"><div class="lang">RU</div>
+    <ul>
+      <li><b>Почему ищу:</b> контракт со SkyRo закончился 31 октября, это был проект на фиксированный срок. Свободна сейчас.</li>
+      <li><b>Что ищу:</b> технический продукт, где мои пользователи — разработчики и партнёры, а результат — объём и надёжность денег.</li>
+      <li><b>Почему вы:</b> API вырос в 5 раз за год и при этом «недостроен» — самая интересная стадия: строить платформу на реальном спросе. Плюс платежи доноров и ретраи регулярных платежей — моё ядро.</li>
+      <li><b>Смысл:</b> деньги идут некоммерческим организациям, мне это важно.</li>
+      <li><b>Подготовка:</b> посмотрела ваш OpenAPI и вебхуки: подписи, ретраи и лог доставок сделаны хорошо, заметила пару вещей про idempotency и лимиты.</li>
+    </ul>
+  </div>
+  <div class="box"><div class="lang">EN</div>
+    <ul>
+      <li><b>Why now:</b> my SkyRo contract ended on 31 October; it was a fixed-term project. I'm available now.</li>
+      <li><b>What I want:</b> a technical product where my users are developers and partners, and success is volume and reliability of money flows.</li>
+      <li><b>Why you:</b> API volume grew 5× in a year and the area is still under-built. That's the best stage: building a platform on real demand. Donor payments and recurring retries are my core.</li>
+      <li><b>Mission:</b> the money goes to nonprofits, and that matters to me.</li>
+      <li><b>Prep:</b> I went through your OpenAPI spec and webhooks docs: signing, retries and the delivery log are well done, and I noticed a couple of things around idempotency and limits.</li>
+    </ul>
+  </div>
+</div>
+
+<h2>3. Техника · принцип → мой опыт → «у вас я заметила»</h2>
+<table>
+  <tr><td>Idempotency</td><td><b>RU:</b> <code>Idempotency-Key</code> в заголовке, сервер хранит ключ и результат ~24ч, повтор возвращает тот же ответ; тот же ключ + другое тело → 422/409; ключ в рамках аккаунта. В inDrive повтор на PSP B шёл в той же транзакции. <i>У вас:</i> в <code>POST /v1/donations</code> ключа нет, а F2F-партнёры на плохой сети.<br><b>EN:</b> The client sends an Idempotency-Key; the server stores the key and the response for ~24h and returns the same result on a retry. Same key with a different body is an error. Your donations POST doesn't have one yet, and F2F partners retry on bad networks.</td></tr>
+  <tr><td>Webhooks</td><td><b>RU:</b> at-least-once + стабильный <code>event.id</code> для дедупликации, HMAC-подпись с меткой времени и ротацией секрета, экспоненциальные ретраи на 5xx/таймаут, лог и повторная отправка, порядок не гарантирован. Получателю: быстро ответить 200, обрабатывать асинхронно. <i>У вас:</i> всё это есть; следующий шаг — управление вебхуками через API для партнёров.<br><b>EN:</b> At-least-once delivery with a stable event id, HMAC signatures with rotation, exponential retries, a delivery log and resend; ordering isn't guaranteed. Yours already do this; next is a webhook management API for partners.</td></tr>
+  <tr><td>Versioning</td><td><b>RU:</b> не ломает: новые эндпоинты и необязательные поля. Ломает: удаление/переименование полей, смена типа, новый обязательный параметр. Подходы: <code>/v2</code> или версия по дате в заголовке (как у Stripe). Депрекация: дата, гайд, Sunset-заголовки, мониторинг, кто на старом. <i>У вас:</i> хорошая практика с депрекацией полей events к 30.10.<br><b>EN:</b> Additive changes are safe; removing or renaming fields, changing types or adding required params break clients. URL versions or date-based versions per account; deprecate with a date, a guide and monitoring.</td></tr>
+  <tr><td>Keys vs OAuth</td><td><b>RU:</b> API-ключ — своя интеграция организации; OAuth (authorization code + scopes) — партнёрские приложения на много клиентов, клиент сам подключает и отзывает. Ключи: least privilege, live/test, префиксы, хэш, ротация, аудит. <i>У вас:</i> для Partner API Program нужен OAuth «connect».<br><b>EN:</b> API keys for an org's own integration; OAuth with scopes for partner apps serving many clients. Least privilege, live/test separation, prefixes, rotation, audit.</td></tr>
+  <tr><td>Limits &amp; bulk</td><td><b>RU:</b> concurrency vs rate (token bucket), на ключ/аккаунт/партнёра, тиры; 429 + <code>Retry-After</code>. Массово — асинхронный batch с job id и результатом по каждому элементу. <i>У вас:</i> 3 параллельных запроса и по одному пожертвованию; для designations batch уже есть — логику можно перенести.<br><b>EN:</b> Concurrency or rate limits per key, account or partner app; 429 with Retry-After; async batch jobs with per-item results for imports.</td></tr>
+  <tr><td>Метрики API</td><td><b>RU/EN:</b> время до первого успешного вызова · воронка ключ → тестовый вызов → живое пожертвование · активные интеграции · объём через API · доставка вебхуков · 4xx по типам (где непонятны доки) · тикеты на интеграцию · разговоры с топ-партнёрами (CAB).</td></tr>
+  <tr><td>Billing (доноры)</td><td><b>RU:</b> ретраи регулярных платежей по причине отказа (soft — повторить по расписанию, hard — нет), card updater, напомнить донору обновить карту до сбоя. Новые методы оплаты — по формуле объём × доля метода × прирост конверсии против стоимости интеграции.<br><b>EN:</b> Smart retries by decline reason, card updater, nudge donors before the plan lapses; size new payment methods by volume × method share × conversion lift vs integration cost.</td></tr>
+</table>
+
+<h2>Пробелы: как отвечать</h2>
+<table>
+  <tr><td>«2+ года публичного API»</td><td>Публичного developer-портала не было, но я владела API-контрактами платформы, на которых строились команды и партнёры: модель статусов, ошибки, idempotency, колбэки. Подключение партнёра за 2,5 недели — по сути ваше «время до первого вызова». <i>EN: I haven't run a public developer portal, but I owned the platform contracts other teams and partners built on.</i></td></tr>
+  <tr><td>Пишете ли код?</td><td>Продакшен-код нет. Спеки на уровне моделей состояний и API-контрактов, архитектура и sequence-диаграммы, Postman и логи с инженерами. Собрала себе бота на ATS API и Telegram с Claude.</td></tr>
+  <tr><td>Некоммерческий сектор</td><td>Домен новый, механика платежей и интеграций та же. Начну с CAB и топ-партнёров.</td></tr>
+  <tr><td>Контракты, а не найм</td><td>Последний год работала по контракту через своё ИП, формат подходит, найм тоже рассматриваю.</td></tr>
+  <tr><td>AI в работе</td><td>Бот поиска работы на Claude: ~120 компаний через ATS API, оценка, письма, трекер, Telegram-дайджест. Плюс спеки, разборы, прототипы.</td></tr>
+</table>
+
+<h2>Формат работы</h2>
+<table>
+  <tr><td>Локация</td><td>Спросить: «Работаю через армянское ИП. Важно ли, из какой страны я работаю, или достаточно армянского юрлица?» Сейчас я в Казахстане.</td></tr>
+  <tr><td>Деньги</td><td>Верх вилки или чуть выше: «ориентируюсь на верх вашей вилки, ~$5,500, с учётом платёжного опыта». Ниже вилки первой не называть.</td></tr>
+  <tr><td>Старт</td><td>Свободна сейчас, могу начать через 1–2 недели.</td></tr>
+  <tr><td>Другие процессы</td><td>Есть несколько на разных стадиях. Без названий.</td></tr>
+</table>
+
+<h2>Мои вопросы (выбрать 3–4)</h2>
+<ul>
+  <li>Какой сегмент партнёров даёт рост ×5: F2F-агентства, CRM, enterprise? Какие 10 интеграций важнее всего?</li>
+  <li>Где застревают интеграции? Меряете ли путь «ключ → первое живое пожертвование»?</li>
+  <li>Как делится время между API и платёжной частью в этом году?</li>
+  <li>Кому подчиняется роль, какая команда инженеров, как устроена работа с GTM и CAB?</li>
+  <li>Какие следующие этапы и сроки?</li>
+</ul>
+
+<h2>Чеклист перед звонком</h2>
+<ul class="check">
+  <li>Открыть: этот лист, разбор API (PDF), CV, вакансию, портфолио (#orchestration, #payouts)</li>
+  <li>Камера, звук, зарядка, вода, тихое место за 10 минут до начала</li>
+  <li>Знать имя и роль интервьюера, посмотреть его LinkedIn</li>
+  <li>Цифры наизусть: 40+, ~$100K, 96.4%, 2.5 недели, 100%, ×5</li>
+  <li>Разбор API не показывать в начале: вплетать в ответы, PDF предложить прислать после</li>
+  <li>В конце: спросить про следующие шаги, поблагодарить, в тот же день — короткое письмо</li>
+</ul>
+
+</body>
+</html>
