@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fundraise Up API: notes and ideas</title>
+<style>
+  @page { size: A4; margin: 14mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font: 9.6pt/1.38 "Helvetica Neue", Helvetica, Arial, sans-serif; color: #15171a; margin: 0; }
+  h1 { font-size: 17pt; margin: 0 0 2px; letter-spacing: -0.2px; }
+  .sub { color: #4a4f57; font-size: 9.5pt; margin-bottom: 10px; }
+  h2 { font-size: 11.5pt; margin: 14px 0 6px; color: #1f5fbf; border-bottom: 1px solid #dde3ea; padding-bottom: 3px; }
+  p { margin: 0 0 6px; }
+  ul { margin: 0 0 6px; padding-left: 16px; }
+  li { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.9pt; margin: 4px 0 6px; }
+  th { text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.5px; color: #6b7280; border-bottom: 1.5px solid #15171a; padding: 4px 6px 4px 0; }
+  td { vertical-align: top; padding: 5px 6px 5px 0; border-bottom: 1px solid #e5e7eb; }
+  td:first-child { font-weight: 600; width: 23%; }
+  .good { color: #1d7a4f; font-weight: 600; }
+  .kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 6px 0 4px; }
+  .kpi div { border-top: 2px solid #15171a; padding-top: 4px; font-size: 8.8pt; color: #4a4f57; }
+  .kpi b { display: block; color: #15171a; font-size: 9.5pt; }
+  .note { color: #6b7280; font-size: 8.3pt; margin-top: 8px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pb { break-before: page; }
+</style>
+</head>
+<body>
+
+<h1>Fundraise Up API: what I noticed and where I'd start</h1>
+<div class="sub">Ekaterina Deys · prepared for the Senior Product Manager, API &amp; Billing conversation · based only on public sources: the OpenAPI spec at api.fundraiseup.com/v1/openapi.json, the Webhooks docs, the REST API page and the job posting</div>
+
+<h2>How I read the role</h2>
+<p>API donation volume grew about 5× in a year and hundreds of integrations depend on it, but the posting calls the API an under-built area. The job is to turn a set of endpoints that work into a platform partners can build businesses on: faster first integration, safe writes at volume, self-serve partner onboarding. The "Billing" part is donor payments: local methods, recurring retries, payment infrastructure. That's the part I've spent the last four years on.</p>
+<div class="kpi">
+  <div><b>API donation volume</b>grow it without more support load</div>
+  <div><b>Active integrations</b>more partners, fewer one-offs</div>
+  <div><b>Time to first call</b>days, not weeks</div>
+  <div><b>Webhook delivery rate</b>already strong, keep it visible</div>
+</div>
+
+<h2>What's already good</h2>
+<ul>
+  <li><span class="good">Webhooks are well designed:</span> HMAC-signed with secret rotation, at-least-once delivery with stable event ids, exponential retries for about 8 hours, a delivery log, manual resend, test events.</li>
+  <li><span class="good">Fundamentals are right:</span> cursor pagination where pages never silently skip records, a <code>Request-Id</code> on every response, granular per-resource keys for live and test data, deprecations announced with a date.</li>
+  <li><span class="good">The API ships steadily:</span> BACS, PAD and ACH, fee calculation and supporter-covered fees, upgrade links, and designation batch endpoints, all in 2026.</li>
+</ul>
+
+<h2>What I noticed, and why it matters as volume grows</h2>
+<table>
+  <thead><tr><th>Observation</th><th>Why it matters</th><th>What I'd explore</th></tr></thead>
+  <tbody>
+    <tr><td>No idempotency key on <code>POST /v1/donations</code></td><td>Face-to-face and telethon partners retry on flaky networks. A timeout after a successful charge can turn into a second charge for the donor.</td><td>An <code>Idempotency-Key</code> header with a stored response for 24h. This is the first item on the roadmap list in the posting.</td></tr>
+    <tr><td>3 parallel requests per account, single-object writes</td><td>With 5× growth, partners that import a whole event or a day of street fundraising have to queue requests. Splitting into subaccounts to get more throughput is a workaround, not a model.</td><td>An async bulk donations endpoint with per-item results (the pattern already exists for designations). Limits per partner app and per tier, not only per account.</td></tr>
+    <tr><td>Writes only within 24h, only for API-created donations. No refund endpoint; recurring plans can't be changed via API after that window</td><td>CRMs and agencies need two-way sync: change an amount, pause or cancel a plan, refund a duplicate. Today that means the Dashboard or a Donor Portal link.</td><td>Recurring plan write endpoints (amount, date, pause, cancel with reason) and refunds, with an audit trail and permissions per key.</td></tr>
+    <tr><td>Partners need Stripe access to the nonprofit's account to create PaymentMethods</td><td>That's the biggest integration hurdle: Stripe onboarding for every client plus PCI questions. It slows time to first call more than anything in the docs.</td><td>Hosted tokenization or a "payment session" API: Fundraise Up collects the payment details and the partner never touches Stripe.</td></tr>
+    <tr><td>API keys are created and copied by an Org Admin per account; webhooks are configured only in the Dashboard</td><td>A Partner API Program needs self-serve install: a partner can't provision keys and webhooks for 200 clients by hand.</td><td>OAuth "connect" for partner apps with scoped tokens, a webhook management API, and a partner dashboard with health per client.</td></tr>
+    <tr><td>Docs: the reference renders only with JavaScript; the REST API page says "credit card only" while the spec lists cards, wallets, ACH, BACS and PAD</td><td>Developers and AI coding agents read docs that are crawlable. Contradictions cost trust and support time.</td><td>A static reference generated from the existing OpenAPI file, SDKs generated from the same source, llms.txt or an MCP server, and one source of truth for capabilities.</td></tr>
+  </tbody>
+</table>
+
+<h2>Billing side: where my experience maps directly</h2>
+<div class="two">
+  <div>
+    <p><b>Recurring payment retries.</b> At inDrive I designed failover based on soft and hard decline classification: retry only what can succeed, on the right schedule or a different route, and never retry a hard decline. For recurring giving that means smart retries by decline reason, card updater, and nudging donors to update the card through the existing Donor Portal links before the plan lapses. KPI: recovered recurring revenue and involuntary churn.</p>
+    <p><b>Local payment methods.</b> I took payment orchestration from 4 to 40+ countries with 2–3 providers per country. Choosing which method to add next is a sizing exercise: donation volume by country × method share × expected conversion lift, against integration cost.</p>
+  </div>
+  <div>
+    <p><b>Payment infrastructure.</b> One internal state model for every provider's statuses, health monitoring with automatic exclusion and gradual return (96.4% provider SLA), cost-aware routing (~$100K/month saved). That's directly useful as Fundraise Up adds methods beyond Stripe.</p>
+    <p><b>Partner integrations.</b> At SkyRo I standardized integration contracts with PSPs and banks (schemas, ids, status transitions, error mapping), and a new partner went from unpredictable to a steady 2.5 weeks. That's the same muscle as cutting time to first successful call.</p>
+  </div>
+</div>
+
+<h2>First 90 days, as a hypothesis to test with you</h2>
+<table>
+  <thead><tr><th>When</th><th>Focus</th><th>Output</th></tr></thead>
+  <tbody>
+    <tr><td>Days 1–30</td><td>Listen and measure: top partners and enterprise accounts, support tickets tagged API, where integrations stall between key creation and first live donation</td><td>Integration funnel baseline (key → first test call → first live donation), top 5 partner pains, API health dashboard</td></tr>
+    <tr><td>Days 31–60</td><td>Fix the risky and the slow: idempotency on donation writes, clear limits and errors, docs consistency, quick wins for time to first call</td><td>Idempotency live, a static reference from the OpenAPI file, first CAB session with partners</td></tr>
+    <tr><td>Days 61–90</td><td>Shape the platform bets: Partner API Program (OAuth connect, webhook API), bulk writes, recurring plan management, API parity for P2P and new products</td><td>Partner program spec and pilot partners, roadmap with KPI targets agreed with GTM</td></tr>
+  </tbody>
+</table>
+
+<h2>Questions I'd like to ask</h2>
+<ul>
+  <li>Which partner segment drives the 5× growth: F2F agencies, CRMs, enterprise in-house teams? Who are the 10 integrations that matter most?</li>
+  <li>Where do integrations stall today: Stripe setup, permissions, limits, docs? Is the key-to-first-live-donation funnel measured?</li>
+  <li>How much of "billing" is payment-method expansion versus recurring retries and recovery this year?</li>
+  <li>How does the API team work with GTM and the Customer Advisory Board? Who decides between a partner's ask and the platform roadmap?</li>
+</ul>
+
+<p class="note">All observations are from public documentation as of November 2026 and may already be on your roadmap. I'd treat them as hypotheses to check with data and partners, not conclusions.</p>
+</body>
+</html>
