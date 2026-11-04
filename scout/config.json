@@ -3,25 +3,25 @@
   "cv_versions": {
     "general_pm": {
       "file": "../Ekaterina_Deys_Lead_Technical_PM_Payments_CV.pdf",
-      "asset_url": "/_blob/4926729eb2551b1cec36c5e39b0311a7",
+      "asset_url": "/_blob/aefc55e89513af479f1b890e299187f0",
       "name": "Lead Technical PM (общая)",
       "use_for": "payments PM / lead PM / technical PM, default"
     },
     "solutions_architect": {
       "file": "../Ekaterina_Deys_Payments_Solutions_Architect_CV.pdf",
-      "asset_url": "/_blob/1b2008edcde7fc3d41565ddee11df690",
+      "asset_url": "/_blob/13e8ad8a95e4d4159d1380fcd9e5d117",
       "name": "Solutions Architect",
       "use_for": "solutions architect/engineer, pre-sales, integration, implementation"
     },
     "billing_platform_pm": {
       "file": "../Ekaterina_Deys_Senior_PM_Billing_GitLab.pdf",
-      "asset_url": "/_blob/b79cfe8c9b947bd7aeb2bd21955b9d72",
+      "asset_url": "/_blob/2327642c1f94f0b8bbbaa1948bd68cda",
       "name": "Billing / Platform PM",
       "use_for": "billing, monetization, platform PM"
     },
     "client_pm": {
       "file": "../Ekaterina_Deys_Product_Manager_Ingsoftware.pdf",
-      "asset_url": "/_blob/38ee5d3c70a99e6d385612d3c90a1d68",
+      "asset_url": "/_blob/0c044f73674b7740c585befe9ef74e59",
       "name": "Product Manager (клиентский)",
       "use_for": "agencies/outsourcing, client-facing generalist PM"
     },
