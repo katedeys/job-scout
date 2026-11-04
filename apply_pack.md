@@ -54,6 +54,9 @@ Payment orchestration at inDrive: from 4 to 40+ countries with 2–3 providers p
 **Experience with APIs / technical depth**
 I design and review integrations: API contracts, webhooks, idempotency, status models and error mapping. I read code and SQL and work in Postman and logs, but I don't write production code.
 
+**Highest level of education**
+Master (5-year Specialist degree, Tomsk State University, Faculty of Applied Mathematics and Cybernetics; Master's-level equivalent, ISCED 7).
+
 **Languages**
 English: C1 (professional). Russian: native.
 
@@ -65,3 +68,4 @@ Job board or LinkedIn (choose the actual source).
 - Gender, ethnicity, veteran or disability questions: "Prefer not to say" unless you want to answer.
 - Sponsorship needed now or in the future: "Yes" for any on-site role outside Armenia and Kazakhstan.
 - Citizenship, when asked directly: answer truthfully.
+- "How did you hear about us?" free text: "I found the role on your careers page while looking for payments product roles." plus one honest line on why the company stands out.
