@@ -83,9 +83,19 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
      honestly. Cover letters for these say which part transfers and what is new for her. Still drop: pure growth/marketing
      PM, consumer UX PM with no money or integration scope, and usage metering/billing roles that require hands-on
      Zuora/metering experience she does not have.
-5. **Prepare the two tops and the country queues.** Two separate tracks, product first:
-   PRODUCT TOP 10 = the 10 freshest kept vacancies with track PM-payments, PM-adjacent, PM or Expansion (posted in the last
-   48 hours first, then newest), score ≥ 6, location_ok not false. SOLUTIONS TOP 5 = the same rule for track SA.
+5. **Prepare the two lanes and the country queues (since 04.11: bigger funnel, less effort per application).**
+   Goal: 4–5 applications a day on weekdays (20–25 a week). Every kept vacancy goes into exactly one lane:
+   - **DEEP lane (🎯, at most 3 a day):** score ≥ 8, or a warm lead (referral, someone she knows inside, a recruiter who wrote
+     first). Gets a cover letter, a tailored CV if the role needs one, and an outreach task for the hiring manager the same day.
+   - **FAST lane (⚡, up to 7 a day):** score 6–7, location_ok not false, verified live. Base CV from `cv_versions`, NO cover
+     letter (she presses ✍️ if a form requires one), and the card says "⚡ 10 минут: базовое CV + ответы из apply_pack.md".
+     Prefer Easy Apply, short ATS forms (Ashby, Lever, Greenhouse) and postings from the last 48 hours.
+   - **BACKLOG SWEEP:** before choosing today's lanes, `query` tracker `jobs` with status "new", score ≥ 7, added in the last
+     14 days. Re-check that each is still live (ATS API or page); fill free lane slots with the live ones, oldest first, marked
+     "из бэклога". Docs with status "new" added more than 21 days ago: set `status: "skipped"` and append
+     "DD.MM — авто: устарела" to `notes` (count them in the digest; never touch other statuses).
+   Product and Solutions share the lanes; within each lane put product tracks (PM-payments, PM-adjacent, PM, Expansion) first,
+   then SA. Keep at least 1 SA role in the fast lane when one qualifies.
    Solutions rules: keep Implementation / Integration / Technical Account / Solutions Architect / Solutions Engineer /
    Payments Consultant roles at payments, fintech, billing or commerce-platform companies, and post-sales integration roles
    anywhere; drop pre-sales in unrelated domains (cybersecurity, data centre hardware, telecom, generic IT sales) and any role
@@ -93,8 +103,9 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    integrations and partner delivery (2.5-week partner go-live, orchestration across 40+ countries, PCI DSS) and says plainly
    that she designs and reviews integrations rather than writes production code. If fewer than 5 SA roles qualify, send fewer. COUNTRY QUEUES = the other kept vacancies, grouped with
    `jq -L . 'include "buckets"; bucket'` (NL, UK, DE, AT, IL, AE, AM, RS, ESPT, PL, EU, REMOTE, OTHER), best first.
-   Write cover letters for both tops and for the best 3 of each country queue (at most 30 letters a day in total);
-   the rest go into the queue with CV only (`cover_pdf: null`). For every vacancy with a letter:
+   Write cover letters ONLY for the deep lane (and later for ✍️ presses); fast-lane and country-queue vacancies go out with
+   CV only (`cover_pdf: null`). Form answers live in `../apply_pack.md`; if a vacancy has an unusual required question,
+   put a 1–2 sentence ready answer in the card caption. For every vacancy with a letter:
    - Write a cover letter (English, 150–220 words, specific to the role, honest about one gap
      if it matters). Plain text with paragraphs.
    - Make a tailored CV only when the role clearly needs a different emphasis than the base
@@ -125,7 +136,7 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    (get it first; if it exists, skip it).
 6c. **Day plan (clickable checklist in the tracker).** Write today's tasks to the tracker collection `tasks` (ArtifactData, same tracker url). First `query` tasks with `date` = today (Asia/Almaty date): if some already exist, only add what is missing and never duplicate. Undone tasks from earlier days already show on the page as carried over, so do not re-create them. One doc per task, id `t-YYYY-MM-DD-<block letter><n>`, fields `{date, order, category, title, detail, link, link_label, done:false}`. `category` is exactly one of five blocks, shown in this order on the page:
    - **Виза** (Austrian Job Seeker Visa, via the embassy in Moscow): apostille in Tomsk, TSU letter, SkyRo reference, English exam, ENIC NARIC evaluation, translations, embassy appointment. One concrete next step a day while open; see `queue/requests.md` and memory for status.
-   - **Поиск работы**: 3–5 applications a day, ONE task per vacancy (title "Откликнуться: Company — Role", `detail` = score, city, which case the letter links, "после отклика ✅ в Telegram", `link` = vacancy URL). Feedback requests after rejections go here too.
+   - **Поиск работы**: 5 applications a day on weekdays (weekends: none unless she asks), ONE task per vacancy: 1–2 from the deep lane (title "🎯 Откликнуться: Company — Role", `detail` = score, city, which case the letter links) and 3–4 from the fast lane (title "⚡ Откликнуться: Company — Role", `detail` = score, city, "базовое CV, без письма, ответы в apply_pack.md, ~10 минут"). Every `detail` ends with "после отклика ✅ в Telegram"; `link` = vacancy URL. Put fast tasks first: they are the warm-up. Feedback requests after rejections go here too.
    - **Аутрич**: 3–6 named people a day, each with the ready message in `detail` and a LinkedIn link. Sources, in priority: (1) tracker rows with `track: "Нетворкинг"` whose `followup_on` is today or earlier (use their `cover` text); (2) for every application sent yesterday, the hiring manager or team lead (LinkedIn search link + 3-sentence note with the relevant portfolio case); (3) payments PMs at target companies for referrals; (4) fintech recruiters; (5) local network in Armenia, Serbia, UAE, Georgia. Never message SkyRo competitors about SkyRo work.
    - **Консалтинг**: 1–2 tasks: follow up open consulting conversations (e.g. Aram), one lead from step 8b with a draft message, or improving the offer (packages from the strategy doc, portfolio link).
    - **Развитие**: 1–3 tasks: SA training step (Mondays and Thursdays, from `../sa_training_plan.md`), portfolio and profile work, LinkedIn post, English prep.
@@ -136,17 +147,15 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    replied, interview, offer, rejected; response rate = replied / applied. Follow-up due =
    status "applied" and applied_at ≥ 7 days ago with no reply: write a 2–3 sentence follow-up
    message for each (max 3).
-8. **Telegram digest.** Skip any company listed in `blocklist.txt` everywhere (APIs, web sources, consulting). inDrive (former employer, she is not keen to return) is watch-only: never put it in the top 10, show new inDrive roles only as a single line "inDrive: N new" at the end of the digest. Write `data/digest.html` (Telegram HTML: <b>, <i>, <a href>, no other
+8. **Telegram digest.** Skip any company listed in `blocklist.txt` everywhere (APIs, web sources, consulting). inDrive (former employer, she is not keen to return) is watch-only: never put it in either lane, show new inDrive roles only as a single line "inDrive: N new" at the end of the digest. Write `data/digest.html` (Telegram HTML: <b>, <i>, <a href>, no other
    tags; keep under 3800 characters):
    ```
    💰 <b>Get Rich · DD.MM</b>
    Новых подходящих: N (из M просмотренных)
 
-   🔥 <b>Продакт — топ-10</b> (карточки ниже)
-   1. Company — Title · 📍 · ⭐ (one short line each)
-   ...
-   🛠 <b>Solutions — топ-5</b> (карточки после продактовых)
-   1. Company — Title · 📍 · ⭐
+   🎯 <b>Глубокие (письмо + аутрич)</b> — 0–3 lines: Company — Title · 📍 · ⭐
+   ⚡ <b>Быстрые (10 минут, без письма)</b> — up to 7 lines, SA marked 🛠, backlog marked "из бэклога"
+   📈 <b>Воронка за неделю</b>: откликов W из цели 20–25 · ответов · интервью · авто-архив: N устаревших
    ...
    🏋️ <b>SA-тренировка</b>: the current week's task from `../sa_training_plan.md` in one line (only on Mondays and Thursdays)
    📊 <b>Статистика</b>: откликов X (за неделю Y) · ответили Z (R%) · интервью I
@@ -155,13 +164,15 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    🔎 Salmon-вотчер: one line from `data/watch_status.txt` (last hourly check time and number of roles seen), e.g. "🔎 Salmon: проверка 02.11 08:16, 61 вакансия, новых нет"
    📝 <a href="tracker_url">Открыть трекер</a>
    ```
-   Send it with `./send_tg.sh data/digest.html`. Then send the product top 10, then a one-line separator message "🛠 Solutions — топ-5" and the SA top 5, each card as one album with BOTH files: render the
+   Send it with `./send_tg.sh data/digest.html`. Then send the deep-lane cards, then a one-line separator "⚡ Быстрые" and the
+   fast-lane cards. A fast card is the CV alone with the caption (`./send_job_docs.sh <caption.html> <cv.pdf> "" <doc id>`).
+   A deep card is one album with BOTH files: render the
    cover with `./make_cover_pdf.sh <cover.txt> data/out/pdf/Ekaterina_Deys_Cover_Letter_<Company>_<id>.pdf "<Company> — <Title>"`
    and send `./send_job_docs.sh <caption.html> <cv.pdf> <cover.pdf> <tracker doc id>` (the id adds the ✍️ Письмо / 💶 Зарплата buttons; caption: company, linked title, location, score,
    💶 salary or ≈ estimate, why; under 1000 chars). The CV file comes from `config.json` cv_versions[..].file or the tailored PDF.
    Write `data/country_queue.json` = `{"<bucket>": [{id, company, title, url, location, score, why, salary, salary_estimate,
    cv_pdf, cover_pdf}]}` (absolute paths, cover_pdf null when there is no letter, best first) and `data/more_queue.json`
-   = the best 10 across all countries not in the top 10 (20 if `data/more_requested` exists; then delete that file).
+   = the best 10 across all countries not in today's lanes (20 if `data/more_requested` exists; then delete that file).
    Run `./make_keyboard.sh`, then send a last message "Куда дипдайвим? 👇" with `./send_tg.sh <file> kb`
    (country buttons with counts + "➕ Ещё 10").
    Use past tense for SkyRo from 1 Nov 2026 (contract ended 31 Oct).
