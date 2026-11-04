@@ -38,6 +38,7 @@
   <li>Designed and launched a CPA monetization model adopted by 90% of wholesale sellers at Drom.ru.</li>
   <li>Launched a paid analytics subscription MVP at Sbermarket (3 of 5 pilot retailers converted to paid) and reduced retailer churn by 15%.</li>
   <li>Built consumer payment flows at inDrive across 40+ countries: transaction volume up 1.5%, processing costs down ~$100K/month, 96.4% provider SLA.</li>
+  <li>Ran the agent channel for internet acquiring at Tinkoff: revenue share plus first-activation bonus, agent cabinet and payouts; ~15% of new merchants came through agents.</li>
   <li>Took a remittance product from zero to MVP at SkyRo and pivoted it into cross-border repayments for families of borrowers.</li>
   <li>Led product teams at Tinkoff and Sbermarket (2 PMs + 1 project manager each, matrix) through the full cycle: hiring, 1:1s, growth plans, performance reviews and a mentoring programme.</li>
 </ul>
@@ -51,12 +52,9 @@
     <li>Owned product direction for the payments platform behind credit products (disbursements, repayments, wallet operations, partner integrations), used by lending and origination teams.</li>
     <li>Took a remittance product from zero to MVP to capture migrant remittances (Gulf → Southeast Asia) into our lending market, then pivoted it into cross-border repayments: relatives abroad top up a family member's credit line at home. Ran partner selection, designed money, data and system flows (AED/SAR → USD → local, reusable partner KYC ID, kinship check on our side), negotiated a margin-plus-interbank-FX model, and planned the move from remittance-as-a-service to an in-house build.</li>
     <li>Designed and piloted remittance history as an income signal in credit scoring, so recipients could qualify for loans in the local market.</li>
-    <li>Defined the credit-line money flows between BFF and Credit Engine: drawdowns, repayments, balance and minimum-payment calculation, with cached retrieval and refresh triggered by balance-changing events.</li>
     <li>Designed asynchronous full-payoff calculation with invalidation and revalidation before execution, so customers are charged the exact amount owed at payment time.</li>
     <li>Designed asynchronous disbursement flows with callbacks, status checks, idempotency, retries and reconciliation to prevent duplicate or missed money movements, which removed manual payout investigations entirely.</li>
-    <li>Launched multi-channel repayments in Malaysia with 2 partners and 3 methods each (cards via PSPs, bank transfers via Virtual IBANs, cash) and the payment event model feeding the Credit Engine.</li>
-    <li>Defined integration contracts with PSPs and banks: request/response schemas, transaction identifiers, status transitions, error mapping and validation rules.</li>
-    <li>Designed Virtual IBAN issuance within loan origination, including async callbacks, timeouts, retries and duplicate-account closure; 100% of bank-transfer repayments now reconcile automatically.</li>
+    <li>Launched multi-channel repayments in Malaysia with 2 partners and 3 methods each (cards via PSPs, bank transfers via Virtual IBANs, cash); 100% of bank-transfer repayments reconcile automatically through Virtual IBANs.</li>
   </ul>
 </div>
 
@@ -79,6 +77,7 @@
   <div class="company">Tinkoff Bank · Russia</div>
   <ul>
     <li>Automated merchant onboarding, cutting it from 1 month to 2 weeks and reducing support volume by 23%.</li>
+    <li>Owned the agent channel for internet acquiring: external aggregators resold it for a revenue share plus a fixed bonus on each merchant&#39;s first activation. Built the agent cabinet, onboarding, reward calculation and payouts, plus merchant onboarding through agents; 6 large and many smaller agents brought ~15% of new merchants, supported by agent training and first-month special terms for their merchants.</li>
     <li>Managed a team of 2 product managers and 1 project manager (matrix) through the full cycle: hiring (3 hires after 40+ interviews), onboarding, growth plans, 1:1 feedback and performance reviews; ran a junior-to-middle mentoring programme.</li>
     <li>Introduced an OKR-based discovery-to-delivery operating model for the team.</li>
   </ul>
