@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ekaterina Deys — CV</title>
+<style>
+  @page { size: A4; margin: 12mm 14mm 12mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 9.3pt; line-height: 1.33; color: #1a1a1a; margin: 0; }
+  h1 { font-size: 21pt; letter-spacing: 0.5px; margin: 0; font-weight: 700; }
+  .title { font-size: 11pt; color: #1f4e79; font-weight: 600; margin: 2px 0 4px; }
+  .contact { font-size: 9pt; color: #444; }
+  .contact a { color: #444; text-decoration: none; }
+  h2 { font-size: 10pt; text-transform: uppercase; letter-spacing: 1.2px; color: #1f4e79; border-bottom: 1px solid #c9d6e3; padding-bottom: 2px; margin: 11px 0 5px; }
+  p { margin: 0 0 4px; }
+  ul { margin: 2px 0 0; padding-left: 15px; }
+  li { margin: 0 0 2.5px; }
+  .job { margin-bottom: 8px; } .job-head, .company { break-after: avoid; } li { break-inside: avoid; }
+  .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .role { font-weight: 700; font-size: 10pt; }
+  .dates { color: #555; font-size: 9pt; white-space: nowrap; }
+  .company { color: #444; font-size: 9pt; margin-bottom: 1px; }
+  .skills p { margin-bottom: 3px; }
+  .skills b { color: #1a1a1a; }
+  ul.impact { columns: 1; }
+</style>
+</head>
+<body>
+
+<h1>EKATERINA DEYS</h1>
+<div class="title">Senior Technical Product Manager | Marketplaces, Payments &amp; Fintech</div>
+<div class="contact">Kazakhstan · Remote · <a href="mailto:katedeys@gmail.com">katedeys@gmail.com</a> · <a href="https://linkedin.com/in/kate-deys">linkedin.com/in/kate-deys</a> · <a href="https://katedeys.github.io/katedeys-portfolio/">katedeys.github.io/katedeys-portfolio</a></div>
+
+<h2>Professional Summary</h2>
+<p>Product manager with 10+ years in tech, working where marketplaces and money meet. At Sbermarket I built products for retailers on the platform (seller analytics, KPI portal, retailer APIs, financial reconciliation) and at Drom.ru a CPA monetization model adopted by 90% of sellers. Then four years in payments: payment orchestration across 40+ countries at inDrive and a payments platform for a lending fintech (payouts, repayments, Virtual IBANs, KYC/AML). Hands-on with API contracts, SQL and data; managed teams of PMs. Russian native, English C1.</p>
+
+<h2>Selected Impact</h2>
+<ul class="impact">
+  <li><b>~$100K/month (~20%)</b> lower processing costs through in-house payment routing · inDrive</li>
+  <li><b>4 → 40+ countries</b> on one payment orchestration platform · inDrive</li>
+  <li><b>96.4%</b> provider SLA with health monitoring and automatic failover · inDrive</li>
+  <li><b>+1.5%</b> transaction volume from payment flow optimisation · inDrive</li>
+  <li><b>2.5 weeks</b> steady partner go-live across 4+ PSP, EMI and bank partners · SkyRo</li>
+  <li><b>100%</b> of bank-transfer repayments reconciled automatically via Virtual IBANs · SkyRo</li>
+  <li><b>1 month → 2 weeks</b> merchant onboarding and <b>−23%</b> support volume · Tinkoff</li>
+  <li><b>~15%</b> of new merchants brought by an agent channel · Tinkoff</li>
+  <li><b>1 day → 1.5 hours</b> report preparation for the top 40 retailers · Sbermarket</li>
+  <li><b>3 of 5</b> pilots converted to a paid subscription, <b>−15%</b> retailer churn · Sbermarket</li>
+  <li><b>90%</b> of wholesale sellers adopted a new CPA model, listing errors <b>20% → 4%</b> · Drom.ru</li>
+</ul>
+
+<h2>Professional Experience</h2>
+
+<div class="job">
+  <div class="job-head"><span class="role">Lead Technical Product Manager — Payments Platform</span><span class="dates">Oct 2025 – Oct 2026</span></div>
+  <div class="company">SkyRo, lending fintech · Malaysia (remote) · contract; part-time Oct 2025 – Jan 2026 alongside inDrive, full-time from Feb 2026</div>
+  <ul>
+    <li>Owned product direction for the payments platform behind credit products (disbursements, repayments, wallet operations, partner integrations), used by lending and origination teams.</li>
+    <li>Took a remittance product from zero to MVP to capture migrant remittances (Gulf → Southeast Asia) into our lending market, then pivoted it into cross-border repayments: relatives abroad top up a family member's credit line at home. Ran partner selection, designed money, data and system flows (AED/SAR → USD → local, reusable partner KYC ID, kinship check on our side), negotiated a margin-plus-interbank-FX model, and planned the move from remittance-as-a-service to an in-house build.</li>
+    <li>Designed and piloted remittance history as an income signal in credit scoring, so recipients could qualify for loans in the local market.</li>
+    <li>Defined the credit-line money flows between BFF and Credit Engine: drawdowns, repayments, balance and minimum-payment calculation, with cached retrieval and refresh triggered by balance-changing events.</li>
+    <li>Designed asynchronous disbursement flows with callbacks, status checks, idempotency, retries and reconciliation to prevent duplicate or missed money movements, which removed manual payout investigations entirely.</li>
+    <li>Launched multi-channel repayments in Malaysia with 2 partners and 3 methods each (cards via PSPs, bank transfers via Virtual IBANs, cash) and the payment event model feeding the Credit Engine.</li>
+    <li>Defined integration contracts with PSPs and banks: request/response schemas, transaction identifiers, status transitions, error mapping and validation rules.</li>
+    <li>Designed payment orchestration and fallback logic across providers, raising payment success rate to 94%, and built KYC, AML and antifraud flows from scratch.</li>
+    <li>Designed Virtual IBAN issuance within loan origination, including async callbacks, timeouts, retries and duplicate-account closure; 100% of bank-transfer repayments now reconcile automatically.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Technical Product Manager — Payments</span><span class="dates">Jan 2023 – Jan 2026</span></div>
+  <div class="company">inDrive, global ride-hailing and urban services app · Astana, Kazakhstan</div>
+  <ul>
+    <li>Built the payment orchestration platform end to end, from discovery and solution design through partner integrations, pilot and rollout, scaling from 4 to 40+ countries.</li>
+    <li>Designed cost-aware routing based on provider priority, amount, limits, geographic coverage and processing cost, saving ~$100K/month (~20%).</li>
+    <li>Designed failover logic using soft/hard decline classification, defining retry eligibility and alternative routing paths.</li>
+    <li>Defined unified status and error mapping, aligning external provider responses with one internal transaction state model for consistent, auditable outcomes.</li>
+    <li>Designed provider health management (backlogs, timeouts, alerts, support signals), automatic exclusion and gradual traffic restoration, reaching a 96.4% SLA.</li>
+    <li>Led PCI DSS Service Provider certification, coordinating Product, Engineering, Security and Compliance.</li>
+    <li>Optimized payment flows, growing transaction volume by 1.5%; managed PSP relationships across integrations, incidents and performance reviews.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Lead Product Manager</span><span class="dates">May 2022 – Jan 2023</span></div>
+  <div class="company">Tinkoff Bank, digital bank · Russia</div>
+  <ul>
+    <li>Owned the internet acquiring product end to end.</li>
+    <li>Owned the agent channel: external aggregators resold acquiring for a revenue share plus a bonus on each merchant's first activation. Built the agent cabinet, onboarding, reward calculation and payouts; agents brought ~15% of new merchants.</li>
+    <li>Managed 2 product managers and 1 project manager (matrix) through the full cycle: hiring, onboarding, growth plans, feedback and performance reviews.</li>
+    <li>Automated merchant onboarding, cutting it from 1 month to 2 weeks and reducing support volume by 23%.</li>
+    <li>Introduced an OKR-based discovery-to-delivery operating model; hired 3 PMs after 40+ interviews and ran a junior-to-middle mentoring programme.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Lead / Senior Product Manager</span><span class="dates">Jun 2020 – May 2022</span></div>
+  <div class="company">Sbermarket, online grocery marketplace · Russia</div>
+  <ul>
+    <li>Launched a CSI collection and improvement process for retailers on the platform (88% → 94%).</li>
+    <li>Created and launched a portal with key performance metrics for Tier-1 and Tier-2 retailers on the platform.</li>
+    <li>Designed and launched APIs for retailers with specific pick-up and delivery requirements (drugstores, cosmetics stores, retailers with their own delivery).</li>
+    <li>Built financial reconciliation and reporting products for the top 40 retailers, cutting report preparation from 1 day to 1.5 hours.</li>
+    <li>Launched a paid SMB analytics subscription MVP (3 of 5 pilot retailers converted to paid); reduced retailer churn by 15%.</li>
+    <li>Built and led the product team (2 PMs and 1 project manager, matrix): hiring, growth plans and reviews.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Product Manager</span><span class="dates">Jan 2019 – Jun 2020</span></div>
+  <div class="company">Drom.ru, car classifieds marketplace · Russia</div>
+  <ul>
+    <li>Designed and launched a CPA monetization model adopted by 90% of wholesale sellers; reduced listing errors from 20% to 4% through automation.</li>
+  </ul>
+</div>
+
+<div class="job">
+  <div class="job-head"><span class="role">Project Manager</span><span class="dates">2014 – 2018</span></div>
+  <div class="company">Interfaced, custom cross-platform app development</div>
+  <ul>
+    <li>Ran client projects for 4 long-term clients (including Dom.ru and Odnoklassniki) and several smaller ones, delivering iOS, Android and web apps from one cross-platform codebase.</li>
+    <li>Owned project documentation (specifications, acceptance criteria, release notes) and releases, including store submissions and post-release fixes.</li>
+  </ul>
+</div>
+
+
+<h2>Skills</h2>
+<div class="skills">
+  <p><b>Payments:</b> orchestration · routing &amp; failover · PSP/acquirer/EMI/bank integrations · cards · payouts · loan repayments · wallets · Virtual IBANs · reconciliation · settlements · refunds &amp; reversals · provider health management</p>
+  <p><b>Platform &amp; integration:</b> API contracts · transaction lifecycle &amp; state models · async integrations · callbacks &amp; webhooks · idempotency · retries · error mapping · monitoring &amp; alerting</p>
+  <p><b>Compliance &amp; monetization:</b> PCI DSS (Service Provider) · KYC/AML · antifraud integrations · pricing model launches (CPA, subscriptions)</p>
+  <p><b>Cards &amp; tools:</b> acquiring &amp; issuing · 3DS · tokenization · Jira · Confluence · Camunda/BPMN · Postman · Figma · n8n · Claude Code · Cursor</p>
+  <p><b>Ways of working:</b> written specs &amp; async decision-making · cross-functional work with Finance, Security &amp; Compliance · AI-assisted analysis and spec writing · SQL · Grafana · Amplitude · Mixpanel</p>
+</div>
+
+<h2>Education &amp; Languages</h2>
+<p>Tomsk State University — Applied Mathematics and Cybernetics, 2014</p>
+<p>Russian — Native · English — C1</p>
+
+</body>
+</html>
