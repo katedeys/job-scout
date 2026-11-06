@@ -8,6 +8,7 @@ off=$(cat data/tg_offset 2>/dev/null || echo 0)
 last_watch=0
 while true; do
   now=$(date +%s); if [ $((now - last_watch)) -ge 3600 ]; then ./watch_check.sh >> data/listener.log 2>&1; last_watch=$now; fi
+  ./reminders.sh >> data/listener.log 2>&1
   resp=$(curl -s -m 70 "$API/getUpdates?timeout=50&offset=$off")
   if ! jq -e '.ok' >/dev/null 2>&1 <<<"$resp"; then sleep 15; continue; fi
   while IFS= read -r u; do
