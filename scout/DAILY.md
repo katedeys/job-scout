@@ -25,6 +25,8 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
 
 ## Steps
 
+**Weekends (Saturday and Sunday, Asia/Almaty; since 07.11):** she does not apply on weekends. Still run steps 0–7 and 9 quietly (mail, fetch, assess, tracker, bookkeeping) so Monday has a full queue, but do NOT send vacancy cards, country buttons, consulting leads or LinkedIn targets, and do NOT create day-plan tasks. Send only a short digest: 📬 mail replies and interview invites (if any), the watcher line "🔎 Salmon / Plata: …" from `data/watch_status.txt`, and one line "На выходных отдыхаешь. В понедельник в очереди: N вакансий". Sunday adds the weekly summary as usual. The hourly Salmon / Plata watcher keeps sending instant alerts on weekends.
+
 0. **Mail (if the Gmail connector is available).** Search her inbox for the last 2 days, read-only, for messages
    about her applications: confirmations ("thank you for applying", "application received", mail from greenhouse,
    lever, ashbyhq, workable, smartrecruiters, myworkday), rejections, recruiter replies and interview invitations.
@@ -161,7 +163,7 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
    📊 <b>Статистика</b>: откликов X (за неделю Y) · ответили Z (R%) · интервью I
    Продакт: откликов A · ответов B · Solutions: откликов C · ответов D (tracks PM*/Expansion vs SA; rows with track "Отклик" count by title)
    ⏰ <b>Фоллоу-апы</b>: Company — сколько дней (текст в трекере, if any)
-   🔎 Salmon-вотчер: one line from `data/watch_status.txt` (last hourly check time and number of roles seen), e.g. "🔎 Salmon: проверка 02.11 08:16, 61 вакансия, новых нет"
+   🔎 Salmon / Plata-вотчер: one line from `data/watch_status.txt` (last hourly check time and number of roles seen), e.g. "🔎 Salmon: проверка 02.11 08:16, 61 вакансия, новых нет"
    📝 <a href="tracker_url">Открыть трекер</a>
    ```
    Send it with `./send_tg.sh data/digest.html`. Then send the deep-lane cards, then a one-line separator "⚡ Быстрые" and the

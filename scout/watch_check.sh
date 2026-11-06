@@ -1,4 +1,3 @@
-echo "$(date "+%d.%m %H:%M") checked $(wc -l < data/watch_now.tsv | tr -d " ") roles" > data/watch_status.txt
 #!/bin/bash
 # Hourly: checks watchlist companies for NEW product / payments roles and sends an instant Telegram alert.
 cd "$(dirname "$0")" || exit 1
@@ -21,3 +20,4 @@ while IFS=$'\t' read -r id name title loc url; do
   printf '%b' "🚨 <b>$name</b>: новая вакансия\n<a href=\"$url\">$title</a>\n📍 $loc\nОткликайся сегодня — ты в числе первых." > data/out/watch_alert.html
   ./send_tg.sh data/out/watch_alert.html >/dev/null
 done < data/watch_now.tsv
+echo "$(date "+%d.%m %H:%M") checked $(wc -l < data/watch_now.tsv | tr -d " ") roles (Salmon, Plata)" > data/watch_status.txt
