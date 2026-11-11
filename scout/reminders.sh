@@ -6,7 +6,7 @@ dow=$(TZ=Asia/Almaty date +%u); today=$(TZ=Asia/Almaty date +%F); nowm=$(( 10#$(
 touch data/reminders_sent.txt
 while IFS=$'\t' read -r days hm msg; do
   [[ -z "$days" || "$days" == \#* ]] && continue
-  [[ ",$days," == *",$dow,"* ]] || continue
+  if [[ "$days" == 20??-??-?? ]]; then [[ "$days" == "$today" ]] || continue; else [[ ",$days," == *",$dow,"* ]] || continue; fi
   tm=$(( 10#${hm%%:*} * 60 + 10#${hm##*:} ))
   (( nowm >= tm && nowm < tm + 30 )) || continue
   key="$today $hm $days"
