@@ -2,7 +2,8 @@
 # Hourly: checks watchlist companies for NEW product / payments roles and sends an instant Telegram alert.
 cd "$(dirname "$0")" || exit 1
 touch data/watch_seen.txt
-RE='(product|payment|billing|lending|credit|repayment|disburs|monetiz|pricing|solution|integration|platform|checkout|treasury|fraud|risk)'
+RE='(product (manager|owner|lead|director)|head of product|chief product|cpo|group product|principal product|staff product|\bpm\b|\bpo\b)'
+NOT='(designer|design|marketing|analyst|analytics|support|operations specialist|intern)'
 while IFS=$'\t' read -r slug name ats; do
   [[ -z "$slug" || "$slug" == \#* ]] && continue
   case $ats in
@@ -17,6 +18,7 @@ while IFS=$'\t' read -r id name title loc url; do
   grep -qxF "$id" data/watch_seen.txt && continue
   echo "$id" >> data/watch_seen.txt
   echo "$title" | grep -qiE "$RE" || continue
+  echo "$title" | grep -qiE "$NOT" && continue
   printf '%b' "🚨 <b>$name</b>: новая вакансия\n<a href=\"$url\">$title</a>\n📍 $loc\nОткликайся сегодня — ты в числе первых." > data/out/watch_alert.html
   ./send_tg.sh data/out/watch_alert.html >/dev/null
 done < data/watch_now.tsv
