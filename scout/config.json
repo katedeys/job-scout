@@ -69,5 +69,18 @@
     ]
   },
   "portfolio_url": "https://katedeys.github.io/katedeys-portfolio/",
-  "portfolio_draft_artifact": "https://claude.ai/artifact/YcJmY9mqvXa25bsLpwKEvj"
+  "portfolio_draft_artifact": "https://claude.ai/artifact/YcJmY9mqvXa25bsLpwKEvj",
+  "calendar": {
+    "get_rich_id": "6997af6d6cf88a1661df24b59f7ecfc8868e0c29bb2f332c3140d4a1456130a4@group.calendar.google.com",
+    "primary_id": "katedeys@gmail.com",
+    "tz": "Asia/Almaty",
+    "colors": {
+      "sport": "10",
+      "cbt": "3",
+      "insta": "4",
+      "prep": "5",
+      "job": "9",
+      "visa": "6"
+    }
+  }
 }
