@@ -25,6 +25,8 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
 
 ## Steps
 
+**Travel mode 16–31.12.2026 (see schedule.md):** treat every day like a weekend (quiet digest only on Sundays; instant messages only for replies, invites, offers and watcher alerts), create no day-plan tasks or calendar blocks, but keep fetching and assessing so January starts with a full queue.
+
 **Weekends (Saturday and Sunday, Asia/Almaty; since 07.11):** she does not apply on weekends. Still run steps 0–7 and 9 quietly (mail, fetch, assess, tracker, bookkeeping) so Monday has a full queue, but do NOT send vacancy cards, country buttons, consulting leads or LinkedIn targets, and do NOT create day-plan tasks. Send only a short digest: 📬 mail replies and interview invites (if any), the watcher line "🔎 Salmon / Plata: …" from `data/watch_status.txt`, and one line "На выходных отдыхаешь. В понедельник в очереди: N вакансий". Sunday adds the weekly summary as usual. The hourly Salmon / Plata watcher keeps sending instant alerts on weekends.
 
 0. **Mail (if the Gmail connector is available).** Search her inbox for the last 2 days, read-only, for messages
