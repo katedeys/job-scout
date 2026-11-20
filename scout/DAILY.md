@@ -27,6 +27,16 @@ acquirer/scheme level (ISO 8583, terminals) unconfirmed — never claim these.
 
 **Travel mode 16–31.12.2026 (see schedule.md):** treat every day like a weekend (quiet digest only on Sundays; instant messages only for replies, invites, offers and watcher alerts), create no day-plan tasks or calendar blocks, but keep fetching and assessing so January starts with a full queue.
 
+**Search modes.** Read `data/mode.txt` at the start of every run: `support` = 🌿 режим поддержки (rules below), `active` or missing = ⚡ активный режим (steps 5, 7 and 8 as written). She switches in Telegram with /support, /active, /mode (handled by tg_listener.sh), or by asking Claude — then write the word into `data/mode.txt`. Show the current mode as the first line of every digest: "🌿 Режим поддержки" or "⚡ Активный режим". Travel mode and weekends override both.
+
+**🌿 Режим поддержки (support; first switched on 19.11.2026 — Payteria offer, three live processes, she was overloaded). This overrides the volume rules in steps 5, 7 and 8:**
+- She applies only on **Monday and Wednesday** (Asia/Almaty). Tuesday, Thursday and Friday run like weekends (quiet digest: replies, invites, offers, watcher line; no vacancy cards, no application tasks), except that a ⭐9+ role or a warm lead found that day is sent as a single card with the line "🔥 Сильная вакансия — можно до среды/понедельника".
+- On apply days: **only the deep lane** — score ≥ 8 or a warm lead, verified live, at most **3 roles**, each with a cover letter. No fast lane, no country queues, no "➕ Ещё 10" button, no backlog sweep of ⭐7.
+- Score-7 roles go to the tracker as "new" silently; the 21-day auto-skip still applies.
+- Day plan on apply days: at most 3 application tasks plus interview prep; on other days no application tasks at all, only interview prep and follow-ups.
+- Weekly funnel line: "откликов W (режим: только топ, пн и ср)" — no 20–25 target.
+- Keep the Salmon / Plata watcher, mail checks, interview prep, follow-ups and offer-related reminders exactly as before.
+
 **Weekends (Saturday and Sunday, Asia/Almaty; since 07.11):** she does not apply on weekends. Still run steps 0–7 and 9 quietly (mail, fetch, assess, tracker, bookkeeping) so Monday has a full queue, but do NOT send vacancy cards, country buttons, consulting leads or LinkedIn targets, and do NOT create day-plan tasks. Send only a short digest: 📬 mail replies and interview invites (if any), the watcher line "🔎 Salmon / Plata: …" from `data/watch_status.txt`, and one line "На выходных отдыхаешь. В понедельник в очереди: N вакансий". Sunday adds the weekly summary as usual. The hourly Salmon / Plata watcher keeps sending instant alerts on weekends.
 
 0. **Mail (if the Gmail connector is available).** Search her inbox for the last 2 days, read-only, for messages

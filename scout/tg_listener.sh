@@ -63,6 +63,17 @@ while true; do
       ./send_more.sh >> data/listener.log 2>&1
       continue
     fi
+    # Search mode switch: /support (режим поддержки), /active (активный режим), /mode (show current)
+    if [[ "$text" == /support* || "$text" == /active* || "$text" == /mode* ]]; then
+      case "$text" in
+        /support*) echo support > data/mode.txt; msg="🌿 <b>Режим поддержки включён.</b> Отклики только в пн и ср, до 3 топовых вакансий (⭐8+ или тёплые) с письмом. В остальные дни — только ответы компаний, приглашения и алерты. Вернуть активный: /active" ;;
+        /active*) echo active > data/mode.txt; msg="⚡ <b>Активный режим включён.</b> Отклики каждый будний день: 🎯 глубокие + ⚡ быстрые, цель 20–25 в неделю. Режим поддержки: /support" ;;
+        *) m=$(cat data/mode.txt 2>/dev/null || echo active); [ "$m" = support ] && msg="Сейчас: 🌿 режим поддержки. Переключить: /active" || msg="Сейчас: ⚡ активный режим. Переключить: /support" ;;
+      esac
+      printf '%s\n' "$msg" > data/out/mode_ack.html
+      ./send_tg.sh data/out/mode_ack.html >/dev/null
+      continue
+    fi
     # A vacancy sent by Ekaterina: a link, /vac <link or text>, or a long pasted description
     if [ -n "$text" ] && [[ "$text" != /* || "$text" == /vac* ]]; then
       body=${text#/vac}

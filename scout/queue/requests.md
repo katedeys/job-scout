@@ -4,3 +4,5 @@
   "applied", show it under ⏰ Фоллоу-апы with the reminder text from `cover`. Remove this item once she marks it replied.
 - General rule (from 28.10): a vacancy she was sent but has not applied to (no mail confirmation, status still "new")
   may be shown once more 1–2 days later in the "🔁 <b>Ещё не откликнулась</b>" block, then not again.
+
+- 19.11.2026 — включён 🌿 режим поддержки (data/mode.txt = support): отклики только в пн и ср, ≤3 вакансии ⭐8+ или тёплые, с письмом. Переключение: /support, /active, /mode в боте.
