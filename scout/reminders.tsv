@@ -1,6 +1,7 @@
-# Fixed reminders (Asia/Almaty time). day-of-week (1=Mon … 7=Sun, comma-separated) or a date YYYY-MM-DD for one-off	HH:MM	message (Telegram HTML)
+# Fixed reminders (Asia/Almaty time). day-of-week (1=Mon … 7=Sun, comma-separated) or a date YYYY-MM-DD for one-off	HH:MM	message (Telegram HTML)	[files, comma-separated, relative to repo root]
 4,5	11:50	🧠 <b>КПТ через 10 минут</b> — подключайся к занятию
 2026-11-18	13:30	🎯 <b>Fundraise Up — интервью в 14:00–15:30</b> (10:00 CET). Иван Лебедь (PO), Ольга, Тамара. Zoom — в письме от Ольги 11.11. STAR-истории + разбор API. Ты готова 💪
 2026-11-17	16:30	🎯 <b>PayDo — встреча с CEO в 17:00</b> (12:00 UK). План 90 дней под рукой, можно показать экран. Ты знаешь их боль 💪
 2026-11-17	18:30	🎯 <b>Payteria — встреча с CTO в 19:00</b>. Метрики delivery, откат релиза, спор с техлидом, Visa/MC мандаты. Без самоиронии 😉
 2026-11-20	12:45	🦪 Oyster в 13:00 (Meet). Отойти с лекции КПТ, вода, шпаргалка открыта
+2026-11-21	12:00	📝 <b>Fundraise Up — AI exercise на ревью</b> — Спека, бриф и гайд для второй модели ниже. Скорми ChatGPT/Gemini промпты из гайда, запиши, что приняла и что отклонила, потом возвращайся ко мне: позиционирование, название, вычитка → Google Doc.	interviews/fundraiseup/ai_exercise/spec_draft.md,interviews/fundraiseup/ai_exercise/brief.md,interviews/fundraiseup/ai_exercise/review_guide.md
