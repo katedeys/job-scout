@@ -1,0 +1,25 @@
+The retry that paid twice.
+
+At a lending fintech I worked at, our Ops team spent part of every week investigating payouts. Some were "stuck". Some looked like they had gone out twice. Nobody could say which, without opening logs and writing to the partner.
+
+The easy answer was a better tool for Ops: a screen to find and fix these cases faster.
+
+Instead I sat down with finance and went through the payout flow end to end, comparing our statuses with the partner's logs.
+
+The cause was boring. On a timeout or a late callback, our retry didn't ask "did the first attempt go through?". It just created a new payout. Most of the time that was fine. Sometimes the money went out twice.
+
+What we changed:
+→ an idempotency key on every operation, so a retry is the same payout, not a new one
+→ a status check with the partner before any retry
+→ callbacks plus polling, so a lost callback doesn't leave a payout in limbo
+→ daily reconciliation against the partner's report
+
+Manual investigations went to zero.
+
+Two things I took from it.
+
+First: repeated tickets are a design signal, not an Ops problem. If people fix the same thing by hand every week, the system is asking you to change it.
+
+Second: small shortcuts in payments aren't tech debt. They're more like a tech microloan, and the interest is charged every hour.
+
+What's the most expensive "it was fine most of the time" you've seen in a payment flow?

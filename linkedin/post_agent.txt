@@ -1,0 +1,22 @@
+I built a job-search agent. Here's what it actually does.
+
+When I started looking for my next role, I treated it like a product. And like any product with a small team (me), the first question was: what can I automate so I spend time only where judgment matters?
+
+So with Claude I built a small agent that runs every morning:
+→ pulls open roles from the job boards of ~190 companies through their public ATS APIs
+→ scores each role against my experience and drops the ones I'd never take
+→ drafts a cover letter for the strongest matches
+→ keeps a tracker of every application and reply
+→ sends me one short digest in Telegram
+
+What I still do myself: decide where to apply, rewrite every letter so it sounds like me, and prepare for interviews. That part didn't get automated, and I don't think it should.
+
+A few things I learned:
+
+The scoring was the hard part, not the scraping. "Payments PM" roles rarely say payments. The agent had to learn that billing, checkout, pricing and trust & safety can be the same job.
+
+Volume was a trap. At one point I was sending 5 applications a day. Replies came from the few I'd written carefully, and from people who knew me.
+
+The agent is most useful when it removes the boring part, not the thinking part. Same as in any product.
+
+Curious: what part of your job search (or your work) would you never hand to an AI?
