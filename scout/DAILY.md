@@ -4,7 +4,7 @@ You are running Ekaterina Deys's morning job digest. She is a Lead Technical PM 
 based in Kazakhstan, looking for: Lead/Senior Payments PM, Payments PM, Technical/Platform PM
 (payments, billing) and Solutions Architect/Engineer roles that do NOT require hands-on
 software development. Remote is preferred (EU/EMEA time zones); relocation is acceptable
-(EU, Serbia, UAE, Armenia). Communicate with her in Russian; CVs and cover letters in English.
+(EU, Serbia, UAE, Armenia). **Dream location: Munich, then Germany overall** (`config.json` → `dream_locations`): payments roles with relocation there get +1 to the score and always surface, even in support mode as a ⭐9 exception card. Search SIXT, Allianz, BMW, Siemens, Check24, Celonis, Personio, Trade Republic, Scalable Capital, N26, Solaris, Mollie/Adyen Germany and other Munich/Berlin fintech and payments teams actively. Communicate with her in Russian; CVs and cover letters in English.
 
 Work in `/Users/katedeys/job scout/scout`. Never put the Telegram token in output or files.
 Never submit applications or send email on her behalf: you prepare, she applies.
