@@ -108,7 +108,7 @@
   .n circle { fill: var(--fg); } .n text { fill: var(--bg); font-size: 12px; font-weight: 700; }
 </style>
 
-<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a><a class="tl" href="#payouts" data-s="payouts">4 · Payouts</a><a class="tl" href="#antifraud" data-s="antifraud">5 · Antifraud</a></div></div>
+<div class="topbar"><div class="topin"><a class="brand" href="#top">Ekaterina Deys</a><a class="tl" href="#remittances" data-s="remittances">1 · Remittances</a><a class="tl" href="#viban" data-s="viban">2 · Virtual IBANs</a><a class="tl" href="#orchestration" data-s="orchestration">3 · Orchestration</a><a class="tl" href="#payouts" data-s="payouts">4 · Payouts</a><a class="tl" href="#antifraud" data-s="antifraud">5 · Antifraud</a><a class="tl" href="#agent" data-s="agent">6 · AI agent</a></div></div>
 <div class="wrap">
   <header>
     <h1>Ekaterina Deys</h1>
@@ -123,6 +123,7 @@
     <a class="ccard" href="#orchestration"><span class="cn">Case 3</span><b>Own payment orchestration, 40+ countries</b><span>From two external orchestrators to routing, failover and a card vault of our own</span><em>~$100K/month saved · 96.4% SLA</em></a>
     <a class="ccard" href="#payouts"><span class="cn">Case 4</span><b>Loan payouts and repayments on one event bus</b><span>Primary and backup payout partners; cards, Virtual IBANs and cash QR for repayments</span><em>No manual payout investigations</em></a>
     <a class="ccard" href="#antifraud"><span class="cn">Case 5</span><b>Payments as the data source for fraud controls</b><span>Signals and check points for in-house fraud services: charges, loan issuance, payouts</span><em>Owner of the data, consultant on the rules</em></a>
+    <a class="ccard" href="#agent"><span class="cn">Case 6</span><b>AI agent that matches jobs to a candidate</b><span>Retrieval, filters, LLM scoring with reasons, a feedback loop and a daily digest</span><em>~14,000 postings → 40+ applications → offer</em></a>
   </nav>
 
   <section class="case" id="remittances">
@@ -726,6 +727,77 @@
     <p>Most fraud controls fail at the plumbing, not at the model: a rule is only as good as the signal it reads and the point in the flow where it can still stop the money. I'm comfortable on that boundary and would grow into owning the rules and the review operations themselves.</p>
 
     <p class="note">Generalised from my work at a ride-hailing super-app and a lending fintech. I was the payments owner and a consultant to in-house fraud teams, not the owner of the fraud product.</p>
+    <a class="backtop" href="#top">↑ Back to contents</a>
+  </section>
+  <section class="case" id="agent">
+    <div class="eyebrow">Case 6 · AI product · personal project</div>
+    <h2>An AI agent that finds, ranks and matches jobs to one candidate</h2>
+
+    <div class="facts">
+      <div class="fact"><b>My role</b><span>Product owner and builder: problem, ranking rules, prompts, feedback loop, all built with Claude Code</span></div>
+      <div class="fact"><b>Scope</b><span>~200 company career sites on 9 ATS, LinkedIn alerts, Telegram channels, links I send in</span></div>
+      <div class="fact"><b>Funnel so far</b><span>~14,000 postings → ~280 shortlisted → 40+ applications → interviews and an offer</span></div>
+      <div class="fact"><b>Surface</b><span>Daily Telegram digest with buttons, plus a shared tracker with funnel statuses</span></div>
+    </div>
+
+    <h3>The problem</h3>
+    <p>Job boards optimise for clicks, not for fit. For a senior, niche profile (payments PM, open to remote or relocation, no hands-on coding) most "recommended" jobs fail on something basic: the location is not eligible, the role needs German, it is really an engineering job, or it is two levels too junior. I was spending hours a day filtering instead of applying. I treated my own search as a matching product with one user and a clear outcome metric: interviews per hour spent.</p>
+
+    <h3>How it works</h3>
+    <div class="diagram" role="img" aria-label="Pipeline of the job-matching agent. Sources (company career sites on applicant tracking systems, LinkedIn alerts, Telegram channels, links sent by me) are collected and deduplicated, then pass hard filters for title, location eligibility, language and level. An LLM scores fit from 1 to 10 against a structured profile and explains why, and estimates salary. The best matches go to a daily Telegram digest and a tracker; tailored CVs and cover letters are generated on request. My actions (applied, letter, salary, skip) and company replies flow back to retune the rules.">
+      <svg viewBox="0 0 680 470" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="gm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--money)"/></marker>
+          <marker id="gd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--data)"/></marker>
+        </defs>
+        <g text-anchor="middle">
+          <rect class="bx" x="20" y="20" width="150" height="64" rx="8"/><text class="t" x="95" y="45">Career sites</text><text class="s" x="95" y="64">~200 companies · 9 ATS</text>
+          <rect class="bx" x="185" y="20" width="150" height="64" rx="8"/><text class="t" x="260" y="45">LinkedIn alerts</text><text class="s" x="260" y="64">parsed from email</text>
+          <rect class="bx" x="350" y="20" width="150" height="64" rx="8"/><text class="t" x="425" y="45">Telegram channels</text><text class="s" x="425" y="64">job posts</text>
+          <rect class="bx" x="515" y="20" width="145" height="64" rx="8"/><text class="t" x="587" y="45">Links I send</text><text class="s" x="587" y="64">via the bot</text>
+
+          <rect class="b" x="20" y="124" width="200" height="64" rx="8"/><text class="t" x="120" y="149">Collect &amp; dedupe</text><text class="s" x="120" y="168">only postings not seen before</text>
+          <rect class="b" x="240" y="124" width="200" height="64" rx="8"/><text class="t" x="340" y="149">Hard filters</text><text class="s" x="340" y="168">title · location · language · level</text>
+          <rect class="bm" x="460" y="124" width="200" height="64" rx="8"/><text class="t" x="560" y="149">LLM scoring</text><text class="s" x="560" y="168">fit 1–10 + why · salary estimate</text>
+
+          <rect class="b" x="20" y="240" width="200" height="64" rx="8"/><text class="t" x="120" y="265">Generation</text><text class="s" x="120" y="284">tailored CV · cover letter</text>
+          <rect class="bm" x="240" y="240" width="200" height="64" rx="8"/><text class="t" x="340" y="265">Daily digest</text><text class="s" x="340" y="284">top matches first · Telegram</text>
+          <rect class="b" x="460" y="240" width="200" height="64" rx="8"/><text class="t" x="560" y="265">Tracker</text><text class="s" x="560" y="284">new → applied → interview → offer</text>
+
+          <rect class="b" x="140" y="370" width="400" height="64" rx="8"/><text class="t" x="340" y="395">Me (human in the loop)</text><text class="s" x="340" y="414">applied · letter · salary · skip · company replies</text>
+        </g>
+        <path class="m" d="M95,84 L95,104 M260,84 L260,104 M425,84 L425,104 M587,84 L587,104 M93,104 L589,104"/>
+        <path class="m" d="M120,104 L120,118" marker-end="url(#gm)"/>
+        <path class="m" d="M220,156 L234,156" marker-end="url(#gm)"/>
+        <path class="m" d="M440,156 L454,156" marker-end="url(#gm)"/>
+        <path class="m" d="M560,188 L560,214 L340,214 L340,234" marker-end="url(#gm)"/>
+        <path class="m" d="M340,304 L340,364" marker-end="url(#gm)"/>
+        <path class="d" d="M290,370 L290,330 L120,330 L120,310" marker-end="url(#gd)"/>
+        <path class="d" d="M390,370 L390,330 L560,330 L560,310" marker-end="url(#gd)"/>
+        <path class="d" d="M540,402 L668,402 L668,156 L666,156" marker-end="url(#gd)"/>
+        <text class="s" x="620" y="350" text-anchor="middle">retune rules</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i>postings moving through the pipeline</span><span><i class="d"></i>my actions and feedback</span><span><i class="x"></i>source</span></div>
+
+    <h3>Key decisions</h3>
+    <div class="two">
+      <div class="card"><h4>Cheap filters before the model</h4><p>Deterministic rules remove most postings first: wrong title family, country I can't work from, a required language I don't speak. The LLM only sees what is left, so it is cheaper, faster and easier to debug.</p></div>
+      <div class="card"><h4>A score that explains itself</h4><p>Every match comes with a short "why" and the main risk ("domain fit, but needs on-site in Munich"). I trust a 7 with a reason more than a 9 without one, and the reason makes errors easy to spot.</p></div>
+      <div class="card"><h4>Feedback changes rules, not just the list</h4><p>Skips and rejections are read in batches: when the same reason repeats (roles that need another language, no-go relocation countries), it becomes a rule, so every next digest is cleaner, not just one posting.</p></div>
+      <div class="card"><h4>Modes for a human, not a machine</h4><p>An active mode for daily applying and a support mode with only top matches twice a week. Burnout is a real constraint on the funnel, so the product adapts volume to the user.</p></div>
+    </div>
+
+    <h3>How I'd measure quality next</h3>
+    <div class="tblwrap"><table class="tbl">
+      <tr><th>Question</th><th>Metric</th><th>Data I already have</th></tr>
+      <tr><td>Are the top matches the right ones?</td><td>Precision@10 of the daily digest</td><td>Applied vs skipped per digest</td></tr>
+      <tr><td>Is the order right?</td><td>nDCG with graded labels: skip, applied, interview, offer</td><td>Funnel status per posting in the tracker</td></tr>
+      <tr><td>Are good jobs missed?</td><td>Recall against jobs I found myself</td><td>Links I send to the bot</td></tr>
+      <tr><td>Does it help the outcome?</td><td>Interviews per hour spent</td><td>Applications and replies over time</td></tr>
+    </table></div>
+
+    <p class="note">A personal project, built and used daily since October 2026. No employer data involved.</p>
     <a class="backtop" href="#top">↑ Back to contents</a>
   </section>
   <footer class="foot">
