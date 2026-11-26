@@ -13,6 +13,17 @@ while IFS=$'\t' read -r slug name ats; do
   esac
 done < watchlist.tsv > data/watch_now.tsv
 [ -s data/watch_now.tsv ] || exit 0
+# Fundraise Up: track whether "Senior PM, API & Billing" is open (closed = likely hired; reopened = finalist fell through)
+if grep -q $'\tFundraise Up\t' data/watch_now.tsv; then
+  if grep -qi $'\tFundraise Up\t[^\t]*API & Billing' data/watch_now.tsv; then fu=open; else fu=closed; fi
+  prev=$(cat data/fu_api_state.txt 2>/dev/null)
+  if [ -n "$prev" ] && [ "$prev" != "$fu" ]; then
+    if [ "$fu" = closed ]; then msg="🔒 <b>Fundraise Up</b>: роль Senior PM, API &amp; Billing закрыта — похоже, взяли финалиста."
+    else msg="🔓 <b>Fundraise Up</b>: роль Senior PM, API &amp; Billing снова открыта! Возможно, финалист отвалился — пиши напрямую."; fi
+    printf '%s' "$msg" > data/out/watch_alert.html && ./send_tg.sh data/out/watch_alert.html >/dev/null
+  fi
+  echo "$fu" > data/fu_api_state.txt
+fi
 if [ "$1" = "--init" ]; then cut -f1 data/watch_now.tsv >> data/watch_seen.txt; sort -u -o data/watch_seen.txt data/watch_seen.txt; echo "initialized $(wc -l < data/watch_seen.txt)"; exit 0; fi
 while IFS=$'\t' read -r id name title loc url; do
   grep -qxF "$id" data/watch_seen.txt && continue
@@ -22,4 +33,4 @@ while IFS=$'\t' read -r id name title loc url; do
   printf '%b' "🚨 <b>$name</b>: новая вакансия\n<a href=\"$url\">$title</a>\n📍 $loc\nОткликайся сегодня — ты в числе первых." > data/out/watch_alert.html
   ./send_tg.sh data/out/watch_alert.html >/dev/null
 done < data/watch_now.tsv
-echo "$(date "+%d.%m %H:%M") checked $(wc -l < data/watch_now.tsv | tr -d " ") roles (Salmon, Plata)" > data/watch_status.txt
+echo "$(date "+%d.%m %H:%M") checked $(wc -l < data/watch_now.tsv | tr -d " ") roles (Salmon, Plata, Fundraise Up)" > data/watch_status.txt
