@@ -4,7 +4,7 @@
 
 | Площадка | Ссылка | Что нажать |
 |---|---|---|
-| Malt | https://www.malt.com/de-de/ | «Freelancer werden / Become a freelancer» → профиль из profiles.md |
+| ~~Malt~~ | — | ❌ 26.11: «не поддерживается в вашем регионе» для Казахстана — пропускаем |
 | freelancermap | https://www.freelancermap.de/ | «Registrieren» → профиль Freelancer → поисковая подписка |
 | GLG | https://glg.com/for-experts | «Become a GLG expert» → compliance-тьюториал, договор, своя ставка |
 | Guidepoint | https://guidepoint.com/experts/ | создать профиль advisor |
@@ -31,7 +31,7 @@ I'm an independent payments product lead. I built payment orchestration at inDri
 
 | # | Компания | Город | Хук (первая фраза) | Кого искать |
 |---|---|---|---|---|
-| 1 | **zooplus** | Мюнхен | You just opened your marketplace in Spain, the third market for that model. Marketplaces add payouts to sellers on top of checkout, which is where payment ops usually start to hurt. | Head of Payments / Director Finance Ops / VP Product Checkout. Плюс: в агрегаторах висела вакансия Senior Payments Manager (Мюнхен) — проверить на их сайте, это ещё и вакансия под тебя |
+| 1 | **zooplus** | Мюнхен | You just opened your marketplace in Spain, the third market for that model. Marketplaces add payouts to sellers on top of checkout, which is where payment ops usually start to hurt. | Head of Payments / Director Finance Ops / VP Product Checkout. Плюс: вакансия Senior Payments Manager (июль 2026, €69.5–84.9K) уже закрыта — значит, роль закрыли, и тема платежей у них живая |
 | 2 | **Breuninger** | Штутгарт | Going from 13 to 24 markets in one year means new local methods and a few months of lower approval rates in each new country. | Head of E-Commerce / Head of Payments / CFO |
 | 3 | **FINN** | Мюнхен | Car subscriptions are recurring charges every month, so failed payments and retries go straight into churn. | Product Lead Payments & Risk / CFO |
 | 4 | **HelloFresh** | Берлин | Subscriptions in many countries mean many local methods and a lot of revenue riding on retry logic. | Payments Product Lead / Director Payments |

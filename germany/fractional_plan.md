@@ -30,7 +30,7 @@
 
 | # | Площадка | Зачем | Что сделать |
 |---|---|---|---|
-| 1 | **Malt** (malt.de) | Главная фриланс-площадка для консультантов в Германии/Франции; клиенты ищут по навыкам | Профиль на английском, ставка €750/день, навыки: Payments, PSP integration, Payment orchestration, Checkout optimisation, PCI DSS. Прикрепить кейсы из портфолио. Комиссию площадки уточнить при регистрации |
+| 1 | ~~**Malt**~~ ❌ недоступен из КЗ (26.11) | Главная фриланс-площадка для консультантов в Германии/Франции; клиенты ищут по навыкам | Профиль на английском, ставка €750/день, навыки: Payments, PSP integration, Payment orchestration, Checkout optimisation, PCI DSS. Прикрепить кейсы из портфолио. Комиссию площадки уточнить при регистрации |
 | 2 | **freelancermap.de** | Немецкие IT-проекты, много запросов «Payment Consultant» через агентства | Профиль + подписка на поиск «Payment», «PSP», «Zahlungsverkehr»; откликаться только на English-проекты с remote |
 | 3 | **Expert networks: GLG, AlphaSights, Guidepoint, Third Bridge** | Платные часовые консультации инвесторам и консалтингу про платёжный рынок ($150–300/ч), ноль продаж с твоей стороны | Регистрация как эксперт: payments orchestration, PSP market, ride-hailing payments, EM remittances. Важно: NDA — не раскрывать конфиденциальное прошлых работодателей, не говорить про страну NDA-проекта |
 | 4 | **LinkedIn** | Входящие запросы | Заголовок: «Payments product lead · Orchestration, PSPs & new markets · Open to fractional work». Включить «Providing services» → Product Management, Consulting. Портфолио — нет (правило), только услуги |
