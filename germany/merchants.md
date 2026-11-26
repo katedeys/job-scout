@@ -22,8 +22,7 @@
 | Gr4vy | https://gr4vy.com/ → Partnerships → «Become a partner» | Общая форма, без комиссий |
 | Unzer | https://unzer.com/en/partner | Отдельной agency-программы нет; контакт партнёрской команды по сторонним данным — partner@unzer.com (не подтверждён на их сайте) |
 
-**Текст заявки (общий, ~600 знаков):**
-I'm an independent payments product lead. I built payment orchestration at inDrive across 40+ countries (~$100K/month lower processing costs, 96.4% provider SLA, PCI DSS) and now help merchants selling across Europe with PSP selection, routing, approval rates and new market launches. I'd like to join your partner programme to implement {Company} for merchants in DACH and the wider EU, and to refer merchants who need a stronger payments setup. One-pager attached.
+**Тексты заявок по каждой программе:** `partner_applications.md` (позиционирование: implementation partner, без обещаний своих мерчантов).
 
 ## C. 10 мерчантов: Германия, продают в много стран
 
