@@ -1,22 +1,22 @@
 # 🇩🇪 Немецкий стрим — тексты (26.11)
 
 Правило: сначала их задача и твой результат, Blue Card — одной строкой в конце.
-Отправляешь сама: LinkedIn — с заметкой к инвайту (≤300 знаков) или сообщением; Initiativbewerbung — через портал «Initiativbewerbung / Open application», если он есть.
+Отправляешь сама: LinkedIn — с заметкой к инвайту (≤200 знаков) или сообщением; Initiativbewerbung — через портал «Initiativbewerbung / Open application», если он есть.
 
 ---
 
 ## 1. Дожим уже поданных откликов
 
 ### SIXT — руководителю Payment Experience (найти: LinkedIn → Current company SIXT → «Payment»)
-**Заметка к инвайту (≤300):**
-Hi {Name}, I just applied for Senior Product Owner Payments in your team. Rolling out payment methods, PSPs and markets and moving off legacy onto one platform is what I did at inDrive (4 → 40+ countries). Would love to connect.
+**Заметка к инвайту (≤200):**
+Hi {Name}, applied for the Senior PO Payments role. I built payment orchestration at inDrive across 40+ countries, and Munich is where I want to be. Would be glad to connect!
 
 **Сообщение после принятия:**
 Hi {Name}, thanks for connecting. I applied for the Senior Product Owner Payments role this week. In short: at inDrive I built the payment orchestration platform and scaled it from 4 to 40+ countries, with cost-aware routing (~$100K/month saved), soft/hard decline failover, a 96.4% provider SLA and PCI DSS certification. Munich is where I want to be, and I would relocate on an EU Blue Card. If the role is still open, I would be glad to talk for 15 minutes. Ekaterina
 
 ### Kleinanzeigen — CPO / VP Product / руководителю Head of Product (найти: Current company Kleinanzeigen → «Product»)
-**Заметка к инвайту (≤300):**
-Hi {Name}, I applied for Head of Product – Transactions. Payments and checkout are my core (inDrive orchestration, 40+ countries), and classifieds too: at Drom.ru I launched dealer monetisation. Would love to connect.
+**Заметка к инвайту (≤200):**
+Hi {Name}, I applied for Head of Product – Transactions. Payments are my core (inDrive, 40+ countries), and classifieds too (Drom.ru dealer monetisation). Would love to connect.
 
 **Сообщение после принятия:**
 Hi {Name}, thanks for connecting. I applied for Head of Product – Transactions. Making managed trade the default is a payments problem dressed as a trust problem: at inDrive I built payment orchestration across 40+ countries, at SkyRo payouts and repayments with full reconciliation, at Drom.ru classifieds monetisation adopted by 90% of dealers. I also build with AI hands-on: my own agent runs most of my job search end to end. Happy to relocate to Berlin. Would you be open to a short call? Ekaterina
